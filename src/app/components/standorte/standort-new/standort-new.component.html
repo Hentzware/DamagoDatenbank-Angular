@@ -1,8 +1,8 @@
-<div fxLayout="column" fxFill style="padding: 10px">
-  <mat-label style="text-align: center;font-size: 24px;margin-bottom: 20px;margin-top: 10px">Neuer Standort</mat-label>
+<div fxLayout="column" fxFill class="dialog">
+  <mat-label class="mat-label">Neuer Standort</mat-label>
   <mat-form-field appearance="fill">
     <mat-label>Name</mat-label>
-    <input matInput [(ngModel)]="standort.name">
+    <input matInput [(ngModel)]="name">
   </mat-form-field>
-  <button mat-raised-button color="primary" (click)="createNewLocation()">Speichern</button>
+  <button class="mat-raised-button" mat-raised-button color="primary" (click)="createNewLocation()">Speichern</button>
 </div>

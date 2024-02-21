@@ -25,13 +25,14 @@ import {MatDialogRef} from "@angular/material/dialog";
   styleUrl: './standort-new.component.css'
 })
 export class StandortNewComponent {
-  public standort: Standort = {id: "", name: ""};
+  public name: string = "";
 
-  constructor(private standortService: StandortService, private dialogRef: MatDialogRef<StandortNewComponent>) {
+  constructor(private standortService: StandortService,
+              private dialogRef: MatDialogRef<StandortNewComponent>) {
   }
 
   public createNewLocation(): void {
-    this.standortService.addLocation(this.standort).subscribe(() => {
+    this.standortService.addLocation(this.name).subscribe(() => {
       this.dialogRef.close();
     });
   }

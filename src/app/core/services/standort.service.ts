@@ -23,8 +23,10 @@ export class StandortService {
     return this.httpClient.get<Standort[]>(environment.apiBaseUrl + "/standorte?deleted=true");
   }
 
-  public addLocation(standort: Standort): Observable<void> {
-    return this.httpClient.post<void>(environment.apiBaseUrl + "/standorte", standort)
+  public addLocation(name: string): Observable<void> {
+    return this.httpClient.post<void>(environment.apiBaseUrl + "/standorte", {
+      name: name
+    });
   }
 
   public updateLocation(standort: Standort): Observable<void> {
