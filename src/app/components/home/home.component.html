@@ -1,0 +1,22 @@
+<mat-toolbar color="primary" class="mat-toolbar">
+  <p style="font-size: 72px;font-family: 'Calibri',serif;text-align: center">dama.go Verwaltung</p>
+  <span class="example-spacer"></span>
+</mat-toolbar>
+
+<mat-sidenav-container class="mat-sidenav-container">
+  <mat-sidenav mode="side" opened class="mat-sidenav">
+    <div fxLayout="column">
+      <button (click)="navigateTo('standorte')" mat-raised-button color="primary" class="mat-raised-button">Standorte</button>
+      <button (click)="navigateTo('klassen')" mat-raised-button color="primary" class="mat-raised-button">Klassen</button>
+      <button (click)="navigateTo('inventar')" mat-raised-button color="primary" class="mat-raised-button">Inventar</button>
+      <button (click)="navigateTo('unterricht')" mat-raised-button color="primary" class="mat-raised-button">Unterricht</button>
+      <button (click)="navigateTo('rollen')" mat-raised-button color="primary" class="mat-raised-button">Rollen</button>
+      <button (click)="navigateTo('module')" mat-raised-button color="primary" class="mat-raised-button">Module</button>
+      <button (click)="navigateTo('personen')" mat-raised-button color="primary" class="mat-raised-button">Personen</button>
+      <button (click)="navigateTo('raeume')" mat-raised-button color="primary" class="mat-raised-button">Räume</button>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content class="mat-sidenav-content">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

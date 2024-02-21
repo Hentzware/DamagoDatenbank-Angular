@@ -1,0 +1,36 @@
+import {Component, Inject} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {Standort} from "../../../core/entities/Standort";
+import {FlexModule} from "@angular/flex-layout";
+import {FormsModule} from "@angular/forms";
+import {MatButton} from "@angular/material/button";
+import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatInput} from "@angular/material/input";
+import {StandortService} from "../../../core/services/standort.service";
+
+@Component({
+  selector: 'app-standort-delete',
+  standalone: true,
+  imports: [
+    FlexModule,
+    FormsModule,
+    MatButton,
+    MatFormField,
+    MatInput,
+    MatLabel
+  ],
+  templateUrl: './standort-delete.component.html',
+  styleUrl: './standort-delete.component.css'
+})
+export class StandortDeleteComponent {
+  constructor(private dialogRef: MatDialogRef<StandortDeleteComponent>,
+              @Inject(MAT_DIALOG_DATA) public standort: Standort,
+              private standortService: StandortService) {
+  }
+
+  public deleteLocation(): void {
+    this.standortService.delete(this.standort).subscribe(() => {
+      this.dialogRef.close();
+    });
+  }
+}
