@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Standort} from "../../core/entities/Standort";
 import {StandortService} from '../../core/services/standort.service';
 import {FlexLayoutModule} from "@angular/flex-layout";
@@ -9,6 +9,8 @@ import {NgClass} from "@angular/common";
 import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {StandortNewComponent} from "./standort-new/standort-new.component";
 import {StandortDeleteComponent} from "./standort-delete/standort-delete.component";
+import {MatSort, MatSortHeader, MatSortModule, Sort} from "@angular/material/sort";
+import {LiveAnnouncer} from "@angular/cdk/a11y";
 
 @Component({
   selector: 'app-standorte',
@@ -19,17 +21,23 @@ import {StandortDeleteComponent} from "./standort-delete/standort-delete.compone
     MatButton,
     MatTableModule,
     MatDialogModule,
-    NgClass
+    NgClass,
+    MatSortHeader,
+    MatSort,
+    MatSortModule
   ],
   templateUrl: './standorte.component.html',
   styleUrl: './standorte.component.css'
 })
 export class StandorteComponent implements OnInit {
+  @ViewChild(MatSort) sort: MatSort | any;
   public standorte: MatTableDataSource<Standort> = new MatTableDataSource<Standort>();
-  public selectedRowIndex: number = -1;
+  public selectedRowIndex: string = "-1";
   public displayedColumns: string[] = ["id", "name"];
 
-  constructor(private standortService: StandortService, private dialog: MatDialog) {
+  constructor(private standortService: StandortService,
+              private dialog: MatDialog,
+              private _liveAnnouncer: LiveAnnouncer) {
   }
 
   public ngOnInit(): void {
@@ -41,8 +49,12 @@ export class StandorteComponent implements OnInit {
   }
 
   public getLocations(): void {
-    this.standortService.get().subscribe(result => {
+    this.standortService.getLocations().subscribe(result => {
       this.standorte = new MatTableDataSource(result);
+      this.standorte.sort = this.sort;
+      this.sort.active = 'name';
+      this.sort.direction = 'asc';
+      this.standorte.sort = this.sort;
     });
   }
 
@@ -59,7 +71,7 @@ export class StandorteComponent implements OnInit {
   public openDeleteLocationDialog(): void {
     const dialogRef: MatDialogRef<StandortDeleteComponent> = this.dialog.open(StandortDeleteComponent, {
       width: "500px",
-      data: { standort: this.standorte.data.filter(x => x.id != this.selectedRowIndex.toString()) }
+      data: { standort: this.standorte.data.find(x => x.id == this.selectedRowIndex) }
     });
 
     dialogRef.afterClosed().subscribe(() => {

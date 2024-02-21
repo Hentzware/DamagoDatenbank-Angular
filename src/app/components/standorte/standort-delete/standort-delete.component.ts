@@ -23,13 +23,16 @@ import {StandortService} from "../../../core/services/standort.service";
   styleUrl: './standort-delete.component.css'
 })
 export class StandortDeleteComponent {
+  public name: string;
+
   constructor(private dialogRef: MatDialogRef<StandortDeleteComponent>,
-              @Inject(MAT_DIALOG_DATA) public standort: Standort,
+              @Inject(MAT_DIALOG_DATA) public data: any,
               private standortService: StandortService) {
+    this.name = data.standort.name;
   }
 
   public deleteLocation(): void {
-    this.standortService.delete(this.standort).subscribe(() => {
+    this.standortService.deleteLocation(this.data.standort.id).subscribe(() => {
       this.dialogRef.close();
     });
   }

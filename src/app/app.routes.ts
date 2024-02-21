@@ -10,7 +10,7 @@ import {PersonenComponent} from "./components/personen/personen.component";
 import {RaeumeComponent} from "./components/raeume/raeume.component";
 
 export const routes: Routes = [
-  { path: "", redirectTo: "home", pathMatch: "full" },
+  { path: "", redirectTo: "standorte", pathMatch: "full" },
   { path: "home", component: HomeComponent },
   { path: "klassen", component: KlassenComponent },
   { path: "standorte", component: StandorteComponent },
