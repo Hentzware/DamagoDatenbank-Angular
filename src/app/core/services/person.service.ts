@@ -7,7 +7,7 @@ import {Person} from "../entities/Person";
   providedIn: "root"
 })
 export class PersonService {
-  private BASE_URL : string = "https://localhost:8080/damago/api/v1"
+  private BASE_URL : string = "http://localhost:8080/damago/api/v1"
 
   constructor(private http: HttpClient) {
   }
