@@ -1,1 +1,38 @@
-<p>adresse works!</p>
+<div fxLayout="column">
+  <mat-toolbar class="mat-toolbar">
+    <mat-toolbar-row>
+      <button mat-raised-button color="accent" class="mat-raised-button" (click)="openNewAdressDialog()">Neu</button>
+      <button mat-raised-button color="accent" class="mat-raised-button" (click)="openEditAdressDialog()" [disabled]="selectedRowIndex == '-1'">Bearbeiten</button>
+      <button mat-raised-button color="accent" class="mat-raised-button" [disabled]="selectedRowIndex == '-1'" (click)="openDeleteAdressDialog()">Entfernen</button>
+      <button mat-raised-button color="accent" class="mat-raised-button">Suche</button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <table matSort mat-table [dataSource]="adresse" class="mat-elevation-z8">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Id</th>
+      <td mat-cell *matCellDef="let element">{{element.id}}</td>
+    </ng-container>
+    <ng-container matColumnDef="strasse">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Strasse</th>
+      <td mat-cell *matCellDef="let element">{{element.strasse}}</td>
+    </ng-container>
+    <ng-container matColumnDef="hausnummer">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Hausnummer</th>
+      <td mat-cell *matCellDef="let element">{{element.hausnummer}}</td>
+    </ng-container>
+    <ng-container matColumnDef="postleitzahl">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Postleitzahl</th>
+      <td mat-cell *matCellDef="let element">{{element.postleitzahl}}</td>
+    </ng-container>
+    <ng-container matColumnDef="ort">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Ort</th>
+      <td mat-cell *matCellDef="let element">{{element.ort}}</td>
+    </ng-container>
+    <ng-container matColumnDef="land">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Land</th>
+      <td mat-cell *matCellDef="let element">{{element.land}}</td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{highlight: selectedRowIndex == row.id}" (click)="highlightRow(row)"></tr>
+  </table>
+</div>

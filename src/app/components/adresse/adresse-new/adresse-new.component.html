@@ -1,1 +1,24 @@
-<p>adresse-new works!</p>
+<div fxLayout="column" fxFill class="dialog">
+  <mat-label class="mat-label">Neue Adresse</mat-label>
+  <mat-form-field appearance="fill">
+    <mat-label>Strasse</mat-label>
+    <input matInput [(ngModel)]="adresse.strasse">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Hausnummer</mat-label>
+    <input matInput [(ngModel)]="adresse.hausnummer">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Postleitzahl</mat-label>
+    <input matInput [(ngModel)]="adresse.postleitzahl">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Ort</mat-label>
+    <input matInput [(ngModel)]="adresse.ort">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Land</mat-label>
+    <input matInput [(ngModel)]="adresse.land">
+  </mat-form-field>
+  <button class="mat-raised-button" mat-raised-button color="primary" (click)="createNewAdress()">Speichern</button>
+</div>
