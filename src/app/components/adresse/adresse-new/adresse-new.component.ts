@@ -31,7 +31,7 @@ export class AdresseNewComponent {
 
   }
   public createNewAdress(): void {
-    this.adresseService.addAdress(this.adresse).subscribe(() =>{
+    this.adresseService.add(this.adresse).subscribe(() =>{
       this.dialogRef.close();
     })
   }

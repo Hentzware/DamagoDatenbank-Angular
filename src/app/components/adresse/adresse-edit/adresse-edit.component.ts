@@ -35,7 +35,7 @@ export class AdresseEditComponent {
 
   public editAdress(): void {
 
-    this.adresseService.updateAdress(this.data.adresse).subscribe(() => {
+    this.adresseService.update(this.data.adresse).subscribe(() => {
       this.dialogRef.close();
     });
   }

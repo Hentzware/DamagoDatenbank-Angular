@@ -62,7 +62,7 @@ export class PersonenComponent implements OnInit {
   }
 
   private getPersons(): void {
-    this.personService.getPersons().subscribe(result => {
+    this.personService.get().subscribe(result => {
       this.personen = result;
     });
   }

@@ -77,7 +77,7 @@ export class AdresseComponent implements OnInit{
   }
 
   public getAdresses(): void {
-    this.adresseService.getAdresses().subscribe(result => {
+    this.adresseService.get().subscribe(result => {
       this.adresse = new MatTableDataSource(result);
       this.adresse.sort = this.sort;
       this.sort.active = 'name';

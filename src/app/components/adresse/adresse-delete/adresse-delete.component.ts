@@ -33,7 +33,7 @@ export class AdresseDeleteComponent {
   }
 
   public deleteAdress(): void {
-    this.adressService.deleteAdress(this.data.adresse.id).subscribe(() => {
+    this.adressService.delete(this.data.adresse.id).subscribe(() => {
       this.dialogRef.close();
     });
   }
