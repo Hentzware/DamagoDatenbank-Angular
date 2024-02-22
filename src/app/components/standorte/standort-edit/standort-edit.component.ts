@@ -23,13 +23,16 @@ import {StandortService} from "../../../core/services/standort.service";
   styleUrl: './standort-edit.component.css'
 })
 export class StandortEditComponent {
+  public name: string;
+
   constructor(private dialogRef: MatDialogRef<StandortEditComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private standortService: StandortService) {
+    this.name = data.standort.name;
   }
 
   public editLocation(): void {
-    this.standortService.put(this.data.standort).subscribe(() => {
+    this.standortService.update(this.data.standort).subscribe(() => {
       this.dialogRef.close();
     });
   }

@@ -30,7 +30,7 @@ export class StandortService {
   }
 
   public update(standort: Standort): Observable<void> {
-    return this.httpClient.post<void>(environment.apiBaseUrl + "/standorte", standort);
+    return this.httpClient.put<void>(environment.apiBaseUrl + `/standorte/${standort.id}`, standort);
   }
 
   public delete(id: string): Observable<void> {

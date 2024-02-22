@@ -11,6 +11,7 @@ import {StandortNewComponent} from "./standort-new/standort-new.component";
 import {StandortDeleteComponent} from "./standort-delete/standort-delete.component";
 import {MatSort, MatSortHeader, MatSortModule, Sort} from "@angular/material/sort";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
+import {StandortEditComponent} from "./standort-edit/standort-edit.component";
 
 @Component({
   selector: 'app-standorte',
@@ -68,14 +69,29 @@ export class StandorteComponent implements OnInit {
     });
   }
 
-  public openDeleteLocationDialog(): void {
-    const dialogRef: MatDialogRef<StandortDeleteComponent> = this.dialog.open(StandortDeleteComponent, {
+  public openEditLocationDialog(): void {
+    const dialogRef: MatDialogRef<StandortEditComponent> = this.dialog.open(StandortEditComponent, {
       width: "500px",
-      data: { standort: this.standorte.data.find(x => x.id == this.selectedRowIndex) }
+      data: { standort: this.getSelectedLocation() }
     });
 
     dialogRef.afterClosed().subscribe(() => {
       this.getLocations();
     });
+  }
+
+  public openDeleteLocationDialog(): void {
+    const dialogRef: MatDialogRef<StandortDeleteComponent> = this.dialog.open(StandortDeleteComponent, {
+      width: "500px",
+      data: { standort: this.getSelectedLocation() }
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.getLocations();
+    });
+  }
+
+  private getSelectedLocation(): any {
+    return {...this.standorte.data.find(x => x.id == this.selectedRowIndex)};
   }
 }
