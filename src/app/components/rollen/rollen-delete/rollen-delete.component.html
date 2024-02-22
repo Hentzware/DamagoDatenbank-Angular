@@ -1,1 +1,5 @@
-<p>rollen-delete works!</p>
+<div fxLayout="column" fxFill style="padding: 10px">
+  <mat-label style="font-size: 18px;text-align: center;margin-bottom: 20px;margin-top: 10px">Rolle entfernen</mat-label>
+  <p style="text-align: center">Wollen Sie den Rolle "{{ name }}" wirklich entfernen?</p>
+  <button mat-raised-button color="primary" (click)="deleteRoll()">Entfernen</button>
+</div>

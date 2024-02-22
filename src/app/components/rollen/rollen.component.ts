@@ -71,7 +71,7 @@ export class RollenComponent implements OnInit{
   public openEditRollDialog(): void {
     const dialogRef: MatDialogRef<RollenEditComponent> = this.dialog.open(RollenEditComponent, {
       width: "500px",
-      data: { standort: this.getSelectedRoll() }
+      data: { rolle: this.getSelectedRoll() }
     });
 
     dialogRef.afterClosed().subscribe(() => {
@@ -82,7 +82,7 @@ export class RollenComponent implements OnInit{
   public openDeleteRollDialog(): void {
     const dialogRef: MatDialogRef<RollenDeleteComponent> = this.dialog.open(RollenDeleteComponent, {
       width: "500px",
-      data: { standort: this.getSelectedRoll() }
+      data: { rolle: this.getSelectedRoll() }
     });
 
     dialogRef.afterClosed().subscribe(() => {
