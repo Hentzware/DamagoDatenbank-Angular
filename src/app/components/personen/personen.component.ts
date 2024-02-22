@@ -8,6 +8,7 @@ import {
   MatHeaderCell,
   MatHeaderCellDef,
   MatTable,
+  MatTableDataSource,
   MatTableModule
 } from "@angular/material/table";
 import {CommonModule, DatePipe, NgClass} from "@angular/common";
@@ -19,8 +20,13 @@ import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatInput} from "@angular/material/input";
 import {MatButton} from "@angular/material/button";
 import {MatToolbar, MatToolbarModule} from "@angular/material/toolbar";
-import {PersonSearchComponent} from "./person-search/person-search.component";
-import {MatDialog, MatDialogModule} from "@angular/material/dialog";
+import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
+import {PersonNewComponent} from "./person-new/person-new.component";
+import {Adresse} from "../../core/entities/Adresse";
+import {AdresseService} from "../../core/services/adresse.service";
+import {PersonAdresse} from "../../core/entities/PersonAdresse";
+import {PersonAdresseService} from "../../core/services/person.adresse.service";
+import {concatMap, tap} from "rxjs";
 
 @Component({
   selector: 'app-personen',
@@ -51,35 +57,66 @@ import {MatDialog, MatDialogModule} from "@angular/material/dialog";
   styleUrl: './personen.component.css'
 })
 export class PersonenComponent implements OnInit {
-  personen: Person[] = [];
-  selectedRowIndex: number = -1;
-  displayedColumns: string[] = ["id", "nachname", "vorname", "geburtsdatum"];
+  personen: MatTableDataSource<Person> = new MatTableDataSource<Person>();
+  selectedRowIndex: string = "-1";
+  displayedColumns: string[] = ["nachname", "vorname", "geburtsdatum", "strasse", "hausnummer", "postleitzahl", "ort", "land"];
 
-  constructor(private personService: PersonService, private dialog: MatDialog) {}
+  constructor(private personService: PersonService,
+              private adresseService: AdresseService,
+              private personAdresseService: PersonAdresseService,
+              private dialog: MatDialog) {
+  }
 
   public ngOnInit(): void {
     this.getPersons();
-  }
-
-  private getPersons(): void {
-    this.personService.get().subscribe(result => {
-      this.personen = result;
-    });
   }
 
   public highlight(row: any): void {
     this.selectedRowIndex = row.id;
   }
 
-  public openDialog(): void {
-    const dialogRef = this.dialog.open(PersonSearchComponent, {
-      width: "500px",
-      height: "500px",
-      disableClose: true
+  public openNewPersonDialog(): void {
+    const dialogRef: MatDialogRef<PersonNewComponent> = this.dialog.open(PersonNewComponent, {
+      width: "500px"
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log("Dialog closed")
+      this.getPersons();
+    });
+  }
+
+  private getPersons(): void {
+    let adressen: Adresse[];
+    let personAdresse: PersonAdresse[];
+
+    this.personService.get().pipe(
+      tap(personenResult => {
+        this.personen = new MatTableDataSource<Person>(personenResult);
+      }),
+      concatMap(() => {
+        return this.adresseService.get().pipe(
+          tap(adressenResult => {
+            adressen = adressenResult;
+          }),
+          concatMap(() => {
+            return this.personAdresseService.get().pipe(
+              tap(personAdresseResult => {
+                personAdresse = personAdresseResult;
+              })
+            );
+          })
+        )
+      })
+    ).subscribe(() => {
+      this.personen.data.map(person => {
+        const personAdresseLink = personAdresse.find(link => link.person_id == person.id);
+
+        if (personAdresseLink) {
+          person.adresse = <Adresse>adressen.find(adresse => adresse.id == personAdresseLink.adresse_id);
+        }
+
+        return person;
+      });
     });
   }
 }

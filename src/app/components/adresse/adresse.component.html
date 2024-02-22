@@ -1,10 +1,10 @@
 <div fxLayout="column">
   <mat-toolbar class="mat-toolbar">
     <mat-toolbar-row>
-      <button mat-raised-button color="accent" class="mat-raised-button" (click)="openNewAdressDialog()">Neu</button>
-      <button mat-raised-button color="accent" class="mat-raised-button" (click)="openEditAdressDialog()" [disabled]="selectedRowIndex == '-1'">Bearbeiten</button>
-      <button mat-raised-button color="accent" class="mat-raised-button" [disabled]="selectedRowIndex == '-1'" (click)="openDeleteAdressDialog()">Entfernen</button>
-      <button mat-raised-button color="accent" class="mat-raised-button">Suche</button>
+      <button (click)="openNewAddressDialog()" class="mat-raised-button" color="accent" mat-raised-button>Neu</button>
+      <button (click)="openEditAddressDialog()" [disabled]="selectedRowIndex == '-1'" class="mat-raised-button" color="accent" mat-raised-button>Bearbeiten</button>
+      <button (click)="openDeleteAddressDialog()" [disabled]="selectedRowIndex == '-1'" class="mat-raised-button" color="accent" mat-raised-button>Entfernen</button>
+      <button class="mat-raised-button" color="accent" mat-raised-button>Suche</button>
     </mat-toolbar-row>
   </mat-toolbar>
   <table matSort mat-table [dataSource]="adresse" class="mat-elevation-z8">

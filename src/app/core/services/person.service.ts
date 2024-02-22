@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Person} from "../entities/Person";
 import {environment} from "../../../environments/environment";
+import {AddPersonRequest} from "../requests/person/add-person-request";
 
 @Injectable({
   providedIn: "root"
@@ -23,8 +24,8 @@ export class PersonService {
     return this.http.get<Person[]>(environment.apiBaseUrl + "/personen?deleted=true");
   }
 
-  add(person: Person): Observable<void> {
-    return this.http.post<void>(environment.apiBaseUrl + "/personen", person);
+  add(person: Person): Observable<string> {
+    return this.http.post<string>(environment.apiBaseUrl + "/personen", person);
   }
 
   update(person: Person): Observable<void> {

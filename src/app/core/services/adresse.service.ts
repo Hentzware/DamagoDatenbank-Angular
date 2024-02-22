@@ -25,8 +25,8 @@ export class AdresseService {
     return this.http.get<Adresse[]>(environment.apiBaseUrl + "/adressen?deleted=true");
   }
 
-  add(adresse: Adresse): Observable<void> {
-    return this.http.post<void>(environment.apiBaseUrl + "/adressen", adresse);
+  add(adresse: Adresse): Observable<string> {
+    return this.http.post<string>(environment.apiBaseUrl + "/adressen", adresse);
   }
 
   update(adresse: Adresse): Observable<void> {
