@@ -32,7 +32,7 @@ export class StandortDeleteComponent {
   }
 
   public deleteLocation(): void {
-    this.standortService.deleteLocation(this.data.standort.id).subscribe(() => {
+    this.standortService.delete(this.data.standort.id).subscribe(() => {
       this.dialogRef.close();
     });
   }

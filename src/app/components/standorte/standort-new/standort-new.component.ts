@@ -32,7 +32,7 @@ export class StandortNewComponent {
   }
 
   public createNewLocation(): void {
-    this.standortService.addLocation(this.name).subscribe(() => {
+    this.standortService.add(this.name).subscribe(() => {
       this.dialogRef.close();
     });
   }

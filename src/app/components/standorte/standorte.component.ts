@@ -49,7 +49,7 @@ export class StandorteComponent implements OnInit {
   }
 
   public getLocations(): void {
-    this.standortService.getLocations().subscribe(result => {
+    this.standortService.get().subscribe(result => {
       this.standorte = new MatTableDataSource(result);
       this.standorte.sort = this.sort;
       this.sort.active = 'name';
