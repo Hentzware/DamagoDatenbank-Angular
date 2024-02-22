@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiBaseUrl: "https://localhost:8080/damago/api/v1"
+  apiBaseUrl: "http://localhost:8080/damago/api/v1"
 };

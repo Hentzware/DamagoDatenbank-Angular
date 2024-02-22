@@ -12,7 +12,7 @@ export class StandortService {
   }
 
   public getLocation(id: string): Observable<Standort> {
-    return this.httpClient.get<Standort>(environment.apiBaseUrl + `/standorte/${id}`)
+    return this.httpClient.get<Standort>(environment.apiBaseUrl + `/standorte/${id}`);
   }
 
   public getLocations(): Observable<Standort[]> {
