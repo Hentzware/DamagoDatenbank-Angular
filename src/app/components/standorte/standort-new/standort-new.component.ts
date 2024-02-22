@@ -5,7 +5,6 @@ import {MatInput} from "@angular/material/input";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatButton} from "@angular/material/button";
 import {StandortService} from "../../../core/services/standort.service";
-import {Standort} from "../../../core/entities/Standort";
 import {FormsModule} from "@angular/forms";
 import {MatDialogRef} from "@angular/material/dialog";
 
