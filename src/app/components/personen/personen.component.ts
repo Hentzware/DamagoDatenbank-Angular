@@ -80,7 +80,8 @@ export class PersonenComponent implements OnInit {
 
   public openNewPersonDialog(): void {
     const dialogRef: MatDialogRef<PersonNewComponent> = this.dialog.open(PersonNewComponent, {
-      width: "500px"
+      width: "500px",
+      data:{nachnamen:this.nachnamen}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -125,7 +126,6 @@ export class PersonenComponent implements OnInit {
         return x.nachname;
       });
 
-      console.log(this.nachnamen);
     });
   }
 
