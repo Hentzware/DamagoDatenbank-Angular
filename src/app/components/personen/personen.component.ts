@@ -155,7 +155,7 @@ export class PersonenComponent implements OnInit {
       width: "500px",
       data: { person: this.getSelectedPerson() }
     });
-
+//
     dialogRef.afterClosed().subscribe(() => {
       this.getPersons();
     });
