@@ -1,25 +1,20 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatSort, MatSortHeader} from "@angular/material/sort";
 import {
   MatCell,
   MatCellDef,
   MatColumnDef,
   MatHeaderCell, MatHeaderCellDef,
-  MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef, MatTable,
+  MatTable,
   MatTableDataSource, MatTableModule
 } from "@angular/material/table";
-import {Inventar} from "../../core/entities/Inventar";
-import {InventarService} from "../../core/services/inventar.service";
 import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
-import {InventarNewComponent} from "../inventar/inventar-new/inventar-new.component";
-import {InventarEditComponent} from "../inventar/inventar-edit/inventar-edit.component";
-import {InventarDeleteComponent} from "../inventar/inventar-delete/inventar-delete.component";
 import {Raum} from "../../core/entities/Raum";
 import {RaumService} from "../../core/services/raum.service";
-import {FlexLayoutModule, FlexModule} from "@angular/flex-layout";
+import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatButton} from "@angular/material/button";
-import {MatToolbar, MatToolbarModule, MatToolbarRow} from "@angular/material/toolbar";
+import {MatToolbar, MatToolbarModule} from "@angular/material/toolbar";
 import {CommonModule, DatePipe, NgClass} from "@angular/common";
 import {RaeumeEditComponent} from "./raeume-edit/raeume-edit.component";
 import {RaeumeNewComponent} from "./raeume-new/raeume-new.component";
@@ -60,15 +55,14 @@ import {MatInput} from "@angular/material/input";
   templateUrl: './raeume.component.html',
   styleUrl: './raeume.component.css'
 })
-export class RaeumeComponent {
+export class RaeumeComponent implements OnInit{
   @ViewChild(MatSort) sort: MatSort | any;
   public raum: MatTableDataSource<Raum> = new MatTableDataSource<Raum>();
   public selectedRowIndex: string = "-1";
   public displayedColumns: string[] = ["id", "name", "nr"];
 
   constructor(private raumService: RaumService,
-              private dialog: MatDialog,
-              private _liveAnnouncer: LiveAnnouncer) {
+              private dialog: MatDialog) {
   }
 
   public ngOnInit(): void {

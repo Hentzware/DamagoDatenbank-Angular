@@ -87,40 +87,40 @@ export class PersonNewComponent {
           })
         );
       })
-    ).subscribe(() => {
+    ).subscribe((): void => {
       this.dialogRef.close();
     });
   }
 
-  onNachnameSelected($event: string) {
+  public onNachnameSelected($event: string): void {
     this.person.nachname = $event;
   }
 
-  onVornameSelected($event: string) {
+  public onVornameSelected($event: string): void {
     this.person.vorname = $event;
   }
 
-  onGeburtsdatumSelected($event: string) {
+  public onGeburtsdatumSelected($event: string): void {
     this.person.geburtsdatum = $event;
   }
 
-  onStrasseSelected($event: string) {
+  public onStrasseSelected($event: string): void {
     this.person.adresse.strasse = $event;
   }
 
-  onHausnummerSelected($event: string) {
+  public onHausnummerSelected($event: string): void {
     this.person.adresse.hausnummer = $event;
   }
 
-  onPostleitzahlSelected($event: string) {
+  public onPostleitzahlSelected($event: string): void {
     this.person.adresse.postleitzahl = $event;
   }
 
-  onOrtSelected($event: string) {
+  public onOrtSelected($event: string): void {
     this.person.adresse.ort = $event;
   }
 
-  onLandSelected($event: string) {
+  public onLandSelected($event: string): void {
     this.person.adresse.land = $event;
   }
 }

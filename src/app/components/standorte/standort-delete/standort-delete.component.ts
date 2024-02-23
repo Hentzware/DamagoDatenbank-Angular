@@ -1,6 +1,5 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {Standort} from "../../../core/entities/Standort";
 import {FlexModule} from "@angular/flex-layout";
 import {FormsModule} from "@angular/forms";
 import {MatButton} from "@angular/material/button";

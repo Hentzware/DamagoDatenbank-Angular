@@ -2,7 +2,7 @@
   <mat-label style="text-align: center;font-size: 24px;margin-bottom: 20px;margin-top: 10px">Standort {{name}} bearbeiten</mat-label>
   <mat-form-field appearance="fill">
     <mat-label>Name</mat-label>
-    <input matInput [(ngModel)]="data.standort.name">
+    <input matInput [(ngModel)]="data['standort']['name']">
   </mat-form-field>
   <button mat-raised-button color="primary" (click)="editLocation()">Speichern</button>
 </div>

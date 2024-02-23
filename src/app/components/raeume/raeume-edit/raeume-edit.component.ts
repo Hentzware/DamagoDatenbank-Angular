@@ -1,13 +1,12 @@
 import {Component, Inject} from '@angular/core';
-import {FlexLayoutModule, FlexModule} from "@angular/flex-layout";
+import {FlexModule} from "@angular/flex-layout";
 import {MatButton} from "@angular/material/button";
-import {MatFormField, MatFormFieldModule, MatLabel} from "@angular/material/form-field";
+import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Raum} from "../../../core/entities/Raum";
-import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {RaumService} from "../../../core/services/raum.service";
-import {InventarService} from "../../../core/services/inventar.service";
 
 
 @Component({

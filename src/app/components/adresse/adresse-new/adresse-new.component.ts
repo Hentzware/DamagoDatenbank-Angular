@@ -4,7 +4,6 @@ import {FormsModule} from "@angular/forms";
 import {MatButton} from "@angular/material/button";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
-import {AdresseComponent} from "../adresse.component";
 import {Adresse} from "../../../core/entities/Adresse";
 import {AdresseService} from "../../../core/services/adresse.service";
 import {MatDialogRef} from "@angular/material/dialog";

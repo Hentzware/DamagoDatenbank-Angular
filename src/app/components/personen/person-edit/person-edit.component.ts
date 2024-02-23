@@ -39,7 +39,7 @@ export class PersonEditComponent {
 
   public save(): void {
     this.personService.update(this.person).pipe(
-      concatMap((person: any) => {
+      concatMap(() => {
         return this.adresseService.update(this.person.adresse);
       })
     ).subscribe(() => {
