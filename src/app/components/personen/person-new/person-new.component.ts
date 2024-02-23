@@ -73,7 +73,7 @@ export class PersonNewComponent {
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    // Fügen Sie eine Bedingung hinzu, um nur dann zu filtern, wenn der Wert mindestens ein Zeichen lang ist
+    // Fügen Sie eine aBedingung hinzu, um nur dann zu filtern, wenn der Wert mindestens ein Zeichen lang ist
     if (filterValue.length > 0) {
       return this.options.filter(option => option.toLowerCase().includes(filterValue));
     } else {
