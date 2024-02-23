@@ -38,7 +38,7 @@ export class InventarService {
   }
 
   deletePermanent(id: string): Observable<void> {
-    return this.http.delete<void>(environment.apiBaseUrl + `/adressen/${id}?permanent=true`);
+    return this.http.delete<void>(environment.apiBaseUrl + `/inventar/${id}?permanent=true`);
   }
 
 }

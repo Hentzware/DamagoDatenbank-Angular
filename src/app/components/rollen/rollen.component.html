@@ -1,6 +1,8 @@
 <div fxLayout="column">
+
   <mat-toolbar class="mat-toolbar">
     <mat-toolbar-row>
+
       <button mat-raised-button color="accent" class="mat-raised-button" (click)="openNewRollDialog()">Neu</button>
       <button mat-raised-button color="accent" class="mat-raised-button" (click)="openEditRollDialog()" [disabled]="selectedRowIndex == '-1'">Bearbeiten</button>
       <button mat-raised-button color="accent" class="mat-raised-button" [disabled]="selectedRowIndex == '-1'" (click)="openDeleteRollDialog()">Entfernen</button>

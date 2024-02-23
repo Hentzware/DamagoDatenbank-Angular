@@ -1,0 +1,12 @@
+<div fxLayout="column" fxFill style="padding: 10px">
+  <mat-label style="text-align: center;font-size: 24px;margin-bottom: 20px;margin-top: 10px">Raum bearbeiten</mat-label>
+  <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="raum.name">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Nr</mat-label>
+    <input matInput [(ngModel)]="raum.nr">
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="editRoom()">Speichern</button>
+</div>

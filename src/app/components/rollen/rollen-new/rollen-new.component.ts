@@ -35,5 +35,6 @@ export class RollenNewComponent {
       this.dialogRef.close();
     });
   }
+
 }
 

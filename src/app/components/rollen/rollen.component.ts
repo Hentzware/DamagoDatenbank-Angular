@@ -30,7 +30,7 @@ import {RollenDeleteComponent} from "./rollen-delete/rollen-delete.component";
   templateUrl: './rollen.component.html',
   styleUrl: './rollen.component.css'
 })
-export class RollenComponent implements OnInit{
+export class RollenComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort | any;
   public rollen: MatTableDataSource<Rolle> = new MatTableDataSource<Rolle>();
   public selectedRowIndex: string = "-1";
@@ -40,6 +40,7 @@ export class RollenComponent implements OnInit{
               private dialog: MatDialog,
               private _liveAnnouncer: LiveAnnouncer) {
   }
+
   public ngOnInit(): void {
     this.getRolls();
   }
@@ -71,7 +72,7 @@ export class RollenComponent implements OnInit{
   public openEditRollDialog(): void {
     const dialogRef: MatDialogRef<RollenEditComponent> = this.dialog.open(RollenEditComponent, {
       width: "500px",
-      data: { rolle: this.getSelectedRoll() }
+      data: {rolle: this.getSelectedRoll()}
     });
 
     dialogRef.afterClosed().subscribe(() => {
@@ -82,7 +83,7 @@ export class RollenComponent implements OnInit{
   public openDeleteRollDialog(): void {
     const dialogRef: MatDialogRef<RollenDeleteComponent> = this.dialog.open(RollenDeleteComponent, {
       width: "500px",
-      data: { rolle: this.getSelectedRoll() }
+      data: {rolle: this.getSelectedRoll()}
     });
 
     dialogRef.afterClosed().subscribe(() => {
@@ -93,4 +94,5 @@ export class RollenComponent implements OnInit{
   private getSelectedRoll(): any {
     return {...this.rollen.data.find(x => x.id == this.selectedRowIndex)};
   }
+
 }
