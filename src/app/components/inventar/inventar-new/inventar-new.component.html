@@ -1,0 +1,14 @@
+<div fxLayout="column" fxFill class="dialog">
+  <mat-label class="mat-label">Neue Adresse</mat-label>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="inventar.name">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Anzahl</mat-label>
+    <input matInput [(ngModel)]="inventar.anzahl">
+  </mat-form-field>
+  <button class="mat-raised-button" mat-raised-button color="primary" (click)="createNewInventory()">Speichern</button>
+</div>
+
