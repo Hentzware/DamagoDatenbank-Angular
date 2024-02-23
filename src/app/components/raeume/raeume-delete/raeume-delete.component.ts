@@ -34,12 +34,13 @@ export class RaeumeDeleteComponent {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private raumService: RaumService) {
     this.raum = data.raum;
+
   }
 
   public deleteRoom(): void {
     this.raumService.delete(this.data.raum.id).subscribe(() => {
       this.dialogRef.close();
-    });
+    })
   }
 }
 

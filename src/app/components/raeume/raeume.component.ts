@@ -113,7 +113,7 @@ export class RaeumeComponent {
   public openDeleteRoomDialog(): void {
     const dialogRef: MatDialogRef<RaeumeDeleteComponent> = this.dialog.open(RaeumeDeleteComponent, {
       width: "500px",
-      data: { inventar: this.getSelectedRoom() }
+      data: { raum: this.getSelectedRoom() }
     });
 
     dialogRef.afterClosed().subscribe(() => {
