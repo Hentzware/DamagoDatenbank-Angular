@@ -1,1 +1,22 @@
-<p>module works!</p>
+<div fxLayout="column">
+  <mat-toolbar class="mat-toolbar">
+    <mat-toolbar-row>
+      <button mat-raised-button color="accent" class="mat-raised-button" (click)="openNewModuleDialog()">Neu</button>
+      <button mat-raised-button color="accent" class="mat-raised-button" (click)="openNewModuleDialog()" [disabled]="selectedRowIndex == '-1'">Bearbeiten</button>
+      <button mat-raised-button color="accent" class="mat-raised-button" [disabled]="selectedRowIndex == '-1'" (click)="openNewModuleDialog()">Entfernen</button>
+      <button mat-raised-button color="accent" class="mat-raised-button">Suche</button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <table matSort mat-table [dataSource]="module" class="mat-elevation-z8">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Id</th>
+      <td mat-cell *matCellDef="let element">{{element.id}}</td>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let element">{{element.name}}</td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{highlight: selectedRowIndex == row.id}" (click)="highlightRow(row)"></tr>
+  </table>
+</div>
