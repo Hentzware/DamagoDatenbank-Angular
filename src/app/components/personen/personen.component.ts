@@ -106,6 +106,7 @@ export class PersonenComponent implements OnInit {
   }
 
   private getPersons(): void {
+    this.selectedRowIndex = "-1";
     let adressen: Adresse[];
     let personAdresse: PersonAdresse[];
 

@@ -35,9 +35,6 @@ export class AutoCompleteComponent implements OnInit {
 
   constructor() {
     this.control.valueChanges.subscribe(value => {
-      if (value == undefined) {
-        return;
-      }
       this.selected.emit(value);
     });
 
