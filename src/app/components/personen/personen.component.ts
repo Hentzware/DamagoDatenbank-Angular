@@ -62,6 +62,7 @@ export class PersonenComponent implements OnInit {
   personen: MatTableDataSource<Person> = new MatTableDataSource<Person>();
   selectedRowIndex: string = "-1";
   displayedColumns: string[] = ["nachname", "vorname", "geburtsdatum", "strasse", "hausnummer", "postleitzahl", "ort", "land"];
+  nachnamen: string[] = [];
 
   constructor(private personService: PersonService,
               private adresseService: AdresseService,
@@ -119,6 +120,12 @@ export class PersonenComponent implements OnInit {
 
         return person;
       });
+
+      this.nachnamen = this.personen.data.map<string>(x => {
+        return x.nachname;
+      });
+
+      console.log(this.nachnamen);
     });
   }
 

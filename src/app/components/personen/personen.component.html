@@ -1,6 +1,5 @@
 <div fxLayout="column">
   <mat-toolbar class="mat-toolbar">
-    <mat-label style="margin-left: 20px;margin-top: 10px;font-size: 24px;">Personen</mat-label>
     <mat-toolbar-row>
       <button mat-raised-button color="accent" class="mat-raised-button" (click)="openNewPersonDialog()">Neu</button>
       <button mat-raised-button color="accent" class="mat-raised-button" (click)="openEditPersonDialog()" [disabled]="selectedRowIndex == '-1'">
