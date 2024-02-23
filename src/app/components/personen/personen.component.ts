@@ -64,6 +64,12 @@ export class PersonenComponent implements OnInit {
   displayedColumns: string[] = ["nachname", "vorname", "geburtsdatum", "strasse", "hausnummer", "postleitzahl", "ort", "land"];
   nachnamen: string[] = [];
   vornamen: string[] = [];
+  geburtsdaten: string[] = [];
+  strassen: string[] = [];
+  hausnummern: string[] = [];
+  postleitzahlen: string[] = [];
+  orte: string[] = [];
+  laender: string[] = [];
 
   constructor(private personService: PersonService,
               private adresseService: AdresseService,
@@ -81,7 +87,17 @@ export class PersonenComponent implements OnInit {
 
   public openNewPersonDialog(): void {
     const dialogRef: MatDialogRef<PersonNewComponent> = this.dialog.open(PersonNewComponent, {
-      width: "500px"
+      width: "500px",
+      data: {
+        nachnamen: this.nachnamen,
+        vornamen: this.vornamen,
+        geburtsdaten: this.geburtsdaten,
+        strassen: this.strassen,
+        hausnummern: this.hausnummern,
+        postleitzahlen: this.postleitzahlen,
+        orte: this.orte,
+        laender: this.laender
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -122,16 +138,37 @@ export class PersonenComponent implements OnInit {
         return person;
       });
 
-      this.nachnamen = this.personen.data.map<string>(x => {
-        return x.nachname;
-      });
+      this.nachnamen = Array.from(new Set(this.personen.data.map<string>(x => {
+        return x?.nachname;
+      })));
 
-      this.vornamen = this.personen.data.map<string>(x => {
-        return x.vorname;
-      });
+      this.vornamen = Array.from(new Set(this.personen.data.map<string>(x => {
+        return x?.vorname;
+      })));
 
-      console.log(this.vornamen);
-      console.log(this.nachnamen);
+      this.geburtsdaten = Array.from(new Set(this.personen.data.map<string>(x => {
+        return x?.geburtsdatum;
+      })));
+
+      this.strassen = Array.from(new Set(this.personen.data.map<string>(x => {
+        return x.adresse?.strasse;
+      })));
+
+      this.hausnummern = Array.from(new Set(this.personen.data.map<string>(x => {
+        return x.adresse?.hausnummer;
+      })));
+
+      this.postleitzahlen = Array.from(new Set(this.personen.data.map<string>(x => {
+        return x.adresse?.postleitzahl;
+      })));
+
+      this.orte = Array.from(new Set(this.personen.data.map<string>(x => {
+        return x.adresse?.ort;
+      })));
+
+      this.laender = Array.from(new Set(this.personen.data.map<string>(x => {
+        return x.adresse?.land;
+      })));
     });
   }
 

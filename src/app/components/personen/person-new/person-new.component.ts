@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {FlexModule} from "@angular/flex-layout";
-import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatButton} from "@angular/material/button";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
@@ -11,10 +11,9 @@ import {PersonAdresseService} from "../../../core/services/person.adresse.servic
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {AsyncPipe, DatePipe, NgForOf} from "@angular/common";
 import {MatDatepickerInput} from "@angular/material/datepicker";
-import {AddPersonRequest} from "../../../core/requests/person/add-person-request";
-import {Adresse} from "../../../core/entities/Adresse";
-import {concatMap, map, Observable, startWith} from "rxjs";
+import {concatMap} from "rxjs";
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from "@angular/material/autocomplete";
+import {AutoCompleteComponent} from "../../auto-complete/auto-complete.component";
 
 @Component({
   selector: 'app-person-new',
@@ -33,16 +32,22 @@ import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from "@angular/mater
     AsyncPipe,
     ReactiveFormsModule,
     MatAutocompleteTrigger,
-    NgForOf
+    NgForOf,
+    AutoCompleteComponent
   ],
   templateUrl: './person-new.component.html',
   styleUrl: './person-new.component.css'
 })
 export class PersonNewComponent {
   public person: Person;
-  myControl = new FormControl();
-  options: string[];
-  filteredOptions: Observable<string[]>;
+  public nachnamen: string[];
+  public vornamen: string[];
+  public geburtsdaten: string[];
+  public strassen: string[];
+  public hausnummern: string[];
+  public postleitzahlen: string[];
+  public orte: string[];
+  public laender: string[];
 
   constructor(private personService: PersonService,
               private adresseService: AdresseService,
@@ -63,23 +68,14 @@ export class PersonNewComponent {
         hausnummer: ""
       }
     };
-    this.options = data.nachnamen;
-    this.filteredOptions = this.myControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    // Fügen Sie eine aBedingung hinzu, um nur dann zu filtern, wenn der Wert mindestens ein Zeichen lang ist
-    if (filterValue.length > 0) {
-      return this.options.filter(option => option.toLowerCase().includes(filterValue));
-    } else {
-      // Wenn der Wert leer ist, geben Sie ein leeres Array zurück, um keine Optionen anzuzeigen
-      return [];
-    }
+    this.nachnamen = data?.nachnamen;
+    this.vornamen = data?.vornamen;
+    this.geburtsdaten = data?.geburtsdaten;
+    this.strassen = data?.strassen;
+    this.hausnummern = data?.hausnummern;
+    this.postleitzahlen = data?.postleitzahlen;
+    this.orte = data?.orte;
+    this.laender = data?.laender;
   }
 
   public save(): void {
@@ -94,5 +90,37 @@ export class PersonNewComponent {
     ).subscribe(() => {
       this.dialogRef.close();
     });
+  }
+
+  onNachnameSelected($event: string) {
+    this.person.nachname = $event;
+  }
+
+  onVornameSelected($event: string) {
+    this.person.vorname = $event;
+  }
+
+  onGeburtsdatumSelected($event: string) {
+    this.person.geburtsdatum = $event;
+  }
+
+  onStrasseSelected($event: string) {
+    this.person.adresse.strasse = $event;
+  }
+
+  onHausnummerSelected($event: string) {
+    this.person.adresse.hausnummer = $event;
+  }
+
+  onPostleitzahlSelected($event: string) {
+    this.person.adresse.postleitzahl = $event;
+  }
+
+  onOrtSelected($event: string) {
+    this.person.adresse.ort = $event;
+  }
+
+  onLandSelected($event: string) {
+    this.person.adresse.land = $event;
   }
 }
