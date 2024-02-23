@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {map, Observable, startWith} from "rxjs";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from "@angular/material/autocomplete";
@@ -25,15 +25,19 @@ import {FlexLayoutModule} from "@angular/flex-layout";
   templateUrl: './auto-complete.component.html',
   styleUrl: './auto-complete.component.css'
 })
-export class AutoCompleteComponent {
+export class AutoCompleteComponent implements OnInit {
   @Input() public name: string = "";
+  @Input() public value: string = "";
   @Input() public optionsList: string[] = [];
   @Output() public selected = new EventEmitter<string>();
-  public control = new FormControl();
+  public control: FormControl<any> = new FormControl();
   public filteredOptions: Observable<string[]>;
 
   constructor() {
     this.control.valueChanges.subscribe(value => {
+      if (value == undefined) {
+        return;
+      }
       this.selected.emit(value);
     });
 
@@ -41,6 +45,14 @@ export class AutoCompleteComponent {
       startWith(''),
       map(value => this._filter(value))
     );
+  }
+
+  ngOnInit(): void {
+    if (this.value != null) {
+      this.control.setValue(this.value);
+    } else {
+      this.control.setValue("");
+    }
   }
 
   private _filter(value: string): string[] {

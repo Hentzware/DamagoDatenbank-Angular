@@ -1,36 +1,12 @@
-<div fxLayout="column" fxFill class="dialog">
+<div fxLayout="column" class="dialog">
   <mat-label class="mat-label">Neue Person</mat-label>
-  <mat-form-field appearance="fill">
-    <mat-label>Nachname</mat-label>
-    <input matInput [(ngModel)]="person.nachname">
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Vorname</mat-label>
-    <input matInput [(ngModel)]="person.vorname">
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Geburtsdatum</mat-label>
-    <input matInput [(ngModel)]="person.geburtsdatum">
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Strasse</mat-label>
-    <input matInput [(ngModel)]="person.adresse.strasse">
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Hausnummer</mat-label>
-    <input matInput [(ngModel)]="person.adresse.hausnummer">
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Postleitzahl</mat-label>
-    <input matInput [(ngModel)]="person.adresse.postleitzahl">
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Ort</mat-label>
-    <input matInput [(ngModel)]="person.adresse.ort">
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Land</mat-label>
-    <input matInput [(ngModel)]="person.adresse.land">
-  </mat-form-field>
+  <app-auto-complete [name]="'Nachname'" [optionsList]="data?.nachnamen" (selected)="onNachnameSelected($event)" [value]="data.person.nachname"></app-auto-complete>
+  <app-auto-complete [name]="'Vorname'" [optionsList]="data?.vornamen" (selected)="onVornameSelected($event)" [value]="data.person.vorname"></app-auto-complete>
+  <app-auto-complete [name]="'Geburtsdatum'" [optionsList]="data?.geburtsdaten" (selected)="onGeburtsdatumSelected($event)" [value]="data.person.geburtsdatum"></app-auto-complete>
+  <app-auto-complete [name]="'Strasse'" [optionsList]="data?.strassen" (selected)="onStrasseSelected($event)" [value]="data.person.adresse?.strasse"></app-auto-complete>
+  <app-auto-complete [name]="'Hausnummer'" [optionsList]="data?.hausnummern" (selected)="onHausnummerSelected($event)" [value]="data.person.adresse?.hausnummer"></app-auto-complete>
+  <app-auto-complete [name]="'Postleitzahl'" [optionsList]="data?.postleitzahlen" (selected)="onPostleitzahlSelected($event)" [value]="data.person.adresse?.postleitzahl"></app-auto-complete>
+  <app-auto-complete [name]="'Ort'" [optionsList]="data?.orte" (selected)="onOrtSelected($event)" [value]="data.person.adresse?.ort"></app-auto-complete>
+  <app-auto-complete [name]="'Land'" [optionsList]="data?.laender" (selected)="onLandSelected($event)" [value]="data.person.adresse?.land"></app-auto-complete>
   <button class="mat-raised-button" mat-raised-button color="primary" (click)="save()">Speichern</button>
 </div>

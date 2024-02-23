@@ -175,7 +175,17 @@ export class PersonenComponent implements OnInit {
   openEditPersonDialog() {
     const dialogRef: MatDialogRef<PersonEditComponent> = this.dialog.open(PersonEditComponent, {
       width: "500px",
-      data: { person: this.getSelectedPerson() }
+      data: {
+        person: this.getSelectedPerson(),
+        nachnamen: this.nachnamen,
+        vornamen: this.vornamen,
+        geburtsdaten: this.geburtsdaten,
+        strassen: this.strassen,
+        hausnummern: this.hausnummern,
+        postleitzahlen: this.postleitzahlen,
+        orte: this.orte,
+        laender: this.laender
+      }
     });
 
     dialogRef.afterClosed().subscribe(() => {
@@ -190,7 +200,9 @@ export class PersonenComponent implements OnInit {
   openDeletePersonDialog() {
     const dialogRef: MatDialogRef<PersonDeleteComponent> = this.dialog.open(PersonDeleteComponent, {
       width: "500px",
-      data: { person: this.getSelectedPerson() }
+      data: {
+        person: this.getSelectedPerson()
+      }
     });
 //
     dialogRef.afterClosed().subscribe(() => {

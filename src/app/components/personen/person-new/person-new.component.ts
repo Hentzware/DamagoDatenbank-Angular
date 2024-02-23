@@ -53,7 +53,7 @@ export class PersonNewComponent {
               private adresseService: AdresseService,
               private personAdresseService: PersonAdresseService,
               private dialogRef: MatDialogRef<PersonNewComponent>,
-              @Inject(MAT_DIALOG_DATA) data: any) {
+              @Inject(MAT_DIALOG_DATA) private data: any) {
     this.person = {
       id: "",
       geburtsdatum: "2000-01-01",

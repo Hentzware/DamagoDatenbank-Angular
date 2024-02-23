@@ -13,35 +13,35 @@
   <table mat-table [dataSource]="personen" class="mat-elevation-z8">
     <ng-container matColumnDef="nachname">
       <th mat-header-cell *matHeaderCellDef>Nachname</th>
-      <td mat-cell *matCellDef="let element">{{ element ? element["nachname"] : undefined }}</td>
+      <td mat-cell *matCellDef="let element">{{ element?.nachname }}</td>
     </ng-container>
     <ng-container matColumnDef="vorname">
       <th mat-header-cell *matHeaderCellDef>Vorname</th>
-      <td mat-cell *matCellDef="let element">{{ element ? element["vorname"] : undefined }}</td>
+      <td mat-cell *matCellDef="let element">{{ element?.vorname }}</td>
     </ng-container>
     <ng-container matColumnDef="geburtsdatum">
       <th mat-header-cell *matHeaderCellDef>Geburtsdatum</th>
-      <td mat-cell *matCellDef="let element">{{ element ? element["geburtsdatum"] : undefined | date: "dd.MM.yyyy" }}</td>
+      <td mat-cell *matCellDef="let element">{{ element?.geburtsdatum | date: "dd.MM.yyyy" }}</td>
     </ng-container>
     <ng-container matColumnDef="strasse">
       <th mat-header-cell *matHeaderCellDef>Strasse</th>
-      <td mat-cell *matCellDef="let element">{{ element["adresse"] ? element["adresse"]["strasse"] : undefined }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.adresse?.strasse }}</td>
     </ng-container>
     <ng-container matColumnDef="hausnummer">
       <th mat-header-cell *matHeaderCellDef>Hausnummer</th>
-      <td mat-cell *matCellDef="let element">{{ element["adresse"] ? element["adresse"]["hausnummer"] : undefined }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.adresse?.hausnummer }}</td>
     </ng-container>
     <ng-container matColumnDef="postleitzahl">
       <th mat-header-cell *matHeaderCellDef>Postleitzahl</th>
-      <td mat-cell *matCellDef="let element">{{ element["adresse"] ? element["adresse"]["postleitzahl"] : undefined }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.adresse?.postleitzahl }}</td>
     </ng-container>
     <ng-container matColumnDef="ort">
       <th mat-header-cell *matHeaderCellDef>Ort</th>
-      <td mat-cell *matCellDef="let element">{{ element["adresse"] ? element["adresse"]["ort"] : undefined }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.adresse?.ort }}</td>
     </ng-container>
     <ng-container matColumnDef="land">
       <th mat-header-cell *matHeaderCellDef>Land</th>
-      <td mat-cell *matCellDef="let element">{{ element["adresse"] ? element["adresse"]["land"] : undefined }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.adresse?.land }}</td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{highlight: selectedRowIndex == row.id}"
