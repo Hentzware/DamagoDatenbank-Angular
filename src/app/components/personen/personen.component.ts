@@ -63,6 +63,7 @@ export class PersonenComponent implements OnInit {
   selectedRowIndex: string = "-1";
   displayedColumns: string[] = ["nachname", "vorname", "geburtsdatum", "strasse", "hausnummer", "postleitzahl", "ort", "land"];
   nachnamen: string[] = [];
+  vornamen: string[] = [];
 
   constructor(private personService: PersonService,
               private adresseService: AdresseService,
@@ -125,6 +126,11 @@ export class PersonenComponent implements OnInit {
         return x.nachname;
       });
 
+      this.vornamen = this.personen.data.map<string>(x => {
+        return x.vorname;
+      });
+
+      console.log(this.vornamen);
       console.log(this.nachnamen);
     });
   }
