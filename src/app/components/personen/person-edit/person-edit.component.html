@@ -1,1 +1,36 @@
-<p>person-edit works!</p>
+<div fxLayout="column" fxFill class="dialog">
+  <mat-label class="mat-label">Neue Person</mat-label>
+  <mat-form-field appearance="fill">
+    <mat-label>Nachname</mat-label>
+    <input matInput [(ngModel)]="person.nachname">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Vorname</mat-label>
+    <input matInput [(ngModel)]="person.vorname">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Geburtsdatum</mat-label>
+    <input matInput [(ngModel)]="person.geburtsdatum">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Strasse</mat-label>
+    <input matInput [(ngModel)]="person.adresse.strasse">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Hausnummer</mat-label>
+    <input matInput [(ngModel)]="person.adresse.hausnummer">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Postleitzahl</mat-label>
+    <input matInput [(ngModel)]="person.adresse.postleitzahl">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Ort</mat-label>
+    <input matInput [(ngModel)]="person.adresse.ort">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Land</mat-label>
+    <input matInput [(ngModel)]="person.adresse.land">
+  </mat-form-field>
+  <button class="mat-raised-button" mat-raised-button color="primary" (click)="save()">Speichern</button>
+</div>

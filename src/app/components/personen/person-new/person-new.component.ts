@@ -42,15 +42,15 @@ export class PersonNewComponent {
     this.person = {
       id: "",
       geburtsdatum: "2000-01-01",
-      vorname: "test",
-      nachname: "test",
+      vorname: "",
+      nachname: "",
       adresse: {
-        land: "test",
-        ort: "test",
-        postleitzahl: "test",
+        land: "",
+        ort: "",
+        postleitzahl: "",
         id: "",
-        strasse: "test",
-        hausnummer: "test"
+        strasse: "",
+        hausnummer: ""
       }
     };
   }

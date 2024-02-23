@@ -27,6 +27,8 @@ import {AdresseService} from "../../core/services/adresse.service";
 import {PersonAdresse} from "../../core/entities/PersonAdresse";
 import {PersonAdresseService} from "../../core/services/person.adresse.service";
 import {concatMap, tap} from "rxjs";
+import {PersonEditComponent} from "./person-edit/person-edit.component";
+import {PersonDeleteComponent} from "./person-delete/person-delete.component";
 
 @Component({
   selector: 'app-personen',
@@ -117,6 +119,32 @@ export class PersonenComponent implements OnInit {
 
         return person;
       });
+    });
+  }
+
+  openEditPersonDialog() {
+    const dialogRef: MatDialogRef<PersonEditComponent> = this.dialog.open(PersonEditComponent, {
+      width: "500px",
+      data: { person: this.getSelectedPerson() }
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.getPersons();
+    });
+  }
+
+  getSelectedPerson(): any {
+        return {...this.personen.data.find(x => x.id == this.selectedRowIndex)};
+    }
+
+  openDeletePersonDialog() {
+    const dialogRef: MatDialogRef<PersonDeleteComponent> = this.dialog.open(PersonDeleteComponent, {
+      width: "500px",
+      data: { person: this.getSelectedPerson() }
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.getPersons();
     });
   }
 }

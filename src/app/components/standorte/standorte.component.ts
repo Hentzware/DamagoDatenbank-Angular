@@ -37,8 +37,7 @@ export class StandorteComponent implements OnInit {
   public displayedColumns: string[] = ["id", "name"];
 
   constructor(private standortService: StandortService,
-              private dialog: MatDialog,
-              private _liveAnnouncer: LiveAnnouncer) {
+              private dialog: MatDialog) {
   }
 
   public ngOnInit(): void {
