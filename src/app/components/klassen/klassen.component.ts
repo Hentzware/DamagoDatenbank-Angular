@@ -1,29 +1,17 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FlexLayoutModule, FlexModule} from "@angular/flex-layout";
+import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatButton} from "@angular/material/button";
-import {
-  MatCell,
-  MatCellDef,
-  MatColumnDef,
-  MatHeaderCell,
-  MatHeaderRow,
-  MatHeaderRowDef,
-  MatRow, MatRowDef, MatTable, MatTableDataSource, MatTableModule
-} from "@angular/material/table";
+import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {MatSort, MatSortHeader, MatSortModule} from "@angular/material/sort";
-import {MatToolbar, MatToolbarModule, MatToolbarRow} from "@angular/material/toolbar";
-import {Standort} from "../../core/entities/Standort";
-import {StandortService} from "../../core/services/standort.service";
+import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
-import {StandortNewComponent} from "../standorte/standort-new/standort-new.component";
-import {StandortEditComponent} from "../standorte/standort-edit/standort-edit.component";
-import {StandortDeleteComponent} from "../standorte/standort-delete/standort-delete.component";
 import {Klasse} from "../../core/entities/Klasse";
 import {KlasseService} from "../../core/services/klasse.service";
 import {KlasseNewComponent} from "./klasse-new/klasse-new.component";
 import {NgClass} from "@angular/common";
 import {KlasseEditComponent} from "./klasse-edit/klasse-edit.component";
+import {KlasseDeleteComponent} from "./klasse-delete/klasse-delete.component";
 
 @Component({
   selector: 'app-klassen',
@@ -93,9 +81,9 @@ public openEditClassDialog(): void {
 }
 
 public openDeleteClassDialog(): void {
-    const dialogRef: MatDialogRef<StandortDeleteComponent> = this.dialog.open(StandortDeleteComponent, {
+    const dialogRef: MatDialogRef<KlasseDeleteComponent> = this.dialog.open(KlasseDeleteComponent, {
     width: "500px",
-    data: { standort: this.getSelectedClass() }
+    data: { klasse: this.getSelectedClass() }
   });
 
   dialogRef.afterClosed().subscribe(() => {
