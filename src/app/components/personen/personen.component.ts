@@ -107,7 +107,7 @@ export class PersonenComponent implements OnInit {
 
   public openNewPersonDialog(): void {
     const dialogRef: MatDialogRef<PersonNewComponent> = this.dialog.open(PersonNewComponent, {
-      width: "500px",
+      width: "1000px",
       data: {
         personAutoComplete: this.personAutoComplete
       }

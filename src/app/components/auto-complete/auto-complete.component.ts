@@ -29,6 +29,7 @@ export class AutoCompleteComponent implements OnInit {
   @Input() public name: string = "";
   @Input() public value: string = "";
   @Input() public optionsList: string[] = [];
+  @Input() public numMinChars: number = 1;
   @Output() public selected = new EventEmitter<string>();
   public control: FormControl<any> = new FormControl();
   public filteredOptions: Observable<string[]>;
@@ -54,7 +55,7 @@ export class AutoCompleteComponent implements OnInit {
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    if (filterValue.length > 0 && this.optionsList != undefined) {
+    if (filterValue.length >= this.numMinChars && this.optionsList != undefined) {
       return this.optionsList.filter(option => option?.toLowerCase().includes(filterValue));
     } else {
       return [];
