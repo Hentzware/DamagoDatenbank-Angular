@@ -14,6 +14,13 @@ import {MatDatepickerInput} from "@angular/material/datepicker";
 import {concatMap} from "rxjs";
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from "@angular/material/autocomplete";
 import {AutoCompleteComponent} from "../../auto-complete/auto-complete.component";
+import {RolleService} from "../../../core/services/rolle.service";
+import {StandortService} from "../../../core/services/standort.service";
+import {KlasseService} from "../../../core/services/klasse.service";
+import {MatSelect} from "@angular/material/select";
+import {Standort} from "../../../core/entities/Standort";
+import {Rolle} from "../../../core/entities/Rolle";
+import {Klasse} from "../../../core/entities/Klasse";
 
 @Component({
   selector: 'app-person-new',
@@ -33,17 +40,24 @@ import {AutoCompleteComponent} from "../../auto-complete/auto-complete.component
     ReactiveFormsModule,
     MatAutocompleteTrigger,
     NgForOf,
-    AutoCompleteComponent
+    AutoCompleteComponent,
+    MatSelect
   ],
   templateUrl: './person-new.component.html',
   styleUrl: './person-new.component.css'
 })
 export class PersonNewComponent implements OnInit {
   public person!: Person;
+  public standorte!: Standort[];
+  public rollen!: Rolle[];
+  public klassen!: Klasse[];
 
   constructor(private personService: PersonService,
               private adresseService: AdresseService,
               private personAdresseService: PersonAdresseService,
+              private rolleService: RolleService,
+              private standortService: StandortService,
+              private klasseService: KlasseService,
               private dialogRef: MatDialogRef<PersonNewComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
@@ -63,6 +77,27 @@ export class PersonNewComponent implements OnInit {
         hausnummer: ""
       }
     };
+    this.initializeStandorte();
+    this.initializeRollen();
+    this.initializeKlassen();
+  }
+
+  private initializeStandorte(): void {
+    this.standortService.get().subscribe(result => {
+      this.standorte = result;
+    });
+  }
+
+  private initializeRollen(): void {
+    this.rolleService.get().subscribe(result => {
+      this.rollen = result;
+    });
+  }
+
+  private initializeKlassen(): void {
+    this.klasseService.get().subscribe(result => {
+      this.klassen = result;
+    });
   }
 
   public onGeburtsdatumSelected($event: string): void {

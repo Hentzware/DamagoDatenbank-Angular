@@ -1,4 +1,4 @@
-export interface PersonAutoComplete {
+export interface AutoComplete {
   nachnamen: string[];
   vornamen: string[];
   geburtsdaten: string[];

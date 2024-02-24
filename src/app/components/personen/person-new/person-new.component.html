@@ -1,5 +1,31 @@
 <div fxFlexFill fxLayout="column" class="dialog">
   <mat-label fxLayoutAlign="center center" class="mat-label">Neue Person erstellen</mat-label>
+  <div fxLayout="column" fxFlexFill>
+    <mat-form-field>
+      <mat-label>Standort</mat-label>
+      <mat-select>
+        @for (standort of standorte; track standort) {
+          <mat-option [value]="standort.id">{{standort.name}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Rolle</mat-label>
+      <mat-select>
+        @for (rolle of rollen; track rolle) {
+          <mat-option [value]="rolle.id">{{rolle.name}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Klasse</mat-label>
+      <mat-select>
+        @for (klasse of klassen; track klasse) {
+          <mat-option [value]="klasse.id">{{klasse.name}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
   <div fxLayout="row">
     <div fxLayout="column" fxFlex style="margin-right: 10px">
       <app-auto-complete [numMinChars]="1" [name]="'Nachname'" [optionsList]="data.personAutoComplete.nachnamen" (selected)="onNachnameSelected($event)" [value]="person.nachname"></app-auto-complete>
