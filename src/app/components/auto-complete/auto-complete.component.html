@@ -1,6 +1,6 @@
 <mat-form-field fxFill appearance="fill">
   <mat-label class="mat-label">{{ name }}</mat-label>
-  <input type="text" [formControl]="control" [matAutocomplete]="auto" matInput>
+  <input type="text" [formControl]="control" [matAutocomplete]="auto" matInput [value]="value">
   <mat-autocomplete #auto="matAutocomplete">
     <mat-option *ngFor="let option of filteredOptions | async" [value]="option">{{option}}</mat-option>
   </mat-autocomplete>

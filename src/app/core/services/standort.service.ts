@@ -11,26 +11,10 @@ export class StandortService {
   constructor(private httpClient: HttpClient) {
   }
 
-  public getById(id: string): Observable<Standort> {
-    return this.httpClient.get<Standort>(environment.apiBaseUrl + `/standorte/${id}`);
-  }
-
-  public get(): Observable<Standort[]> {
-    return this.httpClient.get<Standort[]>(environment.apiBaseUrl + "/standorte?deleted=false");
-  }
-
-  public getDeleted(): Observable<Standort[]> {
-    return this.httpClient.get<Standort[]>(environment.apiBaseUrl + "/standorte?deleted=true");
-  }
-
   public add(name: string): Observable<void> {
     return this.httpClient.post<void>(environment.apiBaseUrl + "/standorte", {
       name: name
     });
-  }
-
-  public update(standort: Standort): Observable<void> {
-    return this.httpClient.put<void>(environment.apiBaseUrl + `/standorte/${standort.id}`, standort);
   }
 
   public delete(id: string): Observable<void> {
@@ -39,5 +23,21 @@ export class StandortService {
 
   public deletePermanent(id: string): Observable<void> {
     return this.httpClient.delete<void>(environment.apiBaseUrl + `/standorte/${id}?permanent=true`);
+  }
+
+  public get(): Observable<Standort[]> {
+    return this.httpClient.get<Standort[]>(environment.apiBaseUrl + "/standorte?deleted=false");
+  }
+
+  public getById(id: string): Observable<Standort> {
+    return this.httpClient.get<Standort>(environment.apiBaseUrl + `/standorte/${id}`);
+  }
+
+  public getDeleted(): Observable<Standort[]> {
+    return this.httpClient.get<Standort[]>(environment.apiBaseUrl + "/standorte?deleted=true");
+  }
+
+  public update(standort: Standort): Observable<void> {
+    return this.httpClient.put<void>(environment.apiBaseUrl + `/standorte/${standort.id}`, standort);
   }
 }

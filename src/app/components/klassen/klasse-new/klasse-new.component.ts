@@ -4,7 +4,6 @@ import {MatButton} from "@angular/material/button";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {StandortService} from "../../../core/services/standort.service";
 import {MatDialogRef} from "@angular/material/dialog";
 import {KlasseService} from "../../../core/services/klasse.service";
 

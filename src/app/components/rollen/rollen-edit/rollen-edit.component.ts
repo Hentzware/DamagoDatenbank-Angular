@@ -1,13 +1,11 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {StandortService} from "../../../core/services/standort.service";
 import {RolleService} from "../../../core/services/rolle.service";
 import {FlexModule} from "@angular/flex-layout";
 import {MatButton} from "@angular/material/button";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {Rolle} from "../../../core/entities/Rolle";
 
 @Component({
   selector: 'app-rollen-edit',

@@ -4,9 +4,7 @@ import {MatButton} from "@angular/material/button";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {Adresse} from "../../../core/entities/Adresse";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {AdresseService} from "../../../core/services/adresse.service";
 import {Inventar} from "../../../core/entities/Inventar";
 import {InventarService} from "../../../core/services/inventar.service";
 

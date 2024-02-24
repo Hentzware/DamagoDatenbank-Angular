@@ -6,7 +6,7 @@
 .mat-sidenav {
   width: 300px;
   padding: 5px;
-  box-shadow: 3px 0px 7px rgba(0,0,0,0.3);
+  box-shadow: 3px 0 7px rgba(0,0,0,0.3);
 }
 
 .mat-sidenav-content {
@@ -19,11 +19,6 @@
 
 .mat-toolbar {
   height: 150px;
-}
-
-.image {
-  height: 100px;
-  margin: 0 16px;
 }
 
 .example-spacer {

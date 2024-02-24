@@ -7,7 +7,6 @@
       </button>
       <button mat-raised-button color="accent" class="mat-raised-button" (click)="openDeletePersonDialog()" [disabled]="selectedRowIndex == '-1'">Entfernen
       </button>
-      <button mat-raised-button color="accent" class="mat-raised-button">Suche</button>
     </mat-toolbar-row>
   </mat-toolbar>
   <table mat-table [dataSource]="personen" class="mat-elevation-z8">
@@ -45,7 +44,7 @@
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{highlight: selectedRowIndex == row.id}"
-        (click)="highlight(row)"></tr>
+        (click)="highlightRow(row)"></tr>
   </table>
 </div>
 

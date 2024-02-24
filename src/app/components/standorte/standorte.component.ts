@@ -9,8 +9,7 @@ import {NgClass} from "@angular/common";
 import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {StandortNewComponent} from "./standort-new/standort-new.component";
 import {StandortDeleteComponent} from "./standort-delete/standort-delete.component";
-import {MatSort, MatSortHeader, MatSortModule, Sort} from "@angular/material/sort";
-import {LiveAnnouncer} from "@angular/cdk/a11y";
+import {MatSort, MatSortHeader, MatSortModule} from "@angular/material/sort";
 import {StandortEditComponent} from "./standort-edit/standort-edit.component";
 
 @Component({

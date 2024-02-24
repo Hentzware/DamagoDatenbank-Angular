@@ -1,23 +1,11 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatSort, MatSortHeader} from "@angular/material/sort";
-import {
-  MatCell,
-  MatCellDef,
-  MatColumnDef,
-  MatHeaderCell, MatHeaderCellDef,
-  MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef, MatTable,
-  MatTableDataSource, MatTableModule
-} from "@angular/material/table";
-import {Standort} from "../../core/entities/Standort";
-import {StandortService} from "../../core/services/standort.service";
+import {MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderCellDef, MatTable, MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
-import {StandortNewComponent} from "../standorte/standort-new/standort-new.component";
-import {StandortEditComponent} from "../standorte/standort-edit/standort-edit.component";
-import {StandortDeleteComponent} from "../standorte/standort-delete/standort-delete.component";
-import {FlexLayoutModule, FlexModule} from "@angular/flex-layout";
+import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatButton} from "@angular/material/button";
-import {MatToolbar, MatToolbarModule, MatToolbarRow} from "@angular/material/toolbar";
+import {MatToolbar, MatToolbarModule} from "@angular/material/toolbar";
 import {Inventar} from "../../core/entities/Inventar";
 import {InventarService} from "../../core/services/inventar.service";
 import {InventarNewComponent} from "./inventar-new/inventar-new.component";
@@ -60,15 +48,14 @@ import {MatInput} from "@angular/material/input";
   templateUrl: './inventar.component.html',
   styleUrl: './inventar.component.css'
 })
-export class InventarComponent {
+export class InventarComponent implements OnInit{
   @ViewChild(MatSort) sort: MatSort | any;
   public inventar: MatTableDataSource<Inventar> = new MatTableDataSource<Inventar>();
   public selectedRowIndex: string = "-1";
   public displayedColumns: string[] = ["id", "name", "anzahl"];
 
   constructor(private inventarService: InventarService,
-              private dialog: MatDialog,
-              private _liveAnnouncer: LiveAnnouncer) {
+              private dialog: MatDialog) {
   }
 
   public ngOnInit(): void {
@@ -102,7 +89,7 @@ export class InventarComponent {
   public openEditInventoryDialog(): void {
     const dialogRef: MatDialogRef<InventarEditComponent> = this.dialog.open(InventarEditComponent, {
       width: "500px",
-      data: { inventar: this.getSelectedInventory() }
+      data: {inventar: this.getSelectedInventory()}
     });
 
     dialogRef.afterClosed().subscribe(() => {
@@ -113,7 +100,7 @@ export class InventarComponent {
   public openDeleteInventoryDialog(): void {
     const dialogRef: MatDialogRef<InventarDeleteComponent> = this.dialog.open(InventarDeleteComponent, {
       width: "500px",
-      data: { inventar: this.getSelectedInventory() }
+      data: {inventar: this.getSelectedInventory()}
     });
 
     dialogRef.afterClosed().subscribe(() => {

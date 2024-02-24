@@ -1,16 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Person} from "../../core/entities/Person";
 import {PersonService} from "../../core/services/person.service";
-import {
-  MatCell,
-  MatCellDef,
-  MatColumnDef,
-  MatHeaderCell,
-  MatHeaderCellDef,
-  MatTable,
-  MatTableDataSource,
-  MatTableModule
-} from "@angular/material/table";
+import {MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderCellDef, MatTable, MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {CommonModule, DatePipe, NgClass} from "@angular/common";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
@@ -29,6 +20,7 @@ import {PersonAdresseService} from "../../core/services/person.adresse.service";
 import {concatMap, tap} from "rxjs";
 import {PersonEditComponent} from "./person-edit/person-edit.component";
 import {PersonDeleteComponent} from "./person-delete/person-delete.component";
+import {AutoComplete} from "../../core/entities/AutoComplete";
 
 @Component({
   selector: 'app-personen',
@@ -59,17 +51,19 @@ import {PersonDeleteComponent} from "./person-delete/person-delete.component";
   styleUrl: './personen.component.css'
 })
 export class PersonenComponent implements OnInit {
-  personen: MatTableDataSource<Person> = new MatTableDataSource<Person>();
-  selectedRowIndex: string = "-1";
-  displayedColumns: string[] = ["nachname", "vorname", "geburtsdatum", "strasse", "hausnummer", "postleitzahl", "ort", "land"];
-  nachnamen: string[] = [];
-  vornamen: string[] = [];
-  geburtsdaten: string[] = [];
-  strassen: string[] = [];
-  hausnummern: string[] = [];
-  postleitzahlen: string[] = [];
-  orte: string[] = [];
-  laender: string[] = [];
+  public displayedColumns: string[] = ["nachname", "vorname", "geburtsdatum", "strasse", "hausnummer", "postleitzahl", "ort", "land"];
+  public autoComplete: AutoComplete = {
+    orte: [],
+    laender: [],
+    strassen: [],
+    vornamen: [],
+    hausnummern: [],
+    postleitzahlen: [],
+    geburtsdaten: [],
+    nachnamen: []
+  };
+  public personen: MatTableDataSource<Person> = new MatTableDataSource<Person>();
+  public selectedRowIndex: string = "-1";
 
   constructor(private personService: PersonService,
               private adresseService: AdresseService,
@@ -77,26 +71,45 @@ export class PersonenComponent implements OnInit {
               private dialog: MatDialog) {
   }
 
+  public highlightRow(row: any): void {
+    this.selectedRowIndex = row.id;
+  }
+
   public ngOnInit(): void {
     this.getPersons();
   }
 
-  public highlight(row: any): void {
-    this.selectedRowIndex = row.id;
+  public openDeletePersonDialog() {
+    const dialogRef: MatDialogRef<PersonDeleteComponent> = this.dialog.open(PersonDeleteComponent, {
+      width: "500px", data: {
+        person: this.getSelectedPerson()
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.getPersons();
+    });
+  }
+
+  public openEditPersonDialog() {
+    const dialogRef: MatDialogRef<PersonEditComponent> = this.dialog.open(PersonEditComponent, {
+      width: "500px",
+      data: {
+        person: this.getSelectedPerson(),
+        personAutoComplete: this.autoComplete
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.getPersons();
+    });
   }
 
   public openNewPersonDialog(): void {
     const dialogRef: MatDialogRef<PersonNewComponent> = this.dialog.open(PersonNewComponent, {
-      width: "500px",
+      width: "1000px",
       data: {
-        nachnamen: this.nachnamen,
-        vornamen: this.vornamen,
-        geburtsdaten: this.geburtsdaten,
-        strassen: this.strassen,
-        hausnummern: this.hausnummern,
-        postleitzahlen: this.postleitzahlen,
-        orte: this.orte,
-        laender: this.laender
+        personAutoComplete: this.autoComplete
       }
     });
 
@@ -106,95 +119,70 @@ export class PersonenComponent implements OnInit {
   }
 
   private getPersons(): void {
+    this.selectedRowIndex = "-1";
     let adressen: Adresse[];
     let personAdresse: PersonAdresse[];
 
-    this.personService.get().pipe(
-      tap(personenResult => {
-        this.personen = new MatTableDataSource<Person>(personenResult);
-      }),
-      concatMap(() => {
-        return this.adresseService.get().pipe(
-          tap(adressenResult => {
-            adressen = adressenResult;
-          }),
-          concatMap(() => {
-            return this.personAdresseService.get().pipe(
-              tap(personAdresseResult => {
-                personAdresse = personAdresseResult;
-              })
-            );
-          })
-        )
-      })
-    ).subscribe(() => {
-      this.personen.data.map(person => {
-        const personAdresseLink = personAdresse.find(link => link.person_id == person.id);
+    this.personService.get().pipe(tap((personenResult: Person[]) => {
+      this.personen = new MatTableDataSource<Person>(personenResult);
+    }), concatMap(() => {
+      return this.adresseService.get().pipe(tap((adressenResult: Adresse[]) => {
+        adressen = adressenResult;
+      }), concatMap(() => {
+        return this.personAdresseService.get().pipe(tap((personAdresseResult: PersonAdresse[]) => {
+          personAdresse = personAdresseResult;
+        }));
+      }))
+    })).subscribe((): void => {
+      this.personen.data.map((person: Person) => {
+        const personAdresseLink: PersonAdresse | undefined = personAdresse.find((link: PersonAdresse): boolean => link.person_id == person.id);
 
         if (personAdresseLink) {
-          person.adresse = <Adresse>adressen.find(adresse => adresse.id == personAdresseLink.adresse_id);
+          person.adresse = <Adresse>adressen.find((adresse: Adresse): boolean => adresse.id == personAdresseLink.adresse_id);
         }
 
         return person;
       });
 
-      this.nachnamen = Array.from(new Set(this.personen.data.map<string>(x => {
-        return x?.nachname;
-      })));
-
-      this.vornamen = Array.from(new Set(this.personen.data.map<string>(x => {
-        return x?.vorname;
-      })));
-
-      this.geburtsdaten = Array.from(new Set(this.personen.data.map<string>(x => {
-        return x?.geburtsdatum;
-      })));
-
-      this.strassen = Array.from(new Set(this.personen.data.map<string>(x => {
-        return x.adresse?.strasse;
-      })));
-
-      this.hausnummern = Array.from(new Set(this.personen.data.map<string>(x => {
-        return x.adresse?.hausnummer;
-      })));
-
-      this.postleitzahlen = Array.from(new Set(this.personen.data.map<string>(x => {
-        return x.adresse?.postleitzahl;
-      })));
-
-      this.orte = Array.from(new Set(this.personen.data.map<string>(x => {
-        return x.adresse?.ort;
-      })));
-
-      this.laender = Array.from(new Set(this.personen.data.map<string>(x => {
-        return x.adresse?.land;
-      })));
+      this.initializePersonAutoCompleteData();
     });
   }
 
-  openEditPersonDialog() {
-    const dialogRef: MatDialogRef<PersonEditComponent> = this.dialog.open(PersonEditComponent, {
-      width: "500px",
-      data: { person: this.getSelectedPerson() }
-    });
-
-    dialogRef.afterClosed().subscribe(() => {
-      this.getPersons();
-    });
+  private getSelectedPerson(): any {
+    return {...this.personen.data.find((x: Person): boolean => x.id == this.selectedRowIndex)};
   }
 
-  getSelectedPerson(): any {
-        return {...this.personen.data.find(x => x.id == this.selectedRowIndex)};
-    }
+  private initializePersonAutoCompleteData(): void {
+    this.autoComplete.nachnamen = Array.from(new Set(this.personen.data.map<string>((x: Person) => {
+      return x?.nachname;
+    })));
 
-  openDeletePersonDialog() {
-    const dialogRef: MatDialogRef<PersonDeleteComponent> = this.dialog.open(PersonDeleteComponent, {
-      width: "500px",
-      data: { person: this.getSelectedPerson() }
-    });
-//
-    dialogRef.afterClosed().subscribe(() => {
-      this.getPersons();
-    });
+    this.autoComplete.vornamen = Array.from(new Set(this.personen.data.map<string>((x: Person) => {
+      return x?.vorname;
+    })));
+
+    this.autoComplete.geburtsdaten = Array.from(new Set(this.personen.data.map<string>((x: Person) => {
+      return x?.geburtsdatum;
+    })));
+
+    this.autoComplete.strassen = Array.from(new Set(this.personen.data.map<string>((x: Person) => {
+      return x.adresse?.strasse;
+    })));
+
+    this.autoComplete.hausnummern = Array.from(new Set(this.personen.data.map<string>((x: Person) => {
+      return x.adresse?.hausnummer;
+    })));
+
+    this.autoComplete.postleitzahlen = Array.from(new Set(this.personen.data.map<string>((x: Person) => {
+      return x.adresse?.postleitzahl;
+    })));
+
+    this.autoComplete.orte = Array.from(new Set(this.personen.data.map<string>((x: Person) => {
+      return x.adresse?.ort;
+    })));
+
+    this.autoComplete.laender = Array.from(new Set(this.personen.data.map<string>((x: Person) => {
+      return x.adresse?.land;
+    })));
   }
 }
