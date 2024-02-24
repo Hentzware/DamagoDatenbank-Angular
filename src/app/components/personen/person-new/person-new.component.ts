@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {FlexModule} from "@angular/flex-layout";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatButton} from "@angular/material/button";
@@ -38,22 +38,17 @@ import {AutoCompleteComponent} from "../../auto-complete/auto-complete.component
   templateUrl: './person-new.component.html',
   styleUrl: './person-new.component.css'
 })
-export class PersonNewComponent {
-  public person: Person;
-  public nachnamen: string[];
-  public vornamen: string[];
-  public geburtsdaten: string[];
-  public strassen: string[];
-  public hausnummern: string[];
-  public postleitzahlen: string[];
-  public orte: string[];
-  public laender: string[];
+export class PersonNewComponent implements OnInit {
+  public person!: Person;
 
   constructor(private personService: PersonService,
               private adresseService: AdresseService,
               private personAdresseService: PersonAdresseService,
               private dialogRef: MatDialogRef<PersonNewComponent>,
-              @Inject(MAT_DIALOG_DATA) private data: any) {
+              @Inject(MAT_DIALOG_DATA) public data: any) {
+  }
+
+  public ngOnInit(): void {
     this.person = {
       id: "",
       geburtsdatum: "2000-01-01",
@@ -68,14 +63,38 @@ export class PersonNewComponent {
         hausnummer: ""
       }
     };
-    this.nachnamen = data?.nachnamen;
-    this.vornamen = data?.vornamen;
-    this.geburtsdaten = data?.geburtsdaten;
-    this.strassen = data?.strassen;
-    this.hausnummern = data?.hausnummern;
-    this.postleitzahlen = data?.postleitzahlen;
-    this.orte = data?.orte;
-    this.laender = data?.laender;
+  }
+
+  public onGeburtsdatumSelected($event: string): void {
+    this.person.geburtsdatum = $event;
+  }
+
+  public onHausnummerSelected($event: string): void {
+    this.person.adresse.hausnummer = $event;
+  }
+
+  public onLandSelected($event: string): void {
+    this.person.adresse.land = $event;
+  }
+
+  public onNachnameSelected($event: string): void {
+    this.person.nachname = $event;
+  }
+
+  public onOrtSelected($event: string): void {
+    this.person.adresse.ort = $event;
+  }
+
+  public onPostleitzahlSelected($event: string): void {
+    this.person.adresse.postleitzahl = $event;
+  }
+
+  public onStrasseSelected($event: string): void {
+    this.person.adresse.strasse = $event;
+  }
+
+  public onVornameSelected($event: string): void {
+    this.person.vorname = $event;
   }
 
   public save(): void {
@@ -90,37 +109,5 @@ export class PersonNewComponent {
     ).subscribe((): void => {
       this.dialogRef.close();
     });
-  }
-
-  public onNachnameSelected($event: string): void {
-    this.person.nachname = $event;
-  }
-
-  public onVornameSelected($event: string): void {
-    this.person.vorname = $event;
-  }
-
-  public onGeburtsdatumSelected($event: string): void {
-    this.person.geburtsdatum = $event;
-  }
-
-  public onStrasseSelected($event: string): void {
-    this.person.adresse.strasse = $event;
-  }
-
-  public onHausnummerSelected($event: string): void {
-    this.person.adresse.hausnummer = $event;
-  }
-
-  public onPostleitzahlSelected($event: string): void {
-    this.person.adresse.postleitzahl = $event;
-  }
-
-  public onOrtSelected($event: string): void {
-    this.person.adresse.ort = $event;
-  }
-
-  public onLandSelected($event: string): void {
-    this.person.adresse.land = $event;
   }
 }

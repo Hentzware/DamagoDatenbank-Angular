@@ -56,6 +56,38 @@ export class PersonEditComponent {
     }
   }
 
+  public onGeburtsdatumSelected($event: string): void {
+    this.person.geburtsdatum = $event;
+  }
+
+  public onHausnummerSelected($event: string): void {
+    this.person.adresse.hausnummer = $event;
+  }
+
+  public onLandSelected($event: string): void {
+    this.person.adresse.land = $event;
+  }
+
+  public onNachnameSelected($event: string): void {
+    this.person.nachname = $event;
+  }
+
+  public onOrtSelected($event: string): void {
+    this.person.adresse.ort = $event;
+  }
+
+  public onPostleitzahlSelected($event: string): void {
+    this.person.adresse.postleitzahl = $event;
+  }
+
+  public onStrasseSelected($event: string): void {
+    this.person.adresse.strasse = $event;
+  }
+
+  public onVornameSelected($event: string): void {
+    this.person.vorname = $event;
+  }
+
   public save(): void {
     this.personService.update(this.person).pipe(
       concatMap(() => {
@@ -64,37 +96,5 @@ export class PersonEditComponent {
     ).subscribe(() => {
       this.dialogRef.close();
     });
-  }
-
-  public onNachnameSelected($event: string): void {
-    this.person.nachname = $event;
-  }
-
-  public onVornameSelected($event: string): void {
-    this.person.vorname = $event;
-  }
-
-  public onGeburtsdatumSelected($event: string): void {
-    this.person.geburtsdatum = $event;
-  }
-
-  public onStrasseSelected($event: string): void {
-    this.person.adresse.strasse = $event;
-  }
-
-  public onHausnummerSelected($event: string): void {
-    this.person.adresse.hausnummer = $event;
-  }
-
-  public onPostleitzahlSelected($event: string): void {
-    this.person.adresse.postleitzahl = $event;
-  }
-
-  public onOrtSelected($event: string): void {
-    this.person.adresse.ort = $event;
-  }
-
-  public onLandSelected($event: string): void {
-    this.person.adresse.land = $event;
   }
 }
