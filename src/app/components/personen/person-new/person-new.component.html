@@ -1,6 +1,6 @@
 <div fxFlexFill fxLayout="column" class="dialog">
   <mat-label fxLayoutAlign="center center" class="mat-label">Neue Person erstellen</mat-label>
-  <div fxLayout="column" fxFlexFill>
+  <div fxLayout="column" fxFlex style="margin-bottom: 20px">
     <mat-form-field>
       <mat-label>Standort</mat-label>
       <mat-select>
@@ -32,7 +32,7 @@
       <app-auto-complete [numMinChars]="1" [name]="'Vorname'" [optionsList]="data.personAutoComplete.vornamen" (selected)="onVornameSelected($event)" [value]="person.vorname"></app-auto-complete>
       <app-auto-complete [numMinChars]="1" [name]="'Geburtsdatum'" [optionsList]="data.personAutoComplete.geburtsdaten" (selected)="onGeburtsdatumSelected($event)" [value]="person.geburtsdatum"></app-auto-complete>
     </div>
-    <div fxLayout="column" fxFlex>
+    <div fxLayout="column" fxFlex style="margin-left: 10px">
       <app-auto-complete [numMinChars]="1" [name]="'Strasse'" [optionsList]="data.personAutoComplete.strassen" (selected)="onStrasseSelected($event)" [value]="person.adresse.strasse"></app-auto-complete>
       <app-auto-complete [numMinChars]="1" [name]="'Hausnummer'" [optionsList]="data.personAutoComplete.hausnummern" (selected)="onHausnummerSelected($event)" [value]="person.adresse.hausnummer"></app-auto-complete>
       <app-auto-complete [numMinChars]="1" [name]="'Postleitzahl'" [optionsList]="data.personAutoComplete.postleitzahlen" (selected)="onPostleitzahlSelected($event)" [value]="person.adresse.postleitzahl"></app-auto-complete>

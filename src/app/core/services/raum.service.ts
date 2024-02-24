@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
@@ -11,31 +11,31 @@ export class RaumService {
   constructor(private http: HttpClient) {
   }
 
-  getById(id: string): Observable<Raum> {
-    return this.http.get<Raum>(environment.apiBaseUrl + `/raeume/${id}`);
-  }
-
-  get(): Observable<Raum[]> {
-    return this.http.get<Raum[]>(environment.apiBaseUrl + "/raeume?deleted=false");
-  }
-
-  getDeleted(): Observable<Raum[]> {
-    return this.http.get<Raum[]>(environment.apiBaseUrl + "/raeume?deleted=true");
-  }
-
-  add(raum: Raum): Observable<string> {
+  public add(raum: Raum): Observable<string> {
     return this.http.post<string>(environment.apiBaseUrl + "/raeume", raum);
   }
 
-  update(raum: Raum): Observable<void> {
-    return this.http.put<void>(environment.apiBaseUrl + `/raeume/${raum.id}`, raum);
-  }
-
-  delete(id: string): Observable<void> {
+  public delete(id: string): Observable<void> {
     return this.http.delete<void>(environment.apiBaseUrl + `/raeume/${id}?permanent=false`);
   }
 
-  deletePermanent(id: string): Observable<void> {
+  public deletePermanent(id: string): Observable<void> {
     return this.http.delete<void>(environment.apiBaseUrl + `/raeume/${id}?permanent=true`);
+  }
+
+  public get(): Observable<Raum[]> {
+    return this.http.get<Raum[]>(environment.apiBaseUrl + "/raeume?deleted=false");
+  }
+
+  public getById(id: string): Observable<Raum> {
+    return this.http.get<Raum>(environment.apiBaseUrl + `/raeume/${id}`);
+  }
+
+  public getDeleted(): Observable<Raum[]> {
+    return this.http.get<Raum[]>(environment.apiBaseUrl + "/raeume?deleted=true");
+  }
+
+  public update(raum: Raum): Observable<void> {
+    return this.http.put<void>(environment.apiBaseUrl + `/raeume/${raum.id}`, raum);
   }
 }
