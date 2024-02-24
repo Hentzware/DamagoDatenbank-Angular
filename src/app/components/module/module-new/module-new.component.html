@@ -1,0 +1,8 @@
+<div fxLayout="column" fxFill class="dialog">
+  <mat-label class="mat-label">Neues Modul</mat-label>
+  <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="name">
+  </mat-form-field>
+  <button class="mat-raised-button" mat-raised-button color="primary" (click)="createNewModule()">Speichern</button>
+</div>
