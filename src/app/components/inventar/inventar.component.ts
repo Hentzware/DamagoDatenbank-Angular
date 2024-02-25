@@ -2,12 +2,11 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatSort, MatSortHeader} from "@angular/material/sort";
 import {MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderCellDef, MatTable, MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
-import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatButton} from "@angular/material/button";
 import {MatToolbar, MatToolbarModule} from "@angular/material/toolbar";
-import {Inventar} from "../../core/entities/Inventar";
-import {InventarService} from "../../core/services/inventar.service";
+import {Inventory} from "../../core/entities/Inventory";
+import {InventoryService} from "../../core/services/inventory.service";
 import {InventarNewComponent} from "./inventar-new/inventar-new.component";
 import {InventarEditComponent} from "./inventar-edit/inventar-edit.component";
 import {InventarDeleteComponent} from "./inventar-delete/inventar-delete.component";
@@ -50,11 +49,11 @@ import {MatInput} from "@angular/material/input";
 })
 export class InventarComponent implements OnInit{
   @ViewChild(MatSort) sort: MatSort | any;
-  public inventar: MatTableDataSource<Inventar> = new MatTableDataSource<Inventar>();
+  public inventar: MatTableDataSource<Inventory> = new MatTableDataSource<Inventory>();
   public selectedRowIndex: string = "-1";
   public displayedColumns: string[] = ["id", "name", "anzahl"];
 
-  constructor(private inventarService: InventarService,
+  constructor(private inventarService: InventoryService,
               private dialog: MatDialog) {
   }
 

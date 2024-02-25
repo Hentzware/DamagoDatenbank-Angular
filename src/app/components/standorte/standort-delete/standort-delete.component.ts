@@ -5,7 +5,7 @@ import {FormsModule} from "@angular/forms";
 import {MatButton} from "@angular/material/button";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
-import {StandortService} from "../../../core/services/standort.service";
+import {LocationService} from "../../../core/services/location.service";
 
 @Component({
   selector: 'app-standort-delete',
@@ -26,7 +26,7 @@ export class StandortDeleteComponent {
 
   constructor(private dialogRef: MatDialogRef<StandortDeleteComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private standortService: StandortService) {
+              private standortService: LocationService) {
     this.name = data.standort.name;
   }
 

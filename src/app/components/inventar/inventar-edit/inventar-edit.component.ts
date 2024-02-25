@@ -5,8 +5,8 @@ import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {Inventar} from "../../../core/entities/Inventar";
-import {InventarService} from "../../../core/services/inventar.service";
+import {Inventory} from "../../../core/entities/Inventory";
+import {InventoryService} from "../../../core/services/inventory.service";
 
 @Component({
   selector: 'app-inventar-edit',
@@ -24,11 +24,11 @@ import {InventarService} from "../../../core/services/inventar.service";
   styleUrl: './inventar-edit.component.css'
 })
 export class InventarEditComponent {
-  public inventar: Inventar = {id:"",name:"",anzahl:0}
+  public inventar: Inventory = {id:"",name:"",amount:0}
 
   constructor(private dialogRef: MatDialogRef<InventarEditComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private inventarService: InventarService) {
+              private inventarService: InventoryService) {
     this.inventar = data.inventar;
   }
 

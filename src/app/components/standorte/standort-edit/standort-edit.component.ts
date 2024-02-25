@@ -5,7 +5,7 @@ import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {StandortService} from "../../../core/services/standort.service";
+import {LocationService} from "../../../core/services/location.service";
 
 @Component({
   selector: 'app-standort-edit',
@@ -27,7 +27,7 @@ export class StandortEditComponent {
 
   constructor(private dialogRef: MatDialogRef<StandortEditComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private standortService: StandortService) {
+              private standortService: LocationService) {
     this.name = data.standort.name;
   }
 

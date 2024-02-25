@@ -4,8 +4,8 @@ import {FormsModule} from "@angular/forms";
 import {MatButton} from "@angular/material/button";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
-import {Adresse} from "../../../core/entities/Adresse";
-import {AdresseService} from "../../../core/services/adresse.service";
+import {Address} from "../../../core/entities/Address";
+import {AddressService} from "../../../core/services/address.service";
 import {MatDialogRef} from "@angular/material/dialog";
 
 @Component({
@@ -19,18 +19,18 @@ import {MatDialogRef} from "@angular/material/dialog";
     MatInput,
     MatLabel
   ],
-  templateUrl: './adresse-new.component.html',
-  styleUrl: './adresse-new.component.css'
+  templateUrl: './address-new.component.html',
+  styleUrl: './address-new.component.css'
 })
-export class AdresseNewComponent {
-  public adresse: Adresse = {id:"",strasse:"",hausnummer:"",postleitzahl:"",ort:"",land:""}
+export class AddressNewComponent {
+  public address: Address = {id:"",street:"",house_number:"",postal_code:"",location:"",country:""}
 
-  constructor(private adresseService: AdresseService,
-              private dialogRef: MatDialogRef<AdresseNewComponent>){
+  constructor(private addressService: AddressService,
+              private dialogRef: MatDialogRef<AddressNewComponent>){
 
   }
-  public createNewAdress(): void {
-    this.adresseService.add(this.adresse).subscribe(() =>{
+  public save(): void {
+    this.addressService.add(this.address).subscribe(() =>{
       this.dialogRef.close();
     })
   }

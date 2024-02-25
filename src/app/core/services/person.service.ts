@@ -12,31 +12,31 @@ export class PersonService {
   }
 
   public add(person: Person): Observable<string> {
-    return this.http.post<string>(environment.apiBaseUrl + "/personen", person);
+    return this.http.post<string>(environment.apiBaseUrl + environment.apiPersonsUrl, person);
   }
 
   public delete(id: string): Observable<void> {
-    return this.http.delete<void>(environment.apiBaseUrl + `/personen/${id}?permanent=false`);
+    return this.http.delete<void>(environment.apiBaseUrl + environment.apiPersonsUrl + `/${id}?permanent=false`);
   }
 
   public deletePermanent(id: string): Observable<void> {
-    return this.http.delete<void>(environment.apiBaseUrl + `/personen/${id}?permanent=true`);
+    return this.http.delete<void>(environment.apiBaseUrl + environment.apiPersonsUrl + `/${id}?permanent=true`);
   }
 
   public get(): Observable<Person[]> {
-    return this.http.get<Person[]>(environment.apiBaseUrl + "/personen?deleted=false");
+    return this.http.get<Person[]>(environment.apiBaseUrl + environment.apiPersonsUrl + "?deleted=false");
   }
 
   public getById(id: string): Observable<Person> {
-    return this.http.get<Person>(environment.apiBaseUrl + `/personen/${id}`);
+    return this.http.get<Person>(environment.apiBaseUrl + environment.apiPersonsUrl + `/${id}`);
   }
 
   public getDeleted(): Observable<Person[]> {
-    return this.http.get<Person[]>(environment.apiBaseUrl + "/personen?deleted=true");
+    return this.http.get<Person[]>(environment.apiBaseUrl + environment.apiPersonsUrl + "?deleted=true");
   }
 
   public update(person: Person): Observable<void> {
-    return this.http.put<void>(environment.apiBaseUrl + `/personen/${person.id}`, person);
+    return this.http.put<void>(environment.apiBaseUrl + environment.apiPersonsUrl + `/${person.id}`, person);
   }
 
 }

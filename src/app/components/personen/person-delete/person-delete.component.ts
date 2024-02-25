@@ -5,7 +5,7 @@ import {MatLabel} from "@angular/material/form-field";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {PersonService} from "../../../core/services/person.service";
 import {concatMap} from "rxjs";
-import {AdresseService} from "../../../core/services/adresse.service";
+import {AddressService} from "../../../core/services/address.service";
 
 @Component({
   selector: 'app-person-delete',
@@ -25,7 +25,7 @@ export class PersonDeleteComponent {
   constructor(private dialogRef: MatDialogRef<PersonDeleteComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private personService: PersonService,
-              private adresseService: AdresseService) {
+              private adresseService: AddressService) {
     this.nachname = data.person.nachname;
     this.vorname = data.person.vorname;
   }

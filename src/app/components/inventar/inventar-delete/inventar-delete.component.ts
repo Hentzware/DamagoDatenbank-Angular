@@ -2,9 +2,9 @@ import {Component, Inject} from '@angular/core';
 import {FlexModule} from "@angular/flex-layout";
 import {MatButton} from "@angular/material/button";
 import {MatLabel} from "@angular/material/form-field";
-import {Inventar} from "../../../core/entities/Inventar";
+import {Inventory} from "../../../core/entities/Inventory";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {InventarService} from "../../../core/services/inventar.service";
+import {InventoryService} from "../../../core/services/inventory.service";
 
 @Component({
   selector: 'app-inventar-delete',
@@ -18,10 +18,10 @@ import {InventarService} from "../../../core/services/inventar.service";
   styleUrl: './inventar-delete.component.css'
 })
 export class InventarDeleteComponent {
-  public inventar: Inventar = {id:"",name:"",anzahl:0}
+  public inventar: Inventory = {id:"",name:"",amount:0}
   constructor(private dialogRef: MatDialogRef<InventarDeleteComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private inventarService: InventarService) {
+              private inventarService: InventoryService) {
     this.inventar = data.inventar;
   }
   public deleteInventory(): void {

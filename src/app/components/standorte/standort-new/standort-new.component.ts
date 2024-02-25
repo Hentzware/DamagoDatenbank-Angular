@@ -4,7 +4,7 @@ import {MatIcon} from "@angular/material/icon";
 import {MatInput} from "@angular/material/input";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatButton} from "@angular/material/button";
-import {StandortService} from "../../../core/services/standort.service";
+import {LocationService} from "../../../core/services/location.service";
 import {FormsModule} from "@angular/forms";
 import {MatDialogRef} from "@angular/material/dialog";
 
@@ -26,7 +26,7 @@ import {MatDialogRef} from "@angular/material/dialog";
 export class StandortNewComponent {
   public name: string = "";
 
-  constructor(private standortService: StandortService,
+  constructor(private standortService: LocationService,
               private dialogRef: MatDialogRef<StandortNewComponent>) {
   }
 

@@ -1,15 +1,15 @@
 import {Component, Inject} from '@angular/core';
 import {FlexModule} from "@angular/flex-layout";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatButton} from "@angular/material/button";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {Address} from "../../../core/entities/Address";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {Adresse} from "../../../core/entities/Adresse";
-import {AdresseService} from "../../../core/services/adresse.service";
+import {AddressService} from "../../../core/services/address.service";
 
 @Component({
-  selector: 'app-adresse-edit',
+  selector: 'app-address-edit',
   standalone: true,
   imports: [
     FlexModule,
@@ -20,16 +20,16 @@ import {AdresseService} from "../../../core/services/adresse.service";
     ReactiveFormsModule,
     FormsModule
   ],
-  templateUrl: './adresse-edit.component.html',
-  styleUrl: './adresse-edit.component.css'
+  templateUrl: './address-edit.component.html',
+  styleUrl: './address-edit.component.css'
 })
-export class AdresseEditComponent {
-  public adresse: Adresse = {id:"",strasse:"",hausnummer:"",postleitzahl:"",ort:"",land:""}
+export class AddressEditComponent {
+  public address: Address = {id:"",street:"",house_number:"",postal_code:"",location:"",country:""}
 
-  constructor(private dialogRef: MatDialogRef<AdresseEditComponent>,
+  constructor(private dialogRef: MatDialogRef<AddressEditComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private adresseService: AdresseService) {
-    this.adresse = data.adresse;
+              private adresseService: AddressService) {
+    this.address = data.adresse;
   }
 
   public editAdress(): void {
@@ -38,5 +38,4 @@ export class AdresseEditComponent {
       this.dialogRef.close();
     });
   }
-
 }

@@ -29,7 +29,7 @@ export class KlasseNewComponent {
               private dialogRef: MatDialogRef<KlasseNewComponent>) {
   }
 
-  public createNewClass(): void {
+  public save(): void {
     this.klasseService.add(this.name).subscribe(() => {
       this.dialogRef.close();
     });

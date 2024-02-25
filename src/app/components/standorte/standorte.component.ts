@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Standort} from "../../core/entities/Standort";
-import {StandortService} from '../../core/services/standort.service';
+import {Location} from "../../core/entities/Location";
+import {LocationService} from '../../core/services/location.service';
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatButton} from "@angular/material/button";
@@ -31,11 +31,11 @@ import {StandortEditComponent} from "./standort-edit/standort-edit.component";
 })
 export class StandorteComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort | any;
-  public standorte: MatTableDataSource<Standort> = new MatTableDataSource<Standort>();
+  public standorte: MatTableDataSource<Location> = new MatTableDataSource<Location>();
   public selectedRowIndex: string = "-1";
   public displayedColumns: string[] = ["id", "name"];
 
-  constructor(private standortService: StandortService,
+  constructor(private standortService: LocationService,
               private dialog: MatDialog) {
   }
 

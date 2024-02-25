@@ -2,23 +2,23 @@
   <mat-label style="text-align: center;font-size: 24px;margin-bottom: 20px;margin-top: 10px">Adresse bearbeiten</mat-label>
   <mat-form-field appearance="fill">
     <mat-label>Strasse</mat-label>
-    <input matInput [(ngModel)]="adresse.strasse">
+    <input matInput [(ngModel)]="address.street">
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Hausnummer</mat-label>
-    <input matInput [(ngModel)]="adresse.hausnummer">
+    <input matInput [(ngModel)]="address.house_number">
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Postleitzahl</mat-label>
-    <input matInput [(ngModel)]="adresse.postleitzahl">
+    <input matInput [(ngModel)]="address.postal_code">
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Ort</mat-label>
-    <input matInput [(ngModel)]="adresse.ort">
+    <input matInput [(ngModel)]="address.location">
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Land</mat-label>
-    <input matInput [(ngModel)]="adresse.land">
+    <input matInput [(ngModel)]="address.country">
   </mat-form-field>
   <button mat-raised-button color="primary" (click)="editAdress()">Speichern</button>
 </div>

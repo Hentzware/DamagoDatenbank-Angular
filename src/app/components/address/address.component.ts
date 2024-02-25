@@ -1,4 +1,5 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
+import {MatSort, MatSortHeader} from "@angular/material/sort";
 import {
   MatCell,
   MatCellDef,
@@ -9,25 +10,24 @@ import {
   MatTableDataSource,
   MatTableModule
 } from "@angular/material/table";
+import {Address} from "../../core/entities/Address";
+import {AddressService} from "../../core/services/address.service";
+import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
+import {FlexLayoutModule} from "@angular/flex-layout";
+import {MatButton} from "@angular/material/button";
+import {MatToolbar, MatToolbarModule} from "@angular/material/toolbar";
 import {CommonModule, DatePipe, NgClass} from "@angular/common";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
 import {MatOptionModule} from "@angular/material/core";
 import {FormsModule} from "@angular/forms";
-import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatInput} from "@angular/material/input";
-import {MatButton} from "@angular/material/button";
-import {MatToolbar, MatToolbarModule} from "@angular/material/toolbar";
-import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
-import {Adresse} from "../../core/entities/Adresse";
-import {AdresseService} from "../../core/services/adresse.service";
-import {MatSort, MatSortHeader} from "@angular/material/sort";
-import {AdresseNewComponent} from "./adresse-new/adresse-new.component";
-import {AdresseEditComponent} from "./adresse-edit/adresse-edit.component";
-import {AdresseDeleteComponent} from "./adresse-delete/adresse-delete.component";
+import {AddressNewComponent} from "./address-new/address-new.component";
+import {AddressEditComponent} from "./address-edit/address-edit.component";
+import {AddressDeleteComponent} from "./address-delete/address-delete.component";
 
 @Component({
-  selector: 'app-adresse',
+  selector: 'app-address',
   standalone: true,
   imports: [
     MatTable,
@@ -53,16 +53,16 @@ import {AdresseDeleteComponent} from "./adresse-delete/adresse-delete.component"
     MatSort,
     MatSortHeader
   ],
-  templateUrl: './adresse.component.html',
-  styleUrl: './adresse.component.css'
+  templateUrl: './address.component.html',
+  styleUrl: './address.component.css'
 })
-export class AdresseComponent implements OnInit {
+export class AddressComponent {
   @ViewChild(MatSort) sort: MatSort | any;
-  public adresse: MatTableDataSource<Adresse> = new MatTableDataSource<Adresse>();
+  public address: MatTableDataSource<Address> = new MatTableDataSource<Address>();
   public selectedRowIndex: string = "-1";
   public displayedColumns: string[] = ["id", "strasse", "hausnummer", "postleitzahl", "ort", "land"]
 
-  constructor(private adresseService: AdresseService, private dialog: MatDialog) {
+  constructor(private addressService: AddressService, private dialog: MatDialog) {
   }
 
   public ngOnInit(): void {
@@ -74,17 +74,17 @@ export class AdresseComponent implements OnInit {
   }
 
   public getAddresses(): void {
-    this.adresseService.get().subscribe(result => {
-      this.adresse = new MatTableDataSource(result);
-      this.adresse.sort = this.sort;
+    this.addressService.get().subscribe(result => {
+      this.address = new MatTableDataSource(result);
+      this.address.sort = this.sort;
       this.sort.active = 'name';
       this.sort.direction = 'asc';
-      this.adresse.sort = this.sort;
+      this.address.sort = this.sort;
     });
   }
 
   public openNewAddressDialog(): void {
-    const dialogRef: MatDialogRef<AdresseNewComponent> = this.dialog.open(AdresseNewComponent, {
+    const dialogRef: MatDialogRef<AddressNewComponent> = this.dialog.open(AddressNewComponent, {
       width: "500px"
     });
 
@@ -94,7 +94,7 @@ export class AdresseComponent implements OnInit {
   }
 
   public openEditAddressDialog(): void {
-    const dialogRef: MatDialogRef<AdresseEditComponent> = this.dialog.open(AdresseEditComponent, {
+    const dialogRef: MatDialogRef<AddressEditComponent> = this.dialog.open(AddressEditComponent, {
       width: "500px",
       data: {adresse: this.getSelectedAddress()}
     });
@@ -105,7 +105,7 @@ export class AdresseComponent implements OnInit {
   }
 
   public openDeleteAddressDialog(): void {
-    const dialogRef: MatDialogRef<AdresseDeleteComponent> = this.dialog.open(AdresseDeleteComponent, {
+    const dialogRef: MatDialogRef<AddressDeleteComponent> = this.dialog.open(AddressDeleteComponent, {
       width: "500px",
       data: {adresse: this.getSelectedAddress()}
     });
@@ -116,6 +116,6 @@ export class AdresseComponent implements OnInit {
   }
 
   private getSelectedAddress(): any {
-    return {...this.adresse.data.find(x => x.id == this.selectedRowIndex)};
+    return {...this.address.data.find(x => x.id == this.selectedRowIndex)};
   }
 }
