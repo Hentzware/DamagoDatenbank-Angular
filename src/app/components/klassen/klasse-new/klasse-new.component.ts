@@ -5,7 +5,7 @@ import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatDialogRef} from "@angular/material/dialog";
-import {KlasseService} from "../../../core/services/klasse.service";
+import {ClassService} from "../../../core/services/class.service";
 
 @Component({
   selector: 'app-klasse-new',
@@ -25,7 +25,7 @@ import {KlasseService} from "../../../core/services/klasse.service";
 export class KlasseNewComponent {
   public name: string = "";
 
-  constructor(private klasseService: KlasseService,
+  constructor(private klasseService: ClassService,
               private dialogRef: MatDialogRef<KlasseNewComponent>) {
   }
 

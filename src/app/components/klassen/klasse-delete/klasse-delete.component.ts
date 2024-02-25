@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {KlasseService} from "../../../core/services/klasse.service";
+import {ClassService} from "../../../core/services/class.service";
 import {FlexModule} from "@angular/flex-layout";
 import {MatButton} from "@angular/material/button";
 import {MatLabel} from "@angular/material/form-field";
@@ -21,7 +21,7 @@ export class KlasseDeleteComponent {
 
   constructor(private dialogRef: MatDialogRef<KlasseDeleteComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private klasseService: KlasseService) {
+              private klasseService: ClassService) {
     this.name = data.klasse.name;
   }
 

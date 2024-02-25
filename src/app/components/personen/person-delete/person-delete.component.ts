@@ -19,21 +19,21 @@ import {AddressService} from "../../../core/services/address.service";
   styleUrl: './person-delete.component.css'
 })
 export class PersonDeleteComponent {
-  public nachname: string;
-  public vorname: string;
+  public last_name: string;
+  public first_name: string;
 
   constructor(private dialogRef: MatDialogRef<PersonDeleteComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private personService: PersonService,
-              private adresseService: AddressService) {
-    this.nachname = data.person.nachname;
-    this.vorname = data.person.vorname;
+              private addressService: AddressService) {
+    this.last_name = data.person.last_name;
+    this.first_name = data.person.first_name;
   }
 
   public deletePerson(): void {
     this.personService.delete(this.data.person.id).pipe(
       concatMap(() => {
-          return this.adresseService.delete(this.data.person.adresse.id);
+          return this.addressService.delete(this.data.person.address.id);
         }
       )
     ).subscribe(() => {

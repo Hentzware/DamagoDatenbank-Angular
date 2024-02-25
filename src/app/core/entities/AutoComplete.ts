@@ -1,10 +1,10 @@
 export interface AutoComplete {
-  nachnamen: string[];
-  vornamen: string[];
-  geburtsdaten: string[];
-  strassen: string[];
-  hausnummern: string[];
-  postleitzahlen: string[];
-  orte: string[];
-  laender: string[];
+  lastNames: string[];
+  firstNames: string[];
+  birthdays: string[];
+  streets: string[];
+  houseNumbers: string[];
+  postalCodes: string[];
+  locations: string[];
+  countries: string[];
 }

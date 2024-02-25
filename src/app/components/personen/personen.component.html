@@ -9,7 +9,7 @@
       </button>
     </mat-toolbar-row>
   </mat-toolbar>
-  <table mat-table [dataSource]="personen" class="mat-elevation-z8">
+  <table mat-table [dataSource]="persons" class="mat-elevation-z8">
     <ng-container matColumnDef="nachname">
       <th mat-header-cell *matHeaderCellDef>Nachname</th>
       <td mat-cell *matCellDef="let element">{{ element?.last_name }}</td>

@@ -7,8 +7,8 @@ import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog
 import {NgClass} from "@angular/common";
 import {MatSort, MatSortHeader, MatSortModule} from "@angular/material/sort";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
-import {Rolle} from "../../core/entities/Rolle";
-import {RolleService} from "../../core/services/rolle.service";
+import {Role} from "../../core/entities/Role";
+import {RoleService} from "../../core/services/role.service";
 import {RollenNewComponent} from "./rollen-new/rollen-new.component";
 import {RollenEditComponent} from "./rollen-edit/rollen-edit.component";
 import {RollenDeleteComponent} from "./rollen-delete/rollen-delete.component";
@@ -32,11 +32,11 @@ import {RollenDeleteComponent} from "./rollen-delete/rollen-delete.component";
 })
 export class RollenComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort | any;
-  public rollen: MatTableDataSource<Rolle> = new MatTableDataSource<Rolle>();
+  public rollen: MatTableDataSource<Role> = new MatTableDataSource<Role>();
   public selectedRowIndex: string = "-1";
   public displayedColumns: string[] = ["id", "name"];
 
-  constructor(private rolleService: RolleService,
+  constructor(private rolleService: RoleService,
               private dialog: MatDialog,
               private _liveAnnouncer: LiveAnnouncer) {
   }

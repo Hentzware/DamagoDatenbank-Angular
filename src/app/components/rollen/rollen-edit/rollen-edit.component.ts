@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {RolleService} from "../../../core/services/rolle.service";
+import {RoleService} from "../../../core/services/role.service";
 import {FlexModule} from "@angular/flex-layout";
 import {MatButton} from "@angular/material/button";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
@@ -28,7 +28,7 @@ export class RollenEditComponent {
 
   constructor(private dialogRef: MatDialogRef<RollenEditComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private rolleService: RolleService) {
+              private rolleService: RoleService) {
     this.name = data.rolle.name;
   }
 

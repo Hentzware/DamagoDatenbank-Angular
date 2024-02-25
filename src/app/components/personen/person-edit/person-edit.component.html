@@ -1,12 +1,12 @@
 <div fxLayout="column" class="dialog">
   <mat-label class="mat-label">Person bearbeiten</mat-label>
-  <app-auto-complete [name]="'Nachname'" [optionsList]="data.personAutoComplete.nachnamen" (selected)="onNachnameSelected($event)" [value]="data.person.nachname"></app-auto-complete>
-  <app-auto-complete [name]="'Vorname'" [optionsList]="data.personAutoComplete.vornamen" (selected)="onVornameSelected($event)" [value]="data.person.vorname"></app-auto-complete>
-  <app-auto-complete [name]="'Geburtsdatum'" [optionsList]="data.personAutoComplete.geburtsdaten" (selected)="onGeburtsdatumSelected($event)" [value]="data.person.geburtsdatum"></app-auto-complete>
-  <app-auto-complete [name]="'Strasse'" [optionsList]="data.personAutoComplete.strassen" (selected)="onStrasseSelected($event)" [value]="data.person.adresse?.strasse"></app-auto-complete>
-  <app-auto-complete [name]="'Hausnummer'" [optionsList]="data.personAutoComplete.hausnummern" (selected)="onHausnummerSelected($event)" [value]="data.person.adresse?.hausnummer"></app-auto-complete>
-  <app-auto-complete [name]="'Postleitzahl'" [optionsList]="data.personAutoComplete.postleitzahlen" (selected)="onPostleitzahlSelected($event)" [value]="data.person.adresse?.postleitzahl"></app-auto-complete>
-  <app-auto-complete [name]="'Ort'" [optionsList]="data.personAutoComplete.orte" (selected)="onOrtSelected($event)" [value]="data.person.adresse?.ort"></app-auto-complete>
-  <app-auto-complete [name]="'Land'" [optionsList]="data.personAutoComplete.laender" (selected)="onLandSelected($event)" [value]="data.person.adresse?.land"></app-auto-complete>
+  <app-auto-complete [name]="'Nachname'" [optionsList]="data.autoComplete.lastNames" (selected)="onNachnameSelected($event)" [value]="data.person.last_name"></app-auto-complete>
+  <app-auto-complete [name]="'Vorname'" [optionsList]="data.autoComplete.firstNames" (selected)="onVornameSelected($event)" [value]="data.person.first_name"></app-auto-complete>
+  <app-auto-complete [name]="'Geburtsdatum'" [optionsList]="data.autoComplete.birthdays" (selected)="onGeburtsdatumSelected($event)" [value]="data.person.birthdate"></app-auto-complete>
+  <app-auto-complete [name]="'Strasse'" [optionsList]="data.autoComplete.streets" (selected)="onStrasseSelected($event)" [value]="data.person.address?.street"></app-auto-complete>
+  <app-auto-complete [name]="'Hausnummer'" [optionsList]="data.autoComplete.houseNumbers" (selected)="onHausnummerSelected($event)" [value]="data.person.address?.house_number"></app-auto-complete>
+  <app-auto-complete [name]="'Postleitzahl'" [optionsList]="data.autoComplete.postalCodes" (selected)="onPostleitzahlSelected($event)" [value]="data.person.address?.postal_code"></app-auto-complete>
+  <app-auto-complete [name]="'Ort'" [optionsList]="data.autoComplete.locations" (selected)="onOrtSelected($event)" [value]="data.person.address?.location"></app-auto-complete>
+  <app-auto-complete [name]="'Land'" [optionsList]="data.autoComplete.countries" (selected)="onLandSelected($event)" [value]="data.person.address?.country"></app-auto-complete>
   <button class="mat-raised-button" mat-raised-button color="primary" (click)="save()">Speichern</button>
 </div>

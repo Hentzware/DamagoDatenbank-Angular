@@ -5,7 +5,7 @@ import {MatButton} from "@angular/material/button";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {RolleService} from "../../../core/services/rolle.service";
+import {RoleService} from "../../../core/services/role.service";
 
 @Component({
   selector: 'app-rollen-delete',
@@ -26,7 +26,7 @@ export class RollenDeleteComponent {
 
   constructor(private dialogRef: MatDialogRef<RollenDeleteComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private rolleService: RolleService) {
+              private rolleService: RoleService) {
     this.name = data.rolle.name;
   }
 

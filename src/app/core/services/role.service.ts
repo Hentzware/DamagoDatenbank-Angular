@@ -2,12 +2,12 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
-import {Rolle} from "../entities/Rolle";
+import {Role} from "../entities/Role";
 
 @Injectable({
   providedIn: 'root'
 })
-export class RolleService {
+export class RoleService {
 
   constructor(private httpClient: HttpClient) {
 
@@ -27,19 +27,19 @@ export class RolleService {
     return this.httpClient.delete<void>(environment.apiBaseUrl + `/rollen/${id}?permanent=true`)
   }
 
-  public get(): Observable<Rolle[]> {
-    return this.httpClient.get<Rolle[]>(environment.apiBaseUrl + "/rollen?deleted=false");
+  public get(): Observable<Role[]> {
+    return this.httpClient.get<Role[]>(environment.apiBaseUrl + "/rollen?deleted=false");
   }
 
-  public getById(id: string): Observable<Rolle> {
-    return this.httpClient.get<Rolle>(environment.apiBaseUrl + `/rollen/${id}`);
+  public getById(id: string): Observable<Role> {
+    return this.httpClient.get<Role>(environment.apiBaseUrl + `/rollen/${id}`);
   }
 
-  public getDeleted(): Observable<Rolle[]> {
-    return this.httpClient.get<Rolle[]>(environment.apiBaseUrl + "/rollen?deleted=true");
+  public getDeleted(): Observable<Role[]> {
+    return this.httpClient.get<Role[]>(environment.apiBaseUrl + "/rollen?deleted=true");
   }
 
-  public update(rolle: Rolle): Observable<void> {
+  public update(rolle: Role): Observable<void> {
     return this.httpClient.put<void>(environment.apiBaseUrl + `/rollen/${rolle.id}`, rolle);
   }
 }

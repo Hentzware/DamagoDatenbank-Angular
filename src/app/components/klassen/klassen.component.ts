@@ -6,8 +6,8 @@ import {MatSort, MatSortHeader, MatSortModule} from "@angular/material/sort";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
-import {Klasse} from "../../core/entities/Klasse";
-import {KlasseService} from "../../core/services/klasse.service";
+import {Class} from "../../core/entities/Class";
+import {ClassService} from "../../core/services/class.service";
 import {KlasseNewComponent} from "./klasse-new/klasse-new.component";
 import {NgClass} from "@angular/common";
 import {KlasseEditComponent} from "./klasse-edit/klasse-edit.component";
@@ -32,11 +32,11 @@ import {KlasseDeleteComponent} from "./klasse-delete/klasse-delete.component";
 })
 export class KlassenComponent implements OnInit {
 @ViewChild(MatSort) sort: MatSort | any;
-public klassen: MatTableDataSource<Klasse> = new MatTableDataSource<Klasse>();
+public klassen: MatTableDataSource<Class> = new MatTableDataSource<Class>();
 public selectedRowIndex: string = "-1";
 public displayedColumns: string[] = ["id", "name"];
 
-  constructor(private klasseService: KlasseService,
+  constructor(private klasseService: ClassService,
     private dialog: MatDialog,
     private _liveAnnouncer: LiveAnnouncer) {
   }

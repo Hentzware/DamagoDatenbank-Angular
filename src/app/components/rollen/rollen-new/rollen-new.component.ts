@@ -6,7 +6,7 @@ import {MatInput} from "@angular/material/input";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatButton} from "@angular/material/button";
 import {FormsModule} from "@angular/forms";
-import {RolleService} from "../../../core/services/rolle.service";
+import {RoleService} from "../../../core/services/role.service";
 
 @Component({
   selector: 'app-rollen-new',
@@ -26,7 +26,7 @@ import {RolleService} from "../../../core/services/rolle.service";
 export class RollenNewComponent {
   public name: string = "";
 
-  constructor(private rolleService: RolleService,
+  constructor(private rolleService: RoleService,
               private dialogRef: MatDialogRef<RollenNewComponent>) {
   }
 
