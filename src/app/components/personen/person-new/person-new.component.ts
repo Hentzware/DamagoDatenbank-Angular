@@ -21,6 +21,8 @@ import {MatSelect} from "@angular/material/select";
 import {Standort} from "../../../core/entities/Standort";
 import {Rolle} from "../../../core/entities/Rolle";
 import {Klasse} from "../../../core/entities/Klasse";
+import {PersonStandortService} from "../../../core/services/person.standort.service";
+import {PersonStandort} from "../../../core/entities/PersonStandort";
 
 @Component({
   selector: 'app-person-new',
@@ -47,10 +49,13 @@ import {Klasse} from "../../../core/entities/Klasse";
   styleUrl: './person-new.component.css'
 })
 export class PersonNewComponent implements OnInit {
-  public person!: Person;
-  public standorte!: Standort[];
-  public rollen!: Rolle[];
   public klassen!: Klasse[];
+  public person!: Person;
+  public rollen!: Rolle[];
+  public selectedClass: string = "";
+  public selectedLocation: string = "";
+  public selectedRole: string = "";
+  public standorte!: Standort[];
 
   constructor(private personService: PersonService,
               private adresseService: AdresseService,
@@ -58,6 +63,7 @@ export class PersonNewComponent implements OnInit {
               private rolleService: RolleService,
               private standortService: StandortService,
               private klasseService: KlasseService,
+              private personStandortService: PersonStandortService,
               private dialogRef: MatDialogRef<PersonNewComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
@@ -77,59 +83,55 @@ export class PersonNewComponent implements OnInit {
         hausnummer: ""
       }
     };
-    this.initializeStandorte();
-    this.initializeRollen();
-    this.initializeKlassen();
+    this.initializeLocations();
+    this.initializeRoles();
+    this.initializeClasses();
+    this.getPersonStandort();
   }
 
-  private initializeStandorte(): void {
-    this.standortService.get().subscribe(result => {
-      this.standorte = result;
-    });
-  }
-
-  private initializeRollen(): void {
-    this.rolleService.get().subscribe(result => {
-      this.rollen = result;
-    });
-  }
-
-  private initializeKlassen(): void {
-    this.klasseService.get().subscribe(result => {
-      this.klassen = result;
-    });
-  }
-
-  public onGeburtsdatumSelected($event: string): void {
+  public onPersonBirthdaySelected($event: string): void {
     this.person.geburtsdatum = $event;
   }
 
-  public onHausnummerSelected($event: string): void {
-    this.person.adresse.hausnummer = $event;
-  }
-
-  public onLandSelected($event: string): void {
+  public onPersonCountrySelected($event: string): void {
     this.person.adresse.land = $event;
   }
 
-  public onNachnameSelected($event: string): void {
+  public onPersonFirstNameSelected($event: string): void {
+    this.person.vorname = $event;
+  }
+
+  public onPersonHouseNumberSelected($event: string): void {
+    this.person.adresse.hausnummer = $event;
+  }
+
+  public onPersonLastNameSelected($event: string): void {
     this.person.nachname = $event;
   }
 
-  public onOrtSelected($event: string): void {
+  public onPersonLocationSelected($event: string): void {
     this.person.adresse.ort = $event;
   }
 
-  public onPostleitzahlSelected($event: string): void {
+  public onPersonPostalCodeSelected($event: string): void {
     this.person.adresse.postleitzahl = $event;
   }
 
-  public onStrasseSelected($event: string): void {
+  public onPersonStreetSelected($event: string): void {
     this.person.adresse.strasse = $event;
   }
 
-  public onVornameSelected($event: string): void {
-    this.person.vorname = $event;
+  public onSelectedClassChanged($event: string): void {
+    this.selectedClass = $event;
+  }
+
+  public onSelectedLocationChanged($event: string): void {
+    this.selectedLocation = $event;
+    console.log($event);
+  }
+
+  public onSelectedRoleChanged($event: string): void {
+    this.selectedRole = $event;
   }
 
   public save(): void {
@@ -143,6 +145,37 @@ export class PersonNewComponent implements OnInit {
       })
     ).subscribe((): void => {
       this.dialogRef.close();
+    });
+  }
+
+  private getPersonStandort(): void {
+    let ps: PersonStandort = {
+      id: "",
+      person_id: "12345",
+      standort_id: "67890"
+    };
+    this.personStandortService.add(ps).subscribe(() => {
+      this.personStandortService.get().subscribe(result => {
+        console.log(result);
+      });
+    })
+  }
+
+  private initializeClasses(): void {
+    this.klasseService.get().subscribe(result => {
+      this.klassen = result;
+    });
+  }
+
+  private initializeLocations(): void {
+    this.standortService.get().subscribe(result => {
+      this.standorte = result;
+    });
+  }
+
+  private initializeRoles(): void {
+    this.rolleService.get().subscribe(result => {
+      this.rollen = result;
     });
   }
 }
