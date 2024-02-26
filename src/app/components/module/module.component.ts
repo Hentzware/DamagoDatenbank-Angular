@@ -34,7 +34,7 @@ export class ModuleComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort | any;
   public module: MatTableDataSource<Modul> = new MatTableDataSource<Modul>();
   public selectedRowIndex: string = "-1";
-  public displayedColumns: string[] = ["id", "name"];
+  public displayedColumns: string[] = ["id", "name", "beschreibung"];
 
   constructor(private modulService: ModulService,
               private dialog: MatDialog,
@@ -72,7 +72,7 @@ export class ModuleComponent implements OnInit {
   public openEditModuleDialog(): void {
     const dialogRef: MatDialogRef<ModuleEditComponent> = this.dialog.open(ModuleEditComponent, {
       width: "500px",
-      data: { module: this.getSelectedModule() }
+      data: {module: this.getSelectedModule()}
     });
 
     dialogRef.afterClosed().subscribe(() => {
@@ -83,14 +83,16 @@ export class ModuleComponent implements OnInit {
   public openDeleteModuleDialog(): void {
     const dialogRef: MatDialogRef<ModuleDeleteComponent> = this.dialog.open(ModuleDeleteComponent, {
       width: "500px",
-      data: { module: this.getSelectedModule() }
+      data: {module: this.getSelectedModule()}
     });
 
     dialogRef.afterClosed().subscribe(() => {
       this.getModules();
     });
   }
+
   private getSelectedModule(): any {
     return {...this.module.data.find(x => x.id == this.selectedRowIndex)};
   }
+
 }

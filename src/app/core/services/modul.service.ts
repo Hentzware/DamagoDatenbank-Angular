@@ -24,7 +24,7 @@ export class ModulService {
     return this.httpClient.get<Modul[]>(environment.apiBaseUrl + "/module?deleted=true");
   }
 
-  public add(name: string): Observable<void> {
+  public add(name: Modul): Observable<void> {
     return this.httpClient.post<void>(environment.apiBaseUrl + "/module", {
       name: name
     });
