@@ -72,7 +72,7 @@ export class ModuleComponent implements OnInit {
   public openEditModuleDialog(): void {
     const dialogRef: MatDialogRef<ModuleEditComponent> = this.dialog.open(ModuleEditComponent, {
       width: "500px",
-      data: {module: this.getSelectedModule()}
+      data: {modul: this.getSelectedModule()}
     });
 
     dialogRef.afterClosed().subscribe(() => {
@@ -83,7 +83,7 @@ export class ModuleComponent implements OnInit {
   public openDeleteModuleDialog(): void {
     const dialogRef: MatDialogRef<ModuleDeleteComponent> = this.dialog.open(ModuleDeleteComponent, {
       width: "500px",
-      data: {module: this.getSelectedModule()}
+      data: {modul: this.getSelectedModule()}
     });
 
     dialogRef.afterClosed().subscribe(() => {

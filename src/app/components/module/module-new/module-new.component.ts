@@ -31,7 +31,7 @@ export class ModuleNewComponent {
   }
 
   public createNewModule(): void {
-    this.modulService.add(this.modul).subscribe(() => {
+    this.modulService.add(this.modul.name, this.modul.beschreibung).subscribe(() => {
       this.dialogRef.close();
     });
   }

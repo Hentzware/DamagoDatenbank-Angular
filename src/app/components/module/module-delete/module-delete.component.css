@@ -1,0 +1,16 @@
+.dialog {
+  padding: 10px;
+}
+
+.mat-label {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+.mat-raised-button {
+  width: 300px;
+  align-self: center;
+  margin-bottom: 10px;
+}

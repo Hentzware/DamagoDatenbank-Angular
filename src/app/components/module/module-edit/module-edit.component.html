@@ -1,1 +1,12 @@
-<p>module-edit works!</p>
+<div fxLayout="column" fxFill style="padding: 10px">
+  <mat-label style="text-align: center;font-size: 24px;margin-bottom: 20px;margin-top: 10px">Modul bearbeiten</mat-label>
+  <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="data['modul']['name']">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Beschreibung</mat-label>
+    <input matInput [(ngModel)]="data['modul']['beschreibung']">
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="editModule()">Speichern</button>
+</div>
