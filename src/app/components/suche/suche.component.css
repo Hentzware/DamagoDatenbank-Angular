@@ -1,0 +1,44 @@
+.container {
+  margin-top: 16px;
+  width: 300px;
+  display: flex;
+  flex-direction: row;
+
+}
+
+.text-fields {
+  margin-bottom: 20px;  /* adjust as needed */
+}
+
+.text-fields label {
+  display: block;  /* makes the label appear on its own line, above the input field */
+}
+
+.dropdown-menu {
+  margin-left: 50px;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+}
+.dropdown-menu label {
+  display: block;
+}
+
+.dropdown-menu select {
+  width: 150px;
+}
+.highlight {
+  background-color: #3f51b5;
+  color: white;
+}
+
+.mat-toolbar {
+  background-color: #3f8cb5;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.mat-raised-button {
+  width: 100px;
+  margin-right: 5px;
+}

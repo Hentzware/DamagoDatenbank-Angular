@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import {Routes} from '@angular/router';
 import {HomeComponent} from "./components/home/home.component";
 import {KlassenComponent} from "./components/klassen/klassen.component";
 import {StandorteComponent} from "./components/standorte/standorte.component";
@@ -9,6 +9,7 @@ import {ModuleComponent} from "./components/module/module.component";
 import {PersonenComponent} from "./components/personen/personen.component";
 import {RaeumeComponent} from "./components/raeume/raeume.component";
 import {AdresseComponent} from "./components/adresse/adresse.component";
+import {SucheComponent} from "./components/suche/suche.component";
 
 export const routes: Routes = [
   { path: "", redirectTo: "standorte", pathMatch: "full" },
@@ -21,5 +22,6 @@ export const routes: Routes = [
   { path: "module", component: ModuleComponent },
   { path: "personen", component: PersonenComponent },
   { path: "raeume", component: RaeumeComponent },
-  { path: "adresse", component: AdresseComponent }
+  {path: "adresse", component: AdresseComponent},
+  {path: "suche", component: SucheComponent}
 ];
