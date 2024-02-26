@@ -5,7 +5,7 @@ import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {ClassService} from "../../../core/services/class.service";
+import {SchoolClassService} from "../../../core/services/school-class.service";
 
 @Component({
   selector: 'app-klasse-edit',
@@ -27,7 +27,7 @@ export class KlasseEditComponent {
 
   constructor(private dialogRef: MatDialogRef<KlasseEditComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private klasseService: ClassService) {
+              private klasseService: SchoolClassService) {
     this.name = data.klasse.name;
   }
 
