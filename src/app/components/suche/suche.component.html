@@ -2,23 +2,24 @@
   <mat-tab label="Personensuche">
     <div class="container">
       <div>
-        <div class="text-fields">
-          <label for="fname">Vorname</label>
-          <input id="fname" #vornameInput (keyup)="applyFilter(vornameInput.value)" placeholder="Filter">
-        </div>
+        <mat-form-field appearance="fill" class="text-fields">
+          <mat-label>Vorname</mat-label>
+          <input matInput id="fname" #vornameInput (keyup)="applyFilterVorname(vornameInput.value)"
+                 placeholder="Vorname">
+        </mat-form-field>
 
-        <div class="text-fields">
-          <label for="lname">Nachname</label>
-          <input id="lname" #nachnameInput (keyup)="applyFilter(nachnameInput.value)" placeholder="Filter">
-        </div>
+        <mat-form-field appearance="fill" class="text-fields">
+          <mat-label>Nachname</mat-label>
+          <input matInput id="lname" #nachnameInput (keyup)="applyFilterNachname(nachnameInput.value)"
+                 placeholder="Nachname">
+        </mat-form-field>
+
+          <mat-form-field>
+            <mat-select placeholder="Rolle auswählen" (selectionChange)="applyFilterRollen($event.value)">
+              <mat-option *ngFor="let rolle of rollen" [value]="rolle.name">{{ rolle.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
       </div>
-      <div>
-        <div class="dropdown-menu">
-          <label for="select1">Label 1</label>
-          <select id="select1">
-            <!-- Put your options here -->
-          </select>
-        </div>
         <div class="dropdown-menu">
           <label for="select2">Label 2</label>
           <select id="select2">
@@ -33,20 +34,9 @@
         </div>
       </div>
       <div>
-        <div class="dropdown-menu">
-          <label for="select4">Label 4</label>
-          <select id="select4">
-            <!-- Put your options here -->
-          </select>
-        </div>
-        <div class="dropdown-menu">
-          <label for="select5">Label 5</label>
-          <select id="select5">
-            <!-- Put your options here -->
-          </select>
-        </div>
+
       </div>
-    </div>
+
     <table mat-table [dataSource]="personen" class="mat-elevation-z8">
       <ng-container matColumnDef="nachname">
         <th mat-header-cell *matHeaderCellDef>Nachname</th>
@@ -59,6 +49,10 @@
       <ng-container matColumnDef="geburtsdatum">
         <th mat-header-cell *matHeaderCellDef>Geburtsdatum</th>
         <td mat-cell *matCellDef="let element">{{ element?.geburtsdatum | date: "dd.MM.yyyy" }}</td>
+      </ng-container>
+      <ng-container matColumnDef="rolle">
+        <th mat-header-cell *matHeaderCellDef>Rolle</th>
+        <td mat-cell *matCellDef="let element">{{ element.rolle?.name }}</td>
       </ng-container>
       <ng-container matColumnDef="strasse">
         <th mat-header-cell *matHeaderCellDef>Strasse</th>
@@ -84,9 +78,6 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{highlight: selectedRowIndex == row.id}"
           (click)="highlightRow(row)"></tr>
     </table>
-  </mat-tab>
-  <mat-tab label="Modulsuche">
-    <p>Content 2</p>
   </mat-tab>
 </mat-tab-group>
 

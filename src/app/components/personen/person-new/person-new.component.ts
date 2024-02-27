@@ -23,6 +23,7 @@ import {Rolle} from "../../../core/entities/Rolle";
 import {Klasse} from "../../../core/entities/Klasse";
 import {PersonStandortService} from "../../../core/services/person.standort.service";
 import {PersonStandort} from "../../../core/entities/PersonStandort";
+import {PersonRolleService} from "../../../core/services/person.rolle.service";
 
 @Component({
   selector: 'app-person-new',
@@ -59,6 +60,7 @@ export class PersonNewComponent implements OnInit {
 
   constructor(private personService: PersonService,
               private adresseService: AdresseService,
+              private personRolleService: PersonRolleService,
               private personAdresseService: PersonAdresseService,
               private rolleService: RolleService,
               private standortService: StandortService,
@@ -81,12 +83,18 @@ export class PersonNewComponent implements OnInit {
         id: "",
         strasse: "",
         hausnummer: ""
+      },
+      rolle : {
+        name: "",
+        id: ""
       }
+
     };
     this.initializeLocations();
     this.initializeRoles();
     this.initializeClasses();
     this.getPersonStandort();
+
   }
 
   public onPersonBirthdaySelected($event: string): void {
@@ -132,20 +140,29 @@ export class PersonNewComponent implements OnInit {
 
   public onSelectedRoleChanged($event: string): void {
     this.selectedRole = $event;
+    console.log($event);
+
   }
 
   public save(): void {
+
+
     this.personService.add(this.person).pipe(
       concatMap((person: any) => {
         return this.adresseService.add(this.person.adresse).pipe(
           concatMap((adresse: any) => {
-            return this.personAdresseService.add({id: "", person_id: person.id, adresse_id: adresse.id});
+            return this.personAdresseService.add({id: "", person_id: person.id, adresse_id: adresse.id}).pipe(
+              concatMap((rolle: any)=> {
+                return this.personRolleService.add({id: "", person_id: person.id, rolle_id: this.selectedRole})
+              }
+            ));
           })
         );
       })
     ).subscribe((): void => {
       this.dialogRef.close();
     });
+
   }
 
   private getPersonStandort(): void {

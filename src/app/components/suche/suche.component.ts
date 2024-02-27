@@ -26,10 +26,16 @@ import {Adresse} from "../../core/entities/Adresse";
 import {AdresseService} from "../../core/services/adresse.service";
 import {PersonAdresse} from "../../core/entities/PersonAdresse";
 import {PersonAdresseService} from "../../core/services/person.adresse.service";
-import {concatMap, tap} from "rxjs";
+import {concatMap, filter, tap} from "rxjs";
 
 import {AutoComplete} from "../../core/entities/AutoComplete";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
+import {Klasse} from "../../core/entities/Klasse";
+import {Rolle} from "../../core/entities/Rolle";
+import {Standort} from "../../core/entities/Standort";
+import {RolleService} from "../../core/services/rolle.service";
+import {PersonRolleService} from "../../core/services/person.rolle.service";
+import {PersonRolle} from "../../core/entities/PersonRolle";
 
 @Component({
   selector: 'app-personen',
@@ -62,39 +68,47 @@ import {MatTab, MatTabGroup} from "@angular/material/tabs";
   styleUrl: './suche.component.css'
 })
 export class SucheComponent implements OnInit {
-  public displayedColumns: string[] = ["nachname", "vorname", "geburtsdatum", "strasse", "hausnummer", "postleitzahl", "ort", "land"];
-  public autoComplete: AutoComplete = {
-    orte: [],
-    laender: [],
-    strassen: [],
-    vornamen: [],
-    hausnummern: [],
-    postleitzahlen: [],
-    geburtsdaten: [],
-    nachnamen: []
-  };
+  public klassen!: Klasse[];
+  data: any;
+  public person!: Person;
+  public rollen!: Rolle[];
+  public selectedClass: string = "";
+  public selectedLocation: string = "";
+  public selectedRole: string = "";
+  public standorte!: Standort[];
+  public displayedColumns: string[] = ["nachname", "vorname", "geburtsdatum","rolle", "strasse", "hausnummer", "postleitzahl", "ort", "land"];
   public personen: MatTableDataSource<Person> = new MatTableDataSource<Person>();
   public selectedRowIndex: string = "-1";
 
-  constructor(private personService: PersonService,
+  constructor( private rolleService: RolleService,
+              private personService: PersonService,
               private adresseService: AdresseService,
+              private personRolleService: PersonRolleService,
               private personAdresseService: PersonAdresseService,
               private dialog: MatDialog) {
+    this.initializeRoles()
+
   }
 
   public highlightRow(row: any): void {
     this.selectedRowIndex = row.id;
   }
 
-  public ngOnInit(): void {
+
+
+
+ngOnInit(): void {
     this.getPersons();
+
   }
 
 
   private getPersons(): void {
     this.selectedRowIndex = "-1";
     let adressen: Adresse[];
+    let rollen: Rolle[];
     let personAdresse: PersonAdresse[];
+    let personRolle: PersonRolle[];
 
     this.personService.get().pipe(tap((personenResult: Person[]) => {
       this.personen = new MatTableDataSource<Person>(personenResult);
@@ -104,63 +118,57 @@ export class SucheComponent implements OnInit {
       }), concatMap(() => {
         return this.personAdresseService.get().pipe(tap((personAdresseResult: PersonAdresse[]) => {
           personAdresse = personAdresseResult;
+        }), concatMap(() => {
+          return this.rolleService.get().pipe(tap((rollenResult: Rolle[]) => {
+            rollen = rollenResult;
+          }), concatMap(() => {
+            return this.personRolleService.get().pipe(tap((personRolleResult: PersonRolle[]) => {
+              personRolle = personRolleResult;
+            }))
+          }))
         }));
       }))
     })).subscribe((): void => {
       this.personen.data.map((person: Person) => {
         const personAdresseLink: PersonAdresse | undefined = personAdresse.find((link: PersonAdresse): boolean => link.person_id == person.id);
-
-        if (personAdresseLink) {
+        const personRolleLink: PersonRolle | undefined = personRolle.find((link: PersonRolle): boolean => link.person_id == person.id);
+        if (personAdresseLink && personRolleLink) {
           person.adresse = <Adresse>adressen.find((adresse: Adresse): boolean => adresse.id == personAdresseLink.adresse_id);
+          person.rolle = <Rolle>rollen.find((rolle: Rolle): boolean => rolle.id == personRolleLink.rolle_id);
         }
-
         return person;
       });
-
-      this.initializePersonAutoCompleteData();
     });
+
   }
 
   private getSelectedPerson(): any {
     return {...this.personen.data.find((x: Person): boolean => x.id == this.selectedRowIndex)};
   }
 
-
-  private initializePersonAutoCompleteData(): void {
-    this.autoComplete.nachnamen = Array.from(new Set(this.personen.data.map<string>((x: Person) => {
-      return x?.nachname;
-    })));
-
-    this.autoComplete.vornamen = Array.from(new Set(this.personen.data.map<string>((x: Person) => {
-      return x?.vorname;
-    })));
-
-    this.autoComplete.geburtsdaten = Array.from(new Set(this.personen.data.map<string>((x: Person) => {
-      return x?.geburtsdatum;
-    })));
-
-    this.autoComplete.strassen = Array.from(new Set(this.personen.data.map<string>((x: Person) => {
-      return x.adresse?.strasse;
-    })));
-
-    this.autoComplete.hausnummern = Array.from(new Set(this.personen.data.map<string>((x: Person) => {
-      return x.adresse?.hausnummer;
-    })));
-
-    this.autoComplete.postleitzahlen = Array.from(new Set(this.personen.data.map<string>((x: Person) => {
-      return x.adresse?.postleitzahl;
-    })));
-
-    this.autoComplete.orte = Array.from(new Set(this.personen.data.map<string>((x: Person) => {
-      return x.adresse?.ort;
-    })));
-
-    this.autoComplete.laender = Array.from(new Set(this.personen.data.map<string>((x: Person) => {
-      return x.adresse?.land;
-    })));
+  applyFilterVorname(filterValue: string) {
+    this.personen.filterPredicate = (data, filter) =>
+      data.vorname.trim().toLowerCase().includes(filter);
+    this.personen.filter = filterValue.trim().toLowerCase();
   }
 
-  applyFilter(value: string) {
-    this.personen.filter = value.trim().toLowerCase();
+  applyFilterNachname(filterValue: string) {
+    this.personen.filterPredicate = (data, filter) =>
+      data.nachname.trim().toLowerCase().includes(filter);
+    this.personen.filter = filterValue.trim().toLowerCase();
   }
-}
+
+  applyFilterRollen(filterValue: string) {
+    this.personen.filterPredicate = (data, filter) =>
+      data.rolle.name.trim().toLowerCase().includes(filter);
+    this.personen.filter = filterValue.trim().toLowerCase();
+  }
+
+  private initializeRoles(): void {
+    this.rolleService.get().subscribe(result => {
+      this.rollen = result;
+    });
+  }
+  }
+
+

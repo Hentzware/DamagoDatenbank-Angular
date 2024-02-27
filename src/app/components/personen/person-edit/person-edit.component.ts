@@ -38,6 +38,10 @@ export class PersonEditComponent {
       postleitzahl: "",
       id: ""
     },
+    rolle: {
+      name:"",
+      id: ""
+    },
     vorname: "",
     nachname: "",
     geburtsdatum: ""
