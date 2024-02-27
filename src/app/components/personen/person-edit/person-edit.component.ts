@@ -42,6 +42,10 @@ export class PersonEditComponent {
       name:"",
       id: ""
     },
+    standort:{
+      name:"",
+      id:""
+    },
     vorname: "",
     nachname: "",
     geburtsdatum: ""
@@ -92,6 +96,7 @@ export class PersonEditComponent {
     this.person.vorname = $event;
   }
 
+
   public save(): void {
     this.personService.update(this.person).pipe(
       concatMap(() => {
@@ -101,4 +106,11 @@ export class PersonEditComponent {
       this.dialogRef.close();
     });
   }
+
+
+/*  onClassSelected($event: string) {
+    this.person.klasse.name = $event;
+  }
+  */
+
 }

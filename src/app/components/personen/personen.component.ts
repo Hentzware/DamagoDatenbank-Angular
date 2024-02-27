@@ -21,6 +21,14 @@ import {concatMap, tap} from "rxjs";
 import {PersonEditComponent} from "./person-edit/person-edit.component";
 import {PersonDeleteComponent} from "./person-delete/person-delete.component";
 import {AutoComplete} from "../../core/entities/AutoComplete";
+import {Rolle} from "../../core/entities/Rolle";
+import {Standort} from "../../core/entities/Standort";
+import {PersonStandort} from "../../core/entities/PersonStandort";
+import {PersonRolle} from "../../core/entities/PersonRolle";
+import {RolleService} from "../../core/services/rolle.service";
+import {StandortService} from "../../core/services/standort.service";
+import {PersonStandortService} from "../../core/services/person.standort.service";
+import {PersonRolleService} from "../../core/services/person.rolle.service";
 
 @Component({
   selector: 'app-personen',
@@ -65,8 +73,12 @@ export class PersonenComponent implements OnInit {
   public personen: MatTableDataSource<Person> = new MatTableDataSource<Person>();
   public selectedRowIndex: string = "-1";
 
-  constructor(private personService: PersonService,
+  constructor(private rolleService: RolleService,
+              private standortService: StandortService,
+              private personStandortService: PersonStandortService,
+              private personService: PersonService,
               private adresseService: AdresseService,
+              private personRolleService: PersonRolleService,
               private personAdresseService: PersonAdresseService,
               private dialog: MatDialog) {
   }
@@ -121,7 +133,11 @@ export class PersonenComponent implements OnInit {
   private getPersons(): void {
     this.selectedRowIndex = "-1";
     let adressen: Adresse[];
+    let rollen: Rolle[];
+    let standort: Standort[];
+    let personStandort: PersonStandort[];
     let personAdresse: PersonAdresse[];
+    let personRolle: PersonRolle[];
 
     this.personService.get().pipe(tap((personenResult: Person[]) => {
       this.personen = new MatTableDataSource<Person>(personenResult);
@@ -131,16 +147,38 @@ export class PersonenComponent implements OnInit {
       }), concatMap(() => {
         return this.personAdresseService.get().pipe(tap((personAdresseResult: PersonAdresse[]) => {
           personAdresse = personAdresseResult;
+        }), concatMap(() => {
+          return this.rolleService.get().pipe(tap((rollenResult: Rolle[]) => {
+            rollen = rollenResult;
+          }), concatMap(() => {
+            return this.personRolleService.get().pipe(tap((personRolleResult: PersonRolle[]) => {
+              personRolle = personRolleResult;
+            }), concatMap(() => {
+              return this.standortService.get().pipe(tap((standortResult: Standort[]) => {
+                standort = standortResult;
+              }), concatMap(() => {
+                return this.personStandortService.get().pipe(tap((personStandortResult: PersonStandort[]) => {
+                  personStandort = personStandortResult;
+                }))
+              }))
+            }))
+          }))
         }));
       }))
     })).subscribe((): void => {
       this.personen.data.map((person: Person) => {
         const personAdresseLink: PersonAdresse | undefined = personAdresse.find((link: PersonAdresse): boolean => link.person_id == person.id);
-
+        const personRolleLink: PersonRolle | undefined = personRolle.find((link: PersonRolle): boolean => link.person_id == person.id);
+        const personStandortLink: PersonStandort | undefined = personStandort.find((link: PersonStandort): boolean => link.person_id == person.id);
         if (personAdresseLink) {
           person.adresse = <Adresse>adressen.find((adresse: Adresse): boolean => adresse.id == personAdresseLink.adresse_id);
         }
-
+        if (personRolleLink) {
+          person.rolle = <Rolle>rollen.find((rolle: Rolle): boolean => rolle.id == personRolleLink.rolle_id);
+        }
+        if (personStandortLink){
+          person.standort = <Standort>standort.find((standort: Standort):boolean => standort.id === personStandortLink.standort_id);
+        }
         return person;
       });
 

@@ -26,7 +26,7 @@ import {Adresse} from "../../core/entities/Adresse";
 import {AdresseService} from "../../core/services/adresse.service";
 import {PersonAdresse} from "../../core/entities/PersonAdresse";
 import {PersonAdresseService} from "../../core/services/person.adresse.service";
-import {concatMap, filter, tap} from "rxjs";
+import {concatMap, tap} from "rxjs";
 
 import {AutoComplete} from "../../core/entities/AutoComplete";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
@@ -36,6 +36,10 @@ import {Standort} from "../../core/entities/Standort";
 import {RolleService} from "../../core/services/rolle.service";
 import {PersonRolleService} from "../../core/services/person.rolle.service";
 import {PersonRolle} from "../../core/entities/PersonRolle";
+import {StandortService} from "../../core/services/standort.service";
+import {PersonStandortService} from "../../core/services/person.standort.service";
+import {PersonStandort} from "../../core/entities/PersonStandort";
+import {KlasseService} from "../../core/services/klasse.service";
 
 @Component({
   selector: 'app-personen',
@@ -76,17 +80,20 @@ export class SucheComponent implements OnInit {
   public selectedLocation: string = "";
   public selectedRole: string = "";
   public standorte!: Standort[];
-  public displayedColumns: string[] = ["nachname", "vorname", "geburtsdatum","rolle", "strasse", "hausnummer", "postleitzahl", "ort", "land"];
+  public displayedColumns: string[] = ["nachname", "vorname", "geburtsdatum", "rolle","standort", "strasse", "hausnummer", "postleitzahl", "ort", "land"];
   public personen: MatTableDataSource<Person> = new MatTableDataSource<Person>();
   public selectedRowIndex: string = "-1";
 
-  constructor( private rolleService: RolleService,
+  constructor(private rolleService: RolleService,
+              private standortService: StandortService,
+              private personStandortService: PersonStandortService,
               private personService: PersonService,
+              private klasseService: KlasseService,
+
               private adresseService: AdresseService,
               private personRolleService: PersonRolleService,
               private personAdresseService: PersonAdresseService,
               private dialog: MatDialog) {
-    this.initializeRoles()
 
   }
 
@@ -95,10 +102,12 @@ export class SucheComponent implements OnInit {
   }
 
 
-
-
-ngOnInit(): void {
+  ngOnInit(): void {
     this.getPersons();
+    this.initializeRoles();
+    this.initializeLocations();
+
+
 
   }
 
@@ -107,6 +116,8 @@ ngOnInit(): void {
     this.selectedRowIndex = "-1";
     let adressen: Adresse[];
     let rollen: Rolle[];
+    let standort: Standort[];
+    let personStandort: PersonStandort[];
     let personAdresse: PersonAdresse[];
     let personRolle: PersonRolle[];
 
@@ -124,6 +135,14 @@ ngOnInit(): void {
           }), concatMap(() => {
             return this.personRolleService.get().pipe(tap((personRolleResult: PersonRolle[]) => {
               personRolle = personRolleResult;
+            }), concatMap(() => {
+              return this.standortService.get().pipe(tap((standortResult: Standort[]) => {
+                standort = standortResult;
+              }), concatMap(() => {
+                return this.personStandortService.get().pipe(tap((personStandortResult: PersonStandort[]) => {
+                  personStandort = personStandortResult;
+                }))
+              }))
             }))
           }))
         }));
@@ -132,9 +151,15 @@ ngOnInit(): void {
       this.personen.data.map((person: Person) => {
         const personAdresseLink: PersonAdresse | undefined = personAdresse.find((link: PersonAdresse): boolean => link.person_id == person.id);
         const personRolleLink: PersonRolle | undefined = personRolle.find((link: PersonRolle): boolean => link.person_id == person.id);
-        if (personAdresseLink && personRolleLink) {
+        const personStandortLink: PersonStandort | undefined = personStandort.find((link: PersonStandort): boolean => link.person_id == person.id);
+        if (personAdresseLink) {
           person.adresse = <Adresse>adressen.find((adresse: Adresse): boolean => adresse.id == personAdresseLink.adresse_id);
+        }
+        if (personRolleLink) {
           person.rolle = <Rolle>rollen.find((rolle: Rolle): boolean => rolle.id == personRolleLink.rolle_id);
+        }
+        if (personStandortLink){
+          person.standort = <Standort>standort.find((standort: Standort):boolean => standort.id === personStandortLink.standort_id);
         }
         return person;
       });
@@ -160,15 +185,39 @@ ngOnInit(): void {
 
   applyFilterRollen(filterValue: string) {
     this.personen.filterPredicate = (data, filter) =>
-      data.rolle.name.trim().toLowerCase().includes(filter);
+      data.rolle && data.rolle.name.trim().toLowerCase().includes(filter);
     this.personen.filter = filterValue.trim().toLowerCase();
   }
 
+  applyFilterLocation(filterValue: string) {
+    this.personen.filterPredicate = (data, filter) =>
+      data.standort && data.standort.name.trim().toLowerCase().includes(filter);
+    this.personen.filter = filterValue.trim().toLowerCase();
+  }
+ /* applyFilterClass(filterValue: string) {
+    this.personen.filterPredicate = (data, filter) =>
+      data.klasse && data.klasse.name.trim().toLowerCase().includes(filter);
+    this.personen.filter = filterValue.trim().toLowerCase();
+  }
+  private initializeClasses(): void {
+    this.klasseService.get().subscribe(result => {
+      this,klassen = result;
+    }
+  }
+*/
   private initializeRoles(): void {
     this.rolleService.get().subscribe(result => {
       this.rollen = result;
     });
   }
+
+
+  private initializeLocations(): void {
+    this.standortService.get().subscribe(result => {
+      this.standorte = result;
+    });
   }
+
+}
 
 

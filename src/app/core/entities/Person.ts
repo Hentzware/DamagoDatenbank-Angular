@@ -1,5 +1,6 @@
 import {Adresse} from "./Adresse";
 import {Rolle} from "./Rolle";
+import {Standort} from "./Standort";
 
 export interface Person {
   id: string;
@@ -8,4 +9,5 @@ export interface Person {
   geburtsdatum: string;
   adresse: Adresse;
   rolle: Rolle;
+  standort: Standort;
 }

@@ -5,12 +5,9 @@
   flex-direction: row;
 
 }
-
 .text-fields {
   height: auto;
 }
-
-
 .dropdown-menu {
   width: auto;
   display: flex;

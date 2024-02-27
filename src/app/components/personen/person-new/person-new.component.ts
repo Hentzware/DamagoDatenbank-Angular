@@ -84,7 +84,11 @@ export class PersonNewComponent implements OnInit {
         strasse: "",
         hausnummer: ""
       },
-      rolle : {
+      rolle: {
+        name: "",
+        id: ""
+      },
+      standort: {
         name: "",
         id: ""
       }
@@ -152,14 +156,21 @@ export class PersonNewComponent implements OnInit {
         return this.adresseService.add(this.person.adresse).pipe(
           concatMap((adresse: any) => {
             return this.personAdresseService.add({id: "", person_id: person.id, adresse_id: adresse.id}).pipe(
-              concatMap((rolle: any)=> {
-                return this.personRolleService.add({id: "", person_id: person.id, rolle_id: this.selectedRole})
-              }
-            ));
+              concatMap(() => {
+                return this.personRolleService.add({id: "", person_id: person.id, rolle_id: this.selectedRole}).pipe(
+                  concatMap(() => {
+                    return this.personStandortService.add({id: "", person_id: person.id, standort_id: this.selectedLocation
+
+                    });
+                  })
+                );
+              })
+            );
           })
         );
       })
     ).subscribe((): void => {
+      console.log(this.selectedLocation);
       this.dialogRef.close();
     });
 
