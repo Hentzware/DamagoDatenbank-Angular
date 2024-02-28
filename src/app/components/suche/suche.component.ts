@@ -27,8 +27,6 @@ import {AdresseService} from "../../core/services/adresse.service";
 import {PersonAdresse} from "../../core/entities/PersonAdresse";
 import {PersonAdresseService} from "../../core/services/person.adresse.service";
 import {concatMap, tap} from "rxjs";
-
-import {AutoComplete} from "../../core/entities/AutoComplete";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {Klasse} from "../../core/entities/Klasse";
 import {Rolle} from "../../core/entities/Rolle";
@@ -110,6 +108,7 @@ export class SucheComponent implements OnInit {
     this.initializeRoles();
     this.initializeLocations();
     this.initializeClasses();
+
 
 
 
@@ -212,30 +211,52 @@ export class SucheComponent implements OnInit {
       data.nachname.trim().toLowerCase().includes(filter);
     this.personen.filter = filterValue.trim().toLowerCase();
   }
+  applyFilters() {
+    this.personen.filterPredicate = (data: any, filter: string) => {
+      let filterObject = JSON.parse(filter);
 
-  applyFilterRollen(filterValue: string) {
-    this.personen.filterPredicate = (data, filter) =>
-      data.rolle && data.rolle.name.trim().toLowerCase().includes(filter);
-    this.personen.filter = filterValue.trim().toLowerCase();
+      let roleMatch = filterObject.selectedRole ?
+        data.rolle && data.rolle.name.trim().toLowerCase().includes(filterObject.selectedRole.trim().toLowerCase()) :
+        true;
+
+      let locationMatch = filterObject.selectedLocation ?
+        data.standort && data.standort.name.trim().toLowerCase().includes(filterObject.selectedLocation.trim().toLowerCase()) :
+        true;
+
+      let classMatch = filterObject.selectedClass ?
+        data.klasse && data.klasse.name.trim().toLowerCase().includes(filterObject.selectedClass.trim().toLowerCase()) :
+        true;
+
+      return roleMatch && locationMatch && classMatch;
+    };
+
+    this.personen.filter = JSON.stringify({
+      selectedRole: this.selectedRole,
+      selectedLocation: this.selectedLocation,
+      selectedClass: this.selectedClass
+    });
   }
 
-  applyFilterLocation(filterValue: string) {
-    this.personen.filterPredicate = (data, filter) =>
-      data.standort && data.standort.name.trim().toLowerCase().includes(filter);
-    this.personen.filter = filterValue.trim().toLowerCase();
-  }
-  applyFilterClass(filterValue: string) {
-    this.personen.filterPredicate = (data, filter) =>
-      data.klasse && data.klasse.name.trim().toLowerCase().includes(filter);
-    this.personen.filter = filterValue.trim().toLowerCase();
+  applyRoleFilter(filterValue: string) {
+    this.selectedRole = filterValue;
+    this.applyFilters();
   }
 
+  applyLocationFilter(filterValue: string) {
+    this.selectedLocation = filterValue;
+    this.applyFilters();
+  }
+
+  applyClassFilter(filterValue: string) {
+    this.selectedClass = filterValue;
+    this.applyFilters();
+  }
 
   private initializeClasses(): void {
     this.klasseService.get().subscribe(result => {
      console.log(result)
       this.klasse = result;
-      console.log(this.personen);
+      console.log(this.klasse);
     });
   }
 

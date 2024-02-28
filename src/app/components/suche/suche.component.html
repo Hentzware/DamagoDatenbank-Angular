@@ -1,5 +1,4 @@
-<mat-tab-group>
-  <mat-tab label="Personensuche">
+
     <div class="container">
       <div>
         <mat-form-field appearance="fill" class="text-fields">
@@ -17,21 +16,24 @@
       </div>
       <div>
           <mat-form-field>
-            <mat-select placeholder="Rolle auswählen" (selectionChange)="applyFilterRollen($event.value)">
+            <mat-select placeholder="Rolle auswählen" (selectionChange)="applyRoleFilter($event.value)">
+              <mat-option>--</mat-option>
               <mat-option *ngFor="let rolle of rollen" [value]="rolle.name">{{ rolle.name }}</mat-option>
             </mat-select>
           </mat-form-field>
       </div>
       <div>
       <mat-form-field>
-        <mat-select placeholder="Standort auswählen" (selectionChange)="applyFilterLocation($event.value)">
+        <mat-select placeholder="Standort auswählen" (selectionChange)="applyLocationFilter($event.value)">
+          <mat-option>--</mat-option>
           <mat-option *ngFor="let standort of standorte" [value]="standort.name">{{ standort.name }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
       <div>
         <mat-form-field>
-          <mat-select placeholder="Klasse auswählen" (selectionChange)="applyFilterClass($event.value)">
+          <mat-select placeholder="Klasse auswählen" (selectionChange)="applyClassFilter($event.value)">
+            <mat-option>--</mat-option>
             <mat-option *ngFor="let klasse of klasse" [value]="klasse.name">{{ klasse.name }}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -89,7 +91,6 @@
           (click)="highlightRow(row)"></tr>
     </table>
 
-  </mat-tab>
-</mat-tab-group>
+
 
 
