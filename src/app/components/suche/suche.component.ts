@@ -40,6 +40,8 @@ import {StandortService} from "../../core/services/standort.service";
 import {PersonStandortService} from "../../core/services/person.standort.service";
 import {PersonStandort} from "../../core/entities/PersonStandort";
 import {KlasseService} from "../../core/services/klasse.service";
+import {PersonKlasseService} from "../../core/services/person.klasse.service";
+import {PersonKlasse} from "../../core/entities/PersonKlasse";
 
 @Component({
   selector: 'app-personen',
@@ -76,11 +78,12 @@ export class SucheComponent implements OnInit {
   data: any;
   public person!: Person;
   public rollen!: Rolle[];
+  public klasse!: Klasse[];
   public selectedClass: string = "";
   public selectedLocation: string = "";
   public selectedRole: string = "";
   public standorte!: Standort[];
-  public displayedColumns: string[] = ["nachname", "vorname", "geburtsdatum", "rolle","standort", "strasse", "hausnummer", "postleitzahl", "ort", "land"];
+  public displayedColumns: string[] = ["nachname", "vorname", "geburtsdatum", "rolle","standort","klasse", "strasse", "hausnummer", "postleitzahl", "ort", "land"];
   public personen: MatTableDataSource<Person> = new MatTableDataSource<Person>();
   public selectedRowIndex: string = "-1";
 
@@ -89,7 +92,7 @@ export class SucheComponent implements OnInit {
               private personStandortService: PersonStandortService,
               private personService: PersonService,
               private klasseService: KlasseService,
-
+              private personKlasseService: PersonKlasseService,
               private adresseService: AdresseService,
               private personRolleService: PersonRolleService,
               private personAdresseService: PersonAdresseService,
@@ -106,6 +109,8 @@ export class SucheComponent implements OnInit {
     this.getPersons();
     this.initializeRoles();
     this.initializeLocations();
+    this.initializeClasses();
+
 
 
 
@@ -117,56 +122,81 @@ export class SucheComponent implements OnInit {
     let adressen: Adresse[];
     let rollen: Rolle[];
     let standort: Standort[];
+    let klasse: Klasse[];
     let personStandort: PersonStandort[];
     let personAdresse: PersonAdresse[];
     let personRolle: PersonRolle[];
+    let personKlasse: PersonKlasse[];
 
-    this.personService.get().pipe(tap((personenResult: Person[]) => {
-      this.personen = new MatTableDataSource<Person>(personenResult);
-    }), concatMap(() => {
-      return this.adresseService.get().pipe(tap((adressenResult: Adresse[]) => {
-        adressen = adressenResult;
-      }), concatMap(() => {
-        return this.personAdresseService.get().pipe(tap((personAdresseResult: PersonAdresse[]) => {
+    this.personService.get().pipe(
+      tap((personenResult: Person[]) => {
+        this.personen = new MatTableDataSource<Person>(personenResult);
+      }),
+      concatMap(() => this.adresseService.get().pipe(
+        tap((adressenResult: Adresse[]) => {
+          adressen = adressenResult;
+        })
+      )),
+      concatMap(() => this.personAdresseService.get().pipe(
+        tap((personAdresseResult: PersonAdresse[]) => {
           personAdresse = personAdresseResult;
-        }), concatMap(() => {
-          return this.rolleService.get().pipe(tap((rollenResult: Rolle[]) => {
-            rollen = rollenResult;
-          }), concatMap(() => {
-            return this.personRolleService.get().pipe(tap((personRolleResult: PersonRolle[]) => {
-              personRolle = personRolleResult;
-            }), concatMap(() => {
-              return this.standortService.get().pipe(tap((standortResult: Standort[]) => {
-                standort = standortResult;
-              }), concatMap(() => {
-                return this.personStandortService.get().pipe(tap((personStandortResult: PersonStandort[]) => {
-                  personStandort = personStandortResult;
-                }))
-              }))
-            }))
-          }))
-        }));
-      }))
-    })).subscribe((): void => {
+        })
+      )),
+      concatMap(() => this.rolleService.get().pipe(
+        tap((rollenResult: Rolle[]) => {
+          rollen = rollenResult;
+        })
+      )),
+      concatMap(() => this.personRolleService.get().pipe(
+        tap((personRolleResult: PersonRolle[]) => {
+          personRolle = personRolleResult;
+        })
+      )),
+      concatMap(() => this.standortService.get().pipe(
+        tap((standortResult: Standort[]) => {
+          standort = standortResult;
+        })
+      )),
+      concatMap(() => this.personStandortService.get().pipe(
+        tap((personStandortResult: PersonStandort[]) => {
+          personStandort = personStandortResult;
+        })
+      )),
+      concatMap(() => this.klasseService.get().pipe(
+        tap((klasseResult: Klasse[]) => {
+          klasse = klasseResult;
+        })
+      )),
+      concatMap(() => this.personKlasseService.get().pipe(
+        tap((personKlasseResult: PersonKlasse[]) => {
+          personKlasse = personKlasseResult;
+        })
+      ))
+    ).subscribe(() => {
+      // unten ist Ihr bereits vorhandener Code
       this.personen.data.map((person: Person) => {
         const personAdresseLink: PersonAdresse | undefined = personAdresse.find((link: PersonAdresse): boolean => link.person_id == person.id);
         const personRolleLink: PersonRolle | undefined = personRolle.find((link: PersonRolle): boolean => link.person_id == person.id);
         const personStandortLink: PersonStandort | undefined = personStandort.find((link: PersonStandort): boolean => link.person_id == person.id);
+        const personKlasseLink: PersonKlasse | undefined = personKlasse.find((link: PersonKlasse): boolean => link.person_id == person.id);
+
         if (personAdresseLink) {
           person.adresse = <Adresse>adressen.find((adresse: Adresse): boolean => adresse.id == personAdresseLink.adresse_id);
         }
         if (personRolleLink) {
           person.rolle = <Rolle>rollen.find((rolle: Rolle): boolean => rolle.id == personRolleLink.rolle_id);
         }
-        if (personStandortLink){
-          person.standort = <Standort>standort.find((standort: Standort):boolean => standort.id === personStandortLink.standort_id);
+        if (personStandortLink) {
+          person.standort = <Standort>standort.find((standort: Standort): boolean => standort.id === personStandortLink.standort_id);
         }
+        if (personKlasseLink) {
+          person.klasse = <Klasse>klasse.find((klasse: Klasse): boolean => klasse.id === personKlasseLink.klasse_id);
+        }
+
         return person;
       });
     });
-
   }
-
   private getSelectedPerson(): any {
     return {...this.personen.data.find((x: Person): boolean => x.id == this.selectedRowIndex)};
   }
@@ -194,21 +224,26 @@ export class SucheComponent implements OnInit {
       data.standort && data.standort.name.trim().toLowerCase().includes(filter);
     this.personen.filter = filterValue.trim().toLowerCase();
   }
- /* applyFilterClass(filterValue: string) {
+  applyFilterClass(filterValue: string) {
     this.personen.filterPredicate = (data, filter) =>
       data.klasse && data.klasse.name.trim().toLowerCase().includes(filter);
     this.personen.filter = filterValue.trim().toLowerCase();
   }
+
+
   private initializeClasses(): void {
     this.klasseService.get().subscribe(result => {
-      this,klassen = result;
-    }
+     console.log(result)
+      this.klasse = result;
+      console.log(this.personen);
+    });
   }
-*/
+
   private initializeRoles(): void {
     this.rolleService.get().subscribe(result => {
       this.rollen = result;
     });
+
   }
 
 

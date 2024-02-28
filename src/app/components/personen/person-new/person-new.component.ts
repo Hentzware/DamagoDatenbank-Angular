@@ -24,6 +24,7 @@ import {Klasse} from "../../../core/entities/Klasse";
 import {PersonStandortService} from "../../../core/services/person.standort.service";
 import {PersonStandort} from "../../../core/entities/PersonStandort";
 import {PersonRolleService} from "../../../core/services/person.rolle.service";
+import {PersonKlasseService} from "../../../core/services/person.klasse.service";
 
 @Component({
   selector: 'app-person-new',
@@ -65,6 +66,7 @@ export class PersonNewComponent implements OnInit {
               private rolleService: RolleService,
               private standortService: StandortService,
               private klasseService: KlasseService,
+              private personKlasseService: PersonKlasseService,
               private personStandortService: PersonStandortService,
               private dialogRef: MatDialogRef<PersonNewComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -89,6 +91,10 @@ export class PersonNewComponent implements OnInit {
         id: ""
       },
       standort: {
+        name: "",
+        id: ""
+      },
+      klasse: {
         name: "",
         id: ""
       }
@@ -159,9 +165,16 @@ export class PersonNewComponent implements OnInit {
               concatMap(() => {
                 return this.personRolleService.add({id: "", person_id: person.id, rolle_id: this.selectedRole}).pipe(
                   concatMap(() => {
-                    return this.personStandortService.add({id: "", person_id: person.id, standort_id: this.selectedLocation
-
-                    });
+                    return this.personStandortService.add({
+                      id: "",
+                      person_id: person.id,
+                      standort_id: this.selectedLocation
+                    }).pipe(
+                      concatMap(() => {
+                        return this.personKlasseService.add({
+                          id: "", person_id: person.id, klasse_id: this.selectedClass
+                        });
+                      }));
                   })
                 );
               })

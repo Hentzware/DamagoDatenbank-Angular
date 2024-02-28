@@ -46,6 +46,10 @@ export class PersonEditComponent {
       name:"",
       id:""
     },
+    klasse:{
+      name:"",
+      id:""
+    },
     vorname: "",
     nachname: "",
     geburtsdatum: ""

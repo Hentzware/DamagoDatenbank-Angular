@@ -29,6 +29,10 @@ import {RolleService} from "../../core/services/rolle.service";
 import {StandortService} from "../../core/services/standort.service";
 import {PersonStandortService} from "../../core/services/person.standort.service";
 import {PersonRolleService} from "../../core/services/person.rolle.service";
+import {Klasse} from "../../core/entities/Klasse";
+import {PersonKlasse} from "../../core/entities/PersonKlasse";
+import {KlasseService} from "../../core/services/klasse.service";
+import {PersonKlasseService} from "../../core/services/person.klasse.service";
 
 @Component({
   selector: 'app-personen',
@@ -77,6 +81,8 @@ export class PersonenComponent implements OnInit {
               private standortService: StandortService,
               private personStandortService: PersonStandortService,
               private personService: PersonService,
+              private klasseService: KlasseService,
+              private personKlasseService: PersonKlasseService,
               private adresseService: AdresseService,
               private personRolleService: PersonRolleService,
               private personAdresseService: PersonAdresseService,
@@ -135,50 +141,92 @@ export class PersonenComponent implements OnInit {
     let adressen: Adresse[];
     let rollen: Rolle[];
     let standort: Standort[];
+    let klasse: Klasse[];
     let personStandort: PersonStandort[];
     let personAdresse: PersonAdresse[];
     let personRolle: PersonRolle[];
+    let personKlasse: PersonKlasse[];
 
-    this.personService.get().pipe(tap((personenResult: Person[]) => {
-      this.personen = new MatTableDataSource<Person>(personenResult);
-    }), concatMap(() => {
-      return this.adresseService.get().pipe(tap((adressenResult: Adresse[]) => {
-        adressen = adressenResult;
-      }), concatMap(() => {
-        return this.personAdresseService.get().pipe(tap((personAdresseResult: PersonAdresse[]) => {
-          personAdresse = personAdresseResult;
-        }), concatMap(() => {
-          return this.rolleService.get().pipe(tap((rollenResult: Rolle[]) => {
+    this.personService.get().pipe(
+      tap((personenResult: Person[]) => {
+        this.personen = new MatTableDataSource<Person>(personenResult);
+      }),
+      concatMap(() =>
+        this.adresseService.get().pipe(
+          tap((adressenResult: Adresse[]) => {
+            adressen = adressenResult;
+          }),
+        )
+      ),
+      concatMap(() =>
+        this.personAdresseService.get().pipe(
+          tap((personAdresseResult: PersonAdresse[]) => {
+            personAdresse = personAdresseResult;
+          }),
+        )
+      ),
+      concatMap(() =>
+        this.rolleService.get().pipe(
+          tap((rollenResult: Rolle[]) => {
             rollen = rollenResult;
-          }), concatMap(() => {
-            return this.personRolleService.get().pipe(tap((personRolleResult: PersonRolle[]) => {
-              personRolle = personRolleResult;
-            }), concatMap(() => {
-              return this.standortService.get().pipe(tap((standortResult: Standort[]) => {
-                standort = standortResult;
-              }), concatMap(() => {
-                return this.personStandortService.get().pipe(tap((personStandortResult: PersonStandort[]) => {
-                  personStandort = personStandortResult;
-                }))
-              }))
-            }))
-          }))
-        }));
-      }))
-    })).subscribe((): void => {
+          }),
+        )
+      ),
+      concatMap(() =>
+        this.personRolleService.get().pipe(
+          tap((personRolleResult: PersonRolle[]) => {
+            personRolle = personRolleResult;
+          }),
+        )
+      ),
+      concatMap(() =>
+        this.standortService.get().pipe(
+          tap((standortResult: Standort[]) => {
+            standort = standortResult;
+          }),
+        )
+      ),
+      concatMap(() =>
+        this.personStandortService.get().pipe(
+          tap((personStandortResult: PersonStandort[]) => {
+            personStandort = personStandortResult;
+          }),
+        )
+      ),
+      concatMap(() =>
+        this.klasseService.get().pipe(
+          tap((klasseResult: Klasse[]) => {
+            klasse = klasseResult;
+          }),
+        )
+      ),
+      concatMap(() =>
+        this.personKlasseService.get().pipe(
+          tap((personKlasseResult: PersonKlasse[]) => {
+            personKlasse = personKlasseResult;
+          }),
+        )
+      )
+    ).subscribe(() => {
       this.personen.data.map((person: Person) => {
         const personAdresseLink: PersonAdresse | undefined = personAdresse.find((link: PersonAdresse): boolean => link.person_id == person.id);
         const personRolleLink: PersonRolle | undefined = personRolle.find((link: PersonRolle): boolean => link.person_id == person.id);
         const personStandortLink: PersonStandort | undefined = personStandort.find((link: PersonStandort): boolean => link.person_id == person.id);
+        const personKlasseLink: PersonKlasse | undefined = personKlasse.find((link: PersonKlasse): boolean => link.person_id == person.id);
+
         if (personAdresseLink) {
           person.adresse = <Adresse>adressen.find((adresse: Adresse): boolean => adresse.id == personAdresseLink.adresse_id);
         }
         if (personRolleLink) {
           person.rolle = <Rolle>rollen.find((rolle: Rolle): boolean => rolle.id == personRolleLink.rolle_id);
         }
-        if (personStandortLink){
-          person.standort = <Standort>standort.find((standort: Standort):boolean => standort.id === personStandortLink.standort_id);
+        if (personStandortLink) {
+          person.standort = <Standort>standort.find((standort: Standort): boolean => standort.id === personStandortLink.standort_id);
         }
+        if (personKlasseLink) {
+          person.klasse = <Klasse>klasse.find((klasse: Klasse): boolean => klasse.id === personKlasseLink.klasse_id);
+        }
+
         return person;
       });
 

@@ -1,6 +1,7 @@
 import {Adresse} from "./Adresse";
 import {Rolle} from "./Rolle";
 import {Standort} from "./Standort";
+import {Klasse} from "./Klasse";
 
 export interface Person {
   id: string;
@@ -10,4 +11,5 @@ export interface Person {
   adresse: Adresse;
   rolle: Rolle;
   standort: Standort;
+  klasse: Klasse;
 }
