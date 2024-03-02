@@ -13,7 +13,7 @@ import {MatButton} from "@angular/material/button";
 import {MatToolbar, MatToolbarModule} from "@angular/material/toolbar";
 import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {PersonNewComponent} from "./person-new/person-new.component";
-import {concatMap, tap} from "rxjs";
+import {forkJoin} from "rxjs";
 import {PersonEditComponent} from "./person-edit/person-edit.component";
 import {PersonDeleteComponent} from "./person-delete/person-delete.component";
 import {AutoComplete} from "../../core/entities/AutoComplete";
@@ -33,6 +33,7 @@ import {SchoolClass} from "../../core/entities/SchoolClass";
 import {LocationPerson} from "../../core/entities/LocationPerson";
 import {PersonAddress} from "../../core/entities/PersonAddress";
 import {Location} from "../../core/entities/Location";
+import {LinkService} from "../../core/services/link.service";
 
 @Component({
   selector: 'app-personen',
@@ -49,7 +50,18 @@ export class PersonenComponent implements OnInit {
   public persons: MatTableDataSource<Person> = new MatTableDataSource<Person>();
   public selectedRowIndex: string = "-1";
 
-  constructor(private roleService: RoleService, private locationService: LocationService, private locationPersonService: LocationPersonService, private personService: PersonService, private schoolClassService: SchoolClassService, private personSchoolClassService: PersonSchoolClassService, private addressService: AddressService, private personRoleService: PersonRoleService, private personAddressService: PersonAddressService, private dialog: MatDialog) {
+  constructor(
+    private linkService: LinkService,
+    private roleService: RoleService,
+    private locationService: LocationService,
+    private locationPersonService: LocationPersonService,
+    private personService: PersonService,
+    private schoolClassService: SchoolClassService,
+    private personSchoolClassService: PersonSchoolClassService,
+    private addressService: AddressService,
+    private personRoleService: PersonRoleService,
+    private personAddressService: PersonAddressService,
+    private dialog: MatDialog) {
   }
 
   public highlightRow(row: any): void {
@@ -98,72 +110,23 @@ export class PersonenComponent implements OnInit {
 
   private getPersons(): void {
     this.selectedRowIndex = "-1";
-    let addresses: Address[];
-    let roles: Role[];
-    let locations: Location[];
-    let schoolClasses: SchoolClass[];
-    let locationPersons: LocationPerson[];
-    let personAddresses: PersonAddress[];
-    let personRoles: PersonRole[];
-    let personSchoolClasses: PersonSchoolClass[];
 
-    this.personService.get().pipe(tap((personResults: Person[]) => {
-      this.persons = new MatTableDataSource<Person>(personResults);
-    }), concatMap(() => {
-      return this.addressService.get().pipe(tap((addressResults: Address[]) => {
-        addresses = addressResults;
-      }),);
-    }), concatMap(() => {
-      return this.personAddressService.get().pipe(tap((personAddressResults: PersonAddress[]) => {
-        personAddresses = personAddressResults;
-      }),);
-    }), concatMap(() => {
-      return this.roleService.get().pipe(tap((roleResults: Role[]) => {
-        roles = roleResults;
-      }),);
-    }), concatMap(() => {
-      return this.personRoleService.get().pipe(tap((personRoleResults: PersonRole[]) => {
-        personRoles = personRoleResults;
-      }),);
-    }), concatMap(() => {
-      return this.locationService.get().pipe(tap((locationResults: Location[]) => {
-        locations = locationResults;
-      }),);
-    }), concatMap(() => {
-      return this.locationPersonService.get().pipe(tap((locationPersonResults: LocationPerson[]) => {
-        locationPersons = locationPersonResults;
-      }),);
-    }), concatMap(() => {
-      return this.schoolClassService.get().pipe(tap((schoolClassResults: SchoolClass[]) => {
-        schoolClasses = schoolClassResults;
-      }),);
-    }), concatMap(() => {
-      return this.personSchoolClassService.get().pipe(tap((personSchoolClassResults: PersonSchoolClass[]) => {
-        personSchoolClasses = personSchoolClassResults;
-      }),);
-    })).subscribe(() => {
-      this.persons.data.map((person: Person) => {
-        const personAddressLink: PersonAddress | undefined = personAddresses.find((link: PersonAddress): boolean => link.person_id == person.id);
-        const personRoleLink: PersonRole | undefined = personRoles.find((link: PersonRole): boolean => link.person_id == person.id);
-        const locationPersonLink: LocationPerson | undefined = locationPersons.find((link: LocationPerson): boolean => link.person_id == person.id);
-        const personKlasseLink: PersonSchoolClass | undefined = personSchoolClasses.find((link: PersonSchoolClass): boolean => link.person_id == person.id);
-
-        if (personAddressLink) {
-          person.address = <Address>addresses.find((address: Address): boolean => address.id == personAddressLink.address_id);
-        }
-        if (personRoleLink) {
-          person.role = <Role>roles.find((role: Role): boolean => role.id == personRoleLink.role_id);
-        }
-        if (locationPersonLink) {
-          person.location = <Location>locations.find((location: Location): boolean => location.id === locationPersonLink.location_id);
-        }
-        if (personKlasseLink) {
-          person.school_class = <SchoolClass>schoolClasses.find((schoolClass: SchoolClass): boolean => schoolClass.id === personKlasseLink.school_class_id);
-        }
-
-        return person;
-      });
-
+    forkJoin({
+      persons: this.personService.get(),
+      addresses: this.addressService.get(),
+      personAddress: this.personAddressService.get(),
+      roles: this.roleService.get(),
+      personRole: this.personRoleService.get(),
+      schoolClasses: this.schoolClassService.get(),
+      personSchoolClass: this.personSchoolClassService.get(),
+      locations: this.locationService.get(),
+      locationPerson: this.locationPersonService.get()
+    }).subscribe(({persons, addresses, personAddress, roles, personRole, schoolClasses, personSchoolClass, locations, locationPerson}) => {
+      this.linkService.linkPersonAddress(persons, addresses, personAddress);
+      this.linkService.linkPersonLocation(persons, locations, locationPerson);
+      this.linkService.linkPersonRole(persons, roles, personRole);
+      this.linkService.linkPersonSchoolClass(persons, schoolClasses, personSchoolClass);
+      this.persons = new MatTableDataSource<Person>(persons);
       this.initializePersonAutoCompleteData();
     });
   }
