@@ -47,23 +47,13 @@ export class SucheComponent implements OnInit {
   public persons: MatTableDataSource<Person> = new MatTableDataSource<Person>();
   public roles!: Role[];
   public schoolClasses!: SchoolClass[];
-  public selectedSchoolClass: string = "";
   public selectedLocation: string = "";
   public selectedRole: string = "";
   public selectedRowIndex: string = "-1";
+  public selectedSchoolClass: string = "";
 
   constructor(private roleService: RoleService, private locationService: LocationService, private personStandortService: LocationPersonService, private personService: PersonService, private schoolClassService: SchoolClassService, private personKlasseService: PersonSchoolClassService, private adresseService: AddressService, private personRolleService: PersonRoleService, private personAdresseService: PersonAddressService, private dialog: MatDialog) {
 
-  }
-
-  applyFilterSchoolClass(filterValue: string) {
-    this.selectedSchoolClass = filterValue;
-    this.applyFilters();
-  }
-
-  applyFilterLastName(filterValue: string) {
-    this.persons.filterPredicate = (data, filter) => data.last_name.trim().toLowerCase().includes(filter);
-    this.persons.filter = filterValue.trim().toLowerCase();
   }
 
   applyFilterFirstName(filterValue: string) {
@@ -71,15 +61,35 @@ export class SucheComponent implements OnInit {
     this.persons.filter = filterValue.trim().toLowerCase();
   }
 
+  applyFilterLastName(filterValue: string) {
+    this.persons.filterPredicate = (data, filter) => data.last_name.trim().toLowerCase().includes(filter);
+    this.persons.filter = filterValue.trim().toLowerCase();
+  }
+
+  applyFilterLocation(filterValue: string) {
+    this.selectedLocation = filterValue;
+    this.applyFilters();
+  }
+
+  applyFilterRole(filterValue: string) {
+    this.selectedRole = filterValue;
+    this.applyFilters();
+  }
+
+  applyFilterSchoolClass(filterValue: string) {
+    this.selectedSchoolClass = filterValue;
+    this.applyFilters();
+  }
+
   applyFilters() {
     this.persons.filterPredicate = (data: any, filter: string) => {
       let filterObject = JSON.parse(filter);
 
-      let roleMatch = filterObject.selectedRole ? data.rolle && data.rolle.name.trim().toLowerCase().includes(filterObject.selectedRole.trim().toLowerCase()) : true;
+      let roleMatch = filterObject.selectedRole ? data.role && data.role.name.trim().toLowerCase().includes(filterObject.selectedRole.trim().toLowerCase()) : true;
 
-      let locationMatch = filterObject.selectedLocation ? data.standort && data.standort.name.trim().toLowerCase().includes(filterObject.selectedLocation.trim().toLowerCase()) : true;
+      let locationMatch = filterObject.selectedLocation ? data.location && data.location.name.trim().toLowerCase().includes(filterObject.selectedLocation.trim().toLowerCase()) : true;
 
-      let classMatch = filterObject.selectedClass ? data.klasse && data.klasse.name.trim().toLowerCase().includes(filterObject.selectedClass.trim().toLowerCase()) : true;
+      let classMatch = filterObject.selectedClass ? data.school_class && data.school_class.name.trim().toLowerCase().includes(filterObject.selectedClass.trim().toLowerCase()) : true;
 
       return roleMatch && locationMatch && classMatch;
     };
@@ -87,16 +97,6 @@ export class SucheComponent implements OnInit {
     this.persons.filter = JSON.stringify({
       selectedRole: this.selectedRole, selectedLocation: this.selectedLocation, selectedClass: this.selectedSchoolClass
     });
-  }
-
-  applyLocationFilter(filterValue: string) {
-    this.selectedLocation = filterValue;
-    this.applyFilters();
-  }
-
-  applyRoleFilter(filterValue: string) {
-    this.selectedRole = filterValue;
-    this.applyFilters();
   }
 
   public highlightRow(row: any): void {
