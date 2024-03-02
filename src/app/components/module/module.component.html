@@ -4,7 +4,6 @@
       <button mat-raised-button color="accent" class="mat-raised-button" (click)="openNewModuleDialog()">Neu</button>
       <button mat-raised-button color="accent" class="mat-raised-button" (click)="openEditModuleDialog()" [disabled]="selectedRowIndex == '-1'">Bearbeiten</button>
       <button mat-raised-button color="accent" class="mat-raised-button" [disabled]="selectedRowIndex == '-1'" (click)="openDeleteModuleDialog()">Entfernen</button>
-      <button mat-raised-button color="accent" class="mat-raised-button">Suche</button>
     </mat-toolbar-row>
   </mat-toolbar>
   <table matSort mat-table [dataSource]="module" class="mat-elevation-z8">

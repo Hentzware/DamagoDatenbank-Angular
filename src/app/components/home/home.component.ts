@@ -4,6 +4,8 @@ import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatButton} from "@angular/material/button";
 import {Router, RouterOutlet} from "@angular/router";
 import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatTabLink} from "@angular/material/tabs";
+import {MatDivider} from "@angular/material/divider";
 
 @Component({
   selector: 'app-home',
@@ -13,7 +15,9 @@ import {MatToolbarModule} from "@angular/material/toolbar";
     MatToolbarModule,
     FlexLayoutModule,
     MatButton,
-    RouterOutlet
+    RouterOutlet,
+    MatTabLink,
+    MatDivider
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'

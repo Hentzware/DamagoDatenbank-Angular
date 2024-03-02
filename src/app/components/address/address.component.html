@@ -4,7 +4,6 @@
       <button (click)="openNewAddressDialog()" class="mat-raised-button" color="accent" mat-raised-button>Neu</button>
       <button (click)="openEditAddressDialog()" [disabled]="selectedRowIndex == '-1'" class="mat-raised-button" color="accent" mat-raised-button>Bearbeiten</button>
       <button (click)="openDeleteAddressDialog()" [disabled]="selectedRowIndex == '-1'" class="mat-raised-button" color="accent" mat-raised-button>Entfernen</button>
-      <button class="mat-raised-button" color="accent" mat-raised-button>Suche</button>
     </mat-toolbar-row>
   </mat-toolbar>
   <table matSort mat-table [dataSource]="address" class="mat-elevation-z8">

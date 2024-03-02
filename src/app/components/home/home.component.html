@@ -1,21 +1,24 @@
-<mat-toolbar color="primary" class="mat-toolbar">
-  <p style="font-size: 72px;font-family: 'Calibri',serif;text-align: center">dama.go Verwaltung</p>
+<mat-toolbar class="mat-toolbar" color="primary">
+  <img src="../../../assets/logo.png" alt="logo.png" style="height: 50px;margin-left: 45px">
   <span class="example-spacer"></span>
 </mat-toolbar>
 
 <mat-sidenav-container class="mat-sidenav-container">
-  <mat-sidenav mode="side" opened class="mat-sidenav">
+  <mat-sidenav class="mat-sidenav" mode="side" opened>
     <div fxLayout="column">
-      <button (click)="navigateTo('suche')" class="mat-raised-button" color="primary" mat-raised-button>Suche</button>
-      <button (click)="navigateTo('standorte')" mat-raised-button color="primary" class="mat-raised-button">Standorte</button>
-      <button (click)="navigateTo('klassen')" mat-raised-button color="primary" class="mat-raised-button">Klassen</button>
-      <button (click)="navigateTo('inventar')" mat-raised-button color="primary" class="mat-raised-button">Inventar</button>
-      <button (click)="navigateTo('unterricht')" mat-raised-button color="primary" class="mat-raised-button">Unterricht</button>
-      <button (click)="navigateTo('rollen')" mat-raised-button color="primary" class="mat-raised-button">Rollen</button>
-      <button (click)="navigateTo('module')" mat-raised-button color="primary" class="mat-raised-button">Module</button>
-      <button (click)="navigateTo('personen')" mat-raised-button color="primary" class="mat-raised-button">Personen</button>
-      <button (click)="navigateTo('raeume')" mat-raised-button color="primary" class="mat-raised-button">Räume</button>
-      <button (click)="navigateTo('adresse')" mat-raised-button color="primary" class="mat-raised-button">Adressen</button>
+      <button (click)="navigateTo('suche')" class="mat-button" color="primary" mat-button>Suche</button>
+      <mat-divider class="mat-divider"></mat-divider>
+      <button (click)="navigateTo('standorte')" class="mat-button" color="primary" mat-button>Standorte</button>
+      <button (click)="navigateTo('klassen')" class="mat-button" color="primary" mat-button>Klassen</button>
+      <button (click)="navigateTo('personen')" class="mat-button" color="primary" mat-button>Personen</button>
+      <mat-divider class="mat-divider"></mat-divider>
+      <button (click)="navigateTo('inventar')" class="mat-button" color="primary" mat-button>Inventar</button>
+      <button (click)="navigateTo('raeume')" class="mat-button" color="primary" mat-button>Räume</button>
+      <button (click)="navigateTo('unterricht')" class="mat-button" color="primary" mat-button>Unterricht</button>
+      <mat-divider class="mat-divider"></mat-divider>
+      <button (click)="navigateTo('rollen')" class="mat-button" color="primary" mat-button>Rollen</button>
+      <button (click)="navigateTo('module')" class="mat-button" color="primary" mat-button>Module</button>
+      <button (click)="navigateTo('adresse')" class="mat-button" color="primary" mat-button>Adressen</button>
     </div>
   </mat-sidenav>
   <mat-sidenav-content class="mat-sidenav-content">
