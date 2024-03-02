@@ -35,25 +35,12 @@ import {LinkService} from "../../core/services/link.service";
   styleUrl: './personen.component.css'
 })
 export class PersonenComponent implements OnInit {
-  public autoComplete: AutoComplete = {
-    locations: [], countries: [], streets: [], firstNames: [], houseNumbers: [], postalCodes: [], birthdays: [], lastNames: []
-  };
+  public autoComplete: AutoComplete = {locations: [], countries: [], streets: [], firstNames: [], houseNumbers: [], postalCodes: [], birthdays: [], lastNames: []};
   public displayedColumns: string[] = ["nachname", "vorname", "geburtsdatum", "strasse", "hausnummer", "postleitzahl", "ort", "land"];
   public persons: MatTableDataSource<Person> = new MatTableDataSource<Person>();
   public selectedRowIndex: string = "-1";
 
-  constructor(
-    private linkService: LinkService,
-    private roleService: RoleService,
-    private locationService: LocationService,
-    private locationPersonService: LocationPersonService,
-    private personService: PersonService,
-    private schoolClassService: SchoolClassService,
-    private personSchoolClassService: PersonSchoolClassService,
-    private addressService: AddressService,
-    private personRoleService: PersonRoleService,
-    private personAddressService: PersonAddressService,
-    private dialog: MatDialog) {
+  constructor(private linkService: LinkService, private roleService: RoleService, private locationService: LocationService, private locationPersonService: LocationPersonService, private personService: PersonService, private schoolClassService: SchoolClassService, private personSchoolClassService: PersonSchoolClassService, private addressService: AddressService, private personRoleService: PersonRoleService, private personAddressService: PersonAddressService, private dialog: MatDialog) {
   }
 
   public highlightRow(row: any): void {
@@ -64,7 +51,7 @@ export class PersonenComponent implements OnInit {
     this.getPersons();
   }
 
-  public openDeleteDialog() {
+  public openDeleteDialog(): void {
     const dialogRef: MatDialogRef<PersonDeleteComponent> = this.dialog.open(PersonDeleteComponent, {
       width: "500px", data: {
         person: this.getSelectedPerson()
@@ -76,7 +63,7 @@ export class PersonenComponent implements OnInit {
     });
   }
 
-  public openEditDialog() {
+  public openEditDialog(): void {
     const dialogRef: MatDialogRef<PersonEditComponent> = this.dialog.open(PersonEditComponent, {
       width: "500px", data: {
         person: this.getSelectedPerson(), autoComplete: this.autoComplete
@@ -119,7 +106,7 @@ export class PersonenComponent implements OnInit {
       this.linkService.linkPersonRole(persons, roles, personRole);
       this.linkService.linkPersonSchoolClass(persons, schoolClasses, personSchoolClass);
       this.persons = new MatTableDataSource<Person>(persons);
-      this.initializePersonAutoCompleteData();
+      this.initializeAutoCompleteData();
     });
   }
 
@@ -127,37 +114,14 @@ export class PersonenComponent implements OnInit {
     return {...this.persons.data.find((x: Person): boolean => x.id == this.selectedRowIndex)};
   }
 
-  private initializePersonAutoCompleteData(): void {
-    this.autoComplete.lastNames = Array.from(new Set(this.persons.data.map<string>((x: Person) => {
-      return x?.last_name;
-    })));
-
-    this.autoComplete.firstNames = Array.from(new Set(this.persons.data.map<string>((x: Person) => {
-      return x?.first_name;
-    })));
-
-    this.autoComplete.birthdays = Array.from(new Set(this.persons.data.map<string>((x: Person) => {
-      return x?.birthdate;
-    })));
-
-    this.autoComplete.streets = Array.from(new Set(this.persons.data.map<string>((x: Person) => {
-      return x.address?.street;
-    })));
-
-    this.autoComplete.houseNumbers = Array.from(new Set(this.persons.data.map<string>((x: Person) => {
-      return x.address?.house_number;
-    })));
-
-    this.autoComplete.postalCodes = Array.from(new Set(this.persons.data.map<string>((x: Person) => {
-      return x.address?.postal_code;
-    })));
-
-    this.autoComplete.locations = Array.from(new Set(this.persons.data.map<string>((x: Person) => {
-      return x.address?.location;
-    })));
-
-    this.autoComplete.countries = Array.from(new Set(this.persons.data.map<string>((x: Person) => {
-      return x.address?.country;
-    })));
+  private initializeAutoCompleteData(): void {
+    this.autoComplete.lastNames = Array.from(new Set(this.persons.data.map<string>((x: Person) => x?.last_name)));
+    this.autoComplete.firstNames = Array.from(new Set(this.persons.data.map<string>((x: Person) => x?.first_name)));
+    this.autoComplete.birthdays = Array.from(new Set(this.persons.data.map<string>((x: Person) => x?.birthdate)));
+    this.autoComplete.streets = Array.from(new Set(this.persons.data.map<string>((x: Person) => x.address?.street)));
+    this.autoComplete.houseNumbers = Array.from(new Set(this.persons.data.map<string>((x: Person) => x.address?.house_number)));
+    this.autoComplete.postalCodes = Array.from(new Set(this.persons.data.map<string>((x: Person) => x.address?.postal_code)));
+    this.autoComplete.locations = Array.from(new Set(this.persons.data.map<string>((x: Person) => x.address?.location)));
+    this.autoComplete.countries = Array.from(new Set(this.persons.data.map<string>((x: Person) => x.address?.country)));
   }
 }
