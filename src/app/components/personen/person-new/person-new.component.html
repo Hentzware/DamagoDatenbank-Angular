@@ -19,7 +19,7 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>Klasse</mat-label>
-      <mat-select (selectionChange)="onSelectedClassChanged($event.value)">
+      <mat-select (selectionChange)="onSelectedSchoolClassChanged($event.value)">
         @for (_class of schoolClasses; track _class) {
           <mat-option [value]="_class.id">{{_class.name}}</mat-option>
         }
@@ -28,16 +28,16 @@
   </div>
   <div fxLayout="row">
     <div fxLayout="column" fxFlex style="margin-right: 10px">
-      <app-auto-complete [numMinChars]="1" [name]="'Nachname'" [optionsList]="data.autoComplete.lastNames" (selected)="onPersonLastNameSelected($event)" [value]="persons.last_name"></app-auto-complete>
-      <app-auto-complete [numMinChars]="1" [name]="'Vorname'" [optionsList]="data.autoComplete.firstNames" (selected)="onPersonFirstNameSelected($event)" [value]="persons.first_name"></app-auto-complete>
-      <app-auto-complete [numMinChars]="1" [name]="'Geburtsdatum'" [optionsList]="data.autoComplete.birthdays" (selected)="onPersonBirthdaySelected($event)" [value]="persons.birthdate"></app-auto-complete>
+      <app-auto-complete [numMinChars]="1" [name]="'Nachname'" [optionsList]="data.autoComplete.lastNames" (selected)="onLastNameSelected($event)" [value]="person.last_name"></app-auto-complete>
+      <app-auto-complete [numMinChars]="1" [name]="'Vorname'" [optionsList]="data.autoComplete.firstNames" (selected)="onFirstNameSelected($event)" [value]="person.first_name"></app-auto-complete>
+      <app-auto-complete [numMinChars]="1" [name]="'Geburtsdatum'" [optionsList]="data.autoComplete.birthdays" (selected)="onBirthdateSelected($event)" [value]="person.birthdate"></app-auto-complete>
     </div>
     <div fxLayout="column" fxFlex style="margin-left: 10px">
-      <app-auto-complete [numMinChars]="1" [name]="'Strasse'" [optionsList]="data.autoComplete.streets" (selected)="onPersonStreetSelected($event)" [value]="persons.address.street"></app-auto-complete>
-      <app-auto-complete [numMinChars]="1" [name]="'Hausnummer'" [optionsList]="data.autoComplete.houseNumbers" (selected)="onPersonHouseNumberSelected($event)" [value]="persons.address.house_number"></app-auto-complete>
-      <app-auto-complete [numMinChars]="1" [name]="'Postleitzahl'" [optionsList]="data.autoComplete.postalCodes" (selected)="onPersonPostalCodeSelected($event)" [value]="persons.address.postal_code"></app-auto-complete>
-      <app-auto-complete [numMinChars]="1" [name]="'Ort'" [optionsList]="data.autoComplete.locations" (selected)="onPersonLocationSelected($event)" [value]="persons.address.location"></app-auto-complete>
-      <app-auto-complete [numMinChars]="1" [name]="'Land'" [optionsList]="data.autoComplete.countries" (selected)="onPersonCountrySelected($event)" [value]="persons.address.country"></app-auto-complete>
+      <app-auto-complete [numMinChars]="1" [name]="'Strasse'" [optionsList]="data.autoComplete.streets" (selected)="onStreetSelected($event)" [value]="person.address.street"></app-auto-complete>
+      <app-auto-complete [numMinChars]="1" [name]="'Hausnummer'" [optionsList]="data.autoComplete.houseNumbers" (selected)="onHouseNumberSelected($event)" [value]="person.address.house_number"></app-auto-complete>
+      <app-auto-complete [numMinChars]="1" [name]="'Postleitzahl'" [optionsList]="data.autoComplete.postalCodes" (selected)="onPostalCodeSelected($event)" [value]="person.address.postal_code"></app-auto-complete>
+      <app-auto-complete [numMinChars]="1" [name]="'Ort'" [optionsList]="data.autoComplete.locations" (selected)="onLocationSelected($event)" [value]="person.address.location"></app-auto-complete>
+      <app-auto-complete [numMinChars]="1" [name]="'Land'" [optionsList]="data.autoComplete.countries" (selected)="onCountrySelected($event)" [value]="person.address.country"></app-auto-complete>
     </div>
   </div>
   <button fxFlex="50px" class="mat-raised-button" mat-raised-button color="primary" (click)="save()">Speichern</button>

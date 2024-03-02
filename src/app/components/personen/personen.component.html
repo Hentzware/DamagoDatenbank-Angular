@@ -1,11 +1,11 @@
 <div fxLayout="column">
   <mat-toolbar class="mat-toolbar">
     <mat-toolbar-row>
-      <button mat-raised-button color="accent" class="mat-raised-button" (click)="openNewPersonDialog()">Neu</button>
-      <button mat-raised-button color="accent" class="mat-raised-button" (click)="openEditPersonDialog()" [disabled]="selectedRowIndex == '-1'">
+      <button mat-raised-button color="accent" class="mat-raised-button" (click)="openNewDialog()">Neu</button>
+      <button mat-raised-button color="accent" class="mat-raised-button" (click)="openEditDialog()" [disabled]="selectedRowIndex == '-1'">
         Bearbeiten
       </button>
-      <button mat-raised-button color="accent" class="mat-raised-button" (click)="openDeletePersonDialog()" [disabled]="selectedRowIndex == '-1'">Entfernen
+      <button mat-raised-button color="accent" class="mat-raised-button" (click)="openDeleteDialog()" [disabled]="selectedRowIndex == '-1'">Entfernen
       </button>
     </mat-toolbar-row>
   </mat-toolbar>

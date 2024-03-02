@@ -5,8 +5,8 @@ import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatDialogRef} from "@angular/material/dialog";
-import {ModulService} from "../../../core/services/modul.service";
-import {Modul} from "../../../core/entities/Modul";
+import {ModuleService} from "../../../core/services/module.service";
+import {Module} from "../../../core/entities/Module";
 
 @Component({
   selector: 'app-module-new',
@@ -24,14 +24,14 @@ import {Modul} from "../../../core/entities/Modul";
   styleUrl: './module-new.component.css'
 })
 export class ModuleNewComponent {
-  public modul: Modul = {id:"",name:"",beschreibung:""}
+  public modul: Module = {id:"",name:"",description:""}
 
-  constructor(private modulService: ModulService,
+  constructor(private modulService: ModuleService,
               private dialogRef: MatDialogRef<ModuleNewComponent>) {
   }
 
   public createNewModule(): void {
-    this.modulService.add(this.modul.name, this.modul.beschreibung).subscribe(() => {
+    this.modulService.add(this.modul.name, this.modul.description).subscribe(() => {
       this.dialogRef.close();
     });
   }

@@ -13,80 +13,43 @@ import {MatButton} from "@angular/material/button";
 import {MatToolbar, MatToolbarModule} from "@angular/material/toolbar";
 import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {PersonNewComponent} from "./person-new/person-new.component";
-import {Adresse} from "../../core/entities/Adresse";
-import {AdresseService} from "../../core/services/adresse.service";
-import {PersonAdresse} from "../../core/entities/PersonAdresse";
-import {PersonAdresseService} from "../../core/services/person.adresse.service";
 import {concatMap, tap} from "rxjs";
 import {PersonEditComponent} from "./person-edit/person-edit.component";
 import {PersonDeleteComponent} from "./person-delete/person-delete.component";
 import {AutoComplete} from "../../core/entities/AutoComplete";
-import {Rolle} from "../../core/entities/Rolle";
-import {Standort} from "../../core/entities/Standort";
-import {PersonStandort} from "../../core/entities/PersonStandort";
-import {PersonRolle} from "../../core/entities/PersonRolle";
-import {RolleService} from "../../core/services/rolle.service";
-import {StandortService} from "../../core/services/standort.service";
-import {PersonStandortService} from "../../core/services/person.standort.service";
-import {PersonRolleService} from "../../core/services/person.rolle.service";
-import {Klasse} from "../../core/entities/Klasse";
-import {PersonKlasse} from "../../core/entities/PersonKlasse";
-import {KlasseService} from "../../core/services/klasse.service";
-import {PersonKlasseService} from "../../core/services/person.klasse.service";
+import {PersonRole} from "../../core/entities/PersonRole";
+import {PersonRoleService} from "../../core/services/person-role.service";
+import {PersonSchoolClass} from "../../core/entities/PersonSchoolClass";
+import {PersonSchoolClassService} from "../../core/services/person-school-class.service";
+import {RoleService} from "../../core/services/role.service";
+import {LocationService} from "../../core/services/location.service";
+import {LocationPersonService} from "../../core/services/location-person.service";
+import {SchoolClassService} from "../../core/services/school-class.service";
+import {AddressService} from "../../core/services/address.service";
+import {PersonAddressService} from "../../core/services/person-address.service";
+import {Address} from "../../core/entities/Address";
+import {Role} from "../../core/entities/Role";
+import {SchoolClass} from "../../core/entities/SchoolClass";
+import {LocationPerson} from "../../core/entities/LocationPerson";
+import {PersonAddress} from "../../core/entities/PersonAddress";
+import {Location} from "../../core/entities/Location";
 
 @Component({
   selector: 'app-personen',
   standalone: true,
-  imports: [
-    MatTable,
-    MatColumnDef,
-    MatHeaderCell,
-    MatHeaderCellDef,
-    MatCell,
-    MatCellDef,
-    MatTableModule,
-    DatePipe,
-    NgClass,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatOptionModule,
-    FormsModule,
-    FlexLayoutModule,
-    CommonModule,
-    MatInput,
-    MatButton,
-    MatToolbar,
-    MatToolbarModule,
-    MatDialogModule
-  ],
+  imports: [MatTable, MatColumnDef, MatHeaderCell, MatHeaderCellDef, MatCell, MatCellDef, MatTableModule, DatePipe, NgClass, MatFormFieldModule, MatSelectModule, MatOptionModule, FormsModule, FlexLayoutModule, CommonModule, MatInput, MatButton, MatToolbar, MatToolbarModule, MatDialogModule],
   templateUrl: './personen.component.html',
   styleUrl: './personen.component.css'
 })
 export class PersonenComponent implements OnInit {
-  public displayedColumns: string[] = ["nachname", "vorname", "geburtsdatum", "strasse", "hausnummer", "postleitzahl", "ort", "land"];
   public autoComplete: AutoComplete = {
-    orte: [],
-    laender: [],
-    strassen: [],
-    vornamen: [],
-    hausnummern: [],
-    postleitzahlen: [],
-    geburtsdaten: [],
-    nachnamen: []
+    locations: [], countries: [], streets: [], firstNames: [], houseNumbers: [], postalCodes: [], birthdays: [], lastNames: []
   };
-  public personen: MatTableDataSource<Person> = new MatTableDataSource<Person>();
+  public displayedColumns: string[] = ["nachname", "vorname", "geburtsdatum", "strasse", "hausnummer", "postleitzahl", "ort", "land"];
+  public persons: MatTableDataSource<Person> = new MatTableDataSource<Person>();
   public selectedRowIndex: string = "-1";
 
-  constructor(private rolleService: RolleService,
-              private standortService: StandortService,
-              private personStandortService: PersonStandortService,
-              private personService: PersonService,
-              private klasseService: KlasseService,
-              private personKlasseService: PersonKlasseService,
-              private adresseService: AdresseService,
-              private personRolleService: PersonRolleService,
-              private personAdresseService: PersonAdresseService,
-              private dialog: MatDialog) {
+  constructor(private roleService: RoleService, private locationService: LocationService, private locationPersonService: LocationPersonService, private personService: PersonService, private schoolClassService: SchoolClassService, private personSchoolClassService: PersonSchoolClassService, private addressService: AddressService, private personRoleService: PersonRoleService, private personAddressService: PersonAddressService, private dialog: MatDialog) {
   }
 
   public highlightRow(row: any): void {
@@ -97,7 +60,7 @@ export class PersonenComponent implements OnInit {
     this.getPersons();
   }
 
-  public openDeletePersonDialog() {
+  public openDeleteDialog() {
     const dialogRef: MatDialogRef<PersonDeleteComponent> = this.dialog.open(PersonDeleteComponent, {
       width: "500px", data: {
         person: this.getSelectedPerson()
@@ -109,12 +72,10 @@ export class PersonenComponent implements OnInit {
     });
   }
 
-  public openEditPersonDialog() {
+  public openEditDialog() {
     const dialogRef: MatDialogRef<PersonEditComponent> = this.dialog.open(PersonEditComponent, {
-      width: "500px",
-      data: {
-        person: this.getSelectedPerson(),
-        personAutoComplete: this.autoComplete
+      width: "500px", data: {
+        person: this.getSelectedPerson(), personAutoComplete: this.autoComplete
       }
     });
 
@@ -123,11 +84,10 @@ export class PersonenComponent implements OnInit {
     });
   }
 
-  public openNewPersonDialog(): void {
+  public openNewDialog(): void {
     const dialogRef: MatDialogRef<PersonNewComponent> = this.dialog.open(PersonNewComponent, {
-      width: "1000px",
-      data: {
-        personAutoComplete: this.autoComplete
+      width: "1000px", data: {
+        autoComplete: this.autoComplete
       }
     });
 
@@ -138,93 +98,67 @@ export class PersonenComponent implements OnInit {
 
   private getPersons(): void {
     this.selectedRowIndex = "-1";
-    let adressen: Adresse[];
-    let rollen: Rolle[];
-    let standort: Standort[];
-    let klasse: Klasse[];
-    let personStandort: PersonStandort[];
-    let personAdresse: PersonAdresse[];
-    let personRolle: PersonRolle[];
-    let personKlasse: PersonKlasse[];
+    let addresses: Address[];
+    let roles: Role[];
+    let locations: Location[];
+    let schoolClasses: SchoolClass[];
+    let locationPersons: LocationPerson[];
+    let personAddresses: PersonAddress[];
+    let personRoles: PersonRole[];
+    let personSchoolClasses: PersonSchoolClass[];
 
-    this.personService.get().pipe(
-      tap((personenResult: Person[]) => {
-        this.personen = new MatTableDataSource<Person>(personenResult);
-      }),
-      concatMap(() =>
-        this.adresseService.get().pipe(
-          tap((adressenResult: Adresse[]) => {
-            adressen = adressenResult;
-          }),
-        )
-      ),
-      concatMap(() =>
-        this.personAdresseService.get().pipe(
-          tap((personAdresseResult: PersonAdresse[]) => {
-            personAdresse = personAdresseResult;
-          }),
-        )
-      ),
-      concatMap(() =>
-        this.rolleService.get().pipe(
-          tap((rollenResult: Rolle[]) => {
-            rollen = rollenResult;
-          }),
-        )
-      ),
-      concatMap(() =>
-        this.personRolleService.get().pipe(
-          tap((personRolleResult: PersonRolle[]) => {
-            personRolle = personRolleResult;
-          }),
-        )
-      ),
-      concatMap(() =>
-        this.standortService.get().pipe(
-          tap((standortResult: Standort[]) => {
-            standort = standortResult;
-          }),
-        )
-      ),
-      concatMap(() =>
-        this.personStandortService.get().pipe(
-          tap((personStandortResult: PersonStandort[]) => {
-            personStandort = personStandortResult;
-          }),
-        )
-      ),
-      concatMap(() =>
-        this.klasseService.get().pipe(
-          tap((klasseResult: Klasse[]) => {
-            klasse = klasseResult;
-          }),
-        )
-      ),
-      concatMap(() =>
-        this.personKlasseService.get().pipe(
-          tap((personKlasseResult: PersonKlasse[]) => {
-            personKlasse = personKlasseResult;
-          }),
-        )
-      )
-    ).subscribe(() => {
-      this.personen.data.map((person: Person) => {
-        const personAdresseLink: PersonAdresse | undefined = personAdresse.find((link: PersonAdresse): boolean => link.person_id == person.id);
-        const personRolleLink: PersonRolle | undefined = personRolle.find((link: PersonRolle): boolean => link.person_id == person.id);
-        const personStandortLink: PersonStandort | undefined = personStandort.find((link: PersonStandort): boolean => link.person_id == person.id);
-        const personKlasseLink: PersonKlasse | undefined = personKlasse.find((link: PersonKlasse): boolean => link.person_id == person.id);
+    this.personService.get().pipe(tap((personResults: Person[]) => {
+      this.persons = new MatTableDataSource<Person>(personResults);
+    }), concatMap(() => {
+      return this.addressService.get().pipe(tap((addressResults: Address[]) => {
+        addresses = addressResults;
+      }),);
+    }), concatMap(() => {
+      return this.personAddressService.get().pipe(tap((personAddressResults: PersonAddress[]) => {
+        personAddresses = personAddressResults;
+      }),);
+    }), concatMap(() => {
+      return this.roleService.get().pipe(tap((roleResults: Role[]) => {
+        roles = roleResults;
+      }),);
+    }), concatMap(() => {
+      return this.personRoleService.get().pipe(tap((personRoleResults: PersonRole[]) => {
+        personRoles = personRoleResults;
+      }),);
+    }), concatMap(() => {
+      return this.locationService.get().pipe(tap((locationResults: Location[]) => {
+        locations = locationResults;
+      }),);
+    }), concatMap(() => {
+      return this.locationPersonService.get().pipe(tap((locationPersonResults: LocationPerson[]) => {
+        locationPersons = locationPersonResults;
+      }),);
+    }), concatMap(() => {
+      return this.schoolClassService.get().pipe(tap((schoolClassResults: SchoolClass[]) => {
+        schoolClasses = schoolClassResults;
+      }),);
+    }), concatMap(() => {
+      return this.personSchoolClassService.get().pipe(tap((personSchoolClassResults: PersonSchoolClass[]) => {
+        personSchoolClasses = personSchoolClassResults;
+      }),);
+    })).subscribe(() => {
+      this.persons.data.map((person: Person) => {
+        const personAddressLink: PersonAddress | undefined = personAddresses.find((link: PersonAddress): boolean => link.person_id == person.id);
+        const personRoleLink: PersonRole | undefined = personRoles.find((link: PersonRole): boolean => link.person_id == person.id);
+        const locationPersonLink: LocationPerson | undefined = locationPersons.find((link: LocationPerson): boolean => link.person_id == person.id);
+        const personKlasseLink: PersonSchoolClass | undefined = personSchoolClasses.find((link: PersonSchoolClass): boolean => link.person_id == person.id);
 
-        if (personAdresseLink) {
-          person.adresse = <Adresse>adressen.find((adresse: Adresse): boolean => adresse.id == personAdresseLink.adresse_id);
+        if (personAddressLink) {
+          person.address = <Address>addresses.find((address: Address): boolean => address.id == personAddressLink.address_id);
         }
-        if (personRolleLink) {
-          person.rolle = <Rolle>rollen.find((rolle: Rolle): boolean => rolle.id == personRolleLink.rolle_id);
+        if (personRoleLink) {
+          person.role = <Role>roles.find((role: Role): boolean => role.id == personRoleLink.role_id);
         }
-        if (personStandortLink) {
-          person.standort = <Standort>standort.find((standort: Standort): boolean => standort.id === personStandortLink.standort_id);
+        if (locationPersonLink) {
+          person.location = <Location>locations.find((location: Location): boolean => location.id === locationPersonLink.location_id);
         }
         if (personKlasseLink) {
-          person.klasse = <Klasse>klasse.find((klasse: Klasse): boolean => klasse.id === personKlasseLink.klasse_id);
+          person.school_class = <SchoolClass>schoolClasses.find((schoolClass: SchoolClass): boolean => schoolClass.id === personKlasseLink.school_class_id);
         }
 
         return person;
@@ -235,40 +169,40 @@ export class PersonenComponent implements OnInit {
   }
 
   private getSelectedPerson(): any {
-    return {...this.personen.data.find((x: Person): boolean => x.id == this.selectedRowIndex)};
+    return {...this.persons.data.find((x: Person): boolean => x.id == this.selectedRowIndex)};
   }
 
   private initializePersonAutoCompleteData(): void {
-    this.autoComplete.nachnamen = Array.from(new Set(this.personen.data.map<string>((x: Person) => {
-      return x?.nachname;
+    this.autoComplete.lastNames = Array.from(new Set(this.persons.data.map<string>((x: Person) => {
+      return x?.last_name;
     })));
 
-    this.autoComplete.vornamen = Array.from(new Set(this.personen.data.map<string>((x: Person) => {
-      return x?.vorname;
+    this.autoComplete.firstNames = Array.from(new Set(this.persons.data.map<string>((x: Person) => {
+      return x?.first_name;
     })));
 
-    this.autoComplete.geburtsdaten = Array.from(new Set(this.personen.data.map<string>((x: Person) => {
-      return x?.geburtsdatum;
+    this.autoComplete.birthdays = Array.from(new Set(this.persons.data.map<string>((x: Person) => {
+      return x?.birthdate;
     })));
 
-    this.autoComplete.strassen = Array.from(new Set(this.personen.data.map<string>((x: Person) => {
-      return x.adresse?.strasse;
+    this.autoComplete.streets = Array.from(new Set(this.persons.data.map<string>((x: Person) => {
+      return x.address?.street;
     })));
 
-    this.autoComplete.hausnummern = Array.from(new Set(this.personen.data.map<string>((x: Person) => {
-      return x.adresse?.hausnummer;
+    this.autoComplete.houseNumbers = Array.from(new Set(this.persons.data.map<string>((x: Person) => {
+      return x.address?.house_number;
     })));
 
-    this.autoComplete.postleitzahlen = Array.from(new Set(this.personen.data.map<string>((x: Person) => {
-      return x.adresse?.postleitzahl;
+    this.autoComplete.postalCodes = Array.from(new Set(this.persons.data.map<string>((x: Person) => {
+      return x.address?.postal_code;
     })));
 
-    this.autoComplete.orte = Array.from(new Set(this.personen.data.map<string>((x: Person) => {
-      return x.adresse?.ort;
+    this.autoComplete.locations = Array.from(new Set(this.persons.data.map<string>((x: Person) => {
+      return x.address?.location;
     })));
 
-    this.autoComplete.laender = Array.from(new Set(this.personen.data.map<string>((x: Person) => {
-      return x.adresse?.land;
+    this.autoComplete.countries = Array.from(new Set(this.persons.data.map<string>((x: Person) => {
+      return x.address?.country;
     })));
   }
 }

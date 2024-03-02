@@ -26,12 +26,12 @@ import {RoleService} from "../../../core/services/role.service";
 export class RollenNewComponent {
   public name: string = "";
 
-  constructor(private rolleService: RoleService,
+  constructor(private roleService: RoleService,
               private dialogRef: MatDialogRef<RollenNewComponent>) {
   }
 
-  public createNewRoll(): void {
-    this.rolleService.add(this.name).subscribe(() => {
+  public save(): void {
+    this.roleService.add(this.name).subscribe(() => {
       this.dialogRef.close();
     });
   }

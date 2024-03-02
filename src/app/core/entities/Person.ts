@@ -1,15 +1,15 @@
-import {Adresse} from "./Adresse";
-import {Rolle} from "./Rolle";
-import {Standort} from "./Standort";
-import {Klasse} from "./Klasse";
+import {Role} from "./Role";
+import {Address} from "./Address";
+import {SchoolClass} from "./SchoolClass";
+import {Location} from "./Location";
 
 export interface Person {
   id: string;
-  nachname: string;
-  vorname: string;
-  geburtsdatum: string;
-  adresse: Adresse;
-  rolle: Rolle;
-  standort: Standort;
-  klasse: Klasse;
+  last_name: string;
+  first_name: string;
+  birthdate: string;
+  address: Address;
+  role: Role;
+  location: Location;
+  school_class: SchoolClass;
 }

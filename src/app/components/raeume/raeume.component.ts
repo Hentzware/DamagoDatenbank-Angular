@@ -10,8 +10,8 @@ import {
 } from "@angular/material/table";
 import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
-import {Raum} from "../../core/entities/Raum";
-import {RaumService} from "../../core/services/raum.service";
+import {Room} from "../../core/entities/Room";
+import {RoomService} from "../../core/services/room.service";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatButton} from "@angular/material/button";
 import {MatToolbar, MatToolbarModule} from "@angular/material/toolbar";
@@ -57,11 +57,11 @@ import {MatInput} from "@angular/material/input";
 })
 export class RaeumeComponent implements OnInit{
   @ViewChild(MatSort) sort: MatSort | any;
-  public raum: MatTableDataSource<Raum> = new MatTableDataSource<Raum>();
+  public raum: MatTableDataSource<Room> = new MatTableDataSource<Room>();
   public selectedRowIndex: string = "-1";
   public displayedColumns: string[] = ["id", "name", "nr"];
 
-  constructor(private raumService: RaumService,
+  constructor(private raumService: RoomService,
               private dialog: MatDialog) {
   }
 

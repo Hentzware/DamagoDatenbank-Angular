@@ -8,38 +8,42 @@ import {SchoolClass} from "../entities/SchoolClass";
   providedIn: 'root'
 })
 export class SchoolClassService {
-  private apiSchoolClassesUrl: string = environment.apiBaseUrl + environment.apiSchoolClassesUrl;
+  private apiSchoolClassUrl: string = environment.apiBaseUrl + environment.apiSchoolClassesUrl;
 
   constructor(private httpClient: HttpClient) {
   }
 
   public add(name: string): Observable<void> {
-    return this.httpClient.post<void>(this.apiSchoolClassesUrl, {
+    return this.httpClient.post<void>(this.apiSchoolClassUrl, {
       name: name
     });
   }
 
   public delete(id: string): Observable<void> {
-    return this.httpClient.delete<void>(this.apiSchoolClassesUrl + `/${id}?permanent=false`);
+    return this.httpClient.delete<void>(this.apiSchoolClassUrl + `/${id}?permanent=false`);
   }
 
   public deletePermanent(id: string): Observable<void> {
-    return this.httpClient.delete<void>(this.apiSchoolClassesUrl + `/${id}?permanent=true`);
+    return this.httpClient.delete<void>(this.apiSchoolClassUrl + `/${id}?permanent=true`);
   }
 
   public get(): Observable<SchoolClass[]> {
-    return this.httpClient.get<SchoolClass[]>(this.apiSchoolClassesUrl + "?deleted=false");
+    return this.httpClient.get<SchoolClass[]>(this.apiSchoolClassUrl + "?deleted=false");
   }
 
   public getById(id: string): Observable<SchoolClass> {
-    return this.httpClient.get<SchoolClass>(this.apiSchoolClassesUrl + `/${id}`);
+    return this.httpClient.get<SchoolClass>(this.apiSchoolClassUrl + `/${id}`);
   }
 
   public getDeleted(): Observable<SchoolClass[]> {
-    return this.httpClient.get<SchoolClass[]>(this.apiSchoolClassesUrl + "?deleted=true");
+    return this.httpClient.get<SchoolClass[]>(this.apiSchoolClassUrl + "?deleted=true");
+  }
+
+  public search(name: string): Observable<SchoolClass[]> {
+    return this.httpClient.get<SchoolClass[]>(this.apiSchoolClassUrl + `/search?name=${name}`);
   }
 
   public update(schoolClass: SchoolClass): Observable<void> {
-    return this.httpClient.put<void>(this.apiSchoolClassesUrl + `/${schoolClass.id}`, schoolClass);
+    return this.httpClient.put<void>(this.apiSchoolClassUrl + `/${schoolClass.id}`, schoolClass);
   }
 }

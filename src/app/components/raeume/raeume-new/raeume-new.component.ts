@@ -5,8 +5,8 @@ import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatDialogRef} from "@angular/material/dialog";
-import {Raum} from "../../../core/entities/Raum";
-import {RaumService} from "../../../core/services/raum.service";
+import {Room} from "../../../core/entities/Room";
+import {RoomService} from "../../../core/services/room.service";
 
 @Component({
   selector: 'app-raeume-new',
@@ -24,9 +24,9 @@ import {RaumService} from "../../../core/services/raum.service";
   styleUrl: './raeume-new.component.css'
 })
 export class RaeumeNewComponent {
-  public raum: Raum = {id:"",name:"",nr:""}
+  public raum: Room = {id:"",name:"",nr:""}
 
-  constructor(private raumService: RaumService,
+  constructor(private raumService: RoomService,
               private dialogRef: MatDialogRef<RaeumeNewComponent>) {
   }
 

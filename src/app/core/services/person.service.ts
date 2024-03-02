@@ -8,35 +8,37 @@ import {environment} from "../../../environments/environment";
   providedIn: "root"
 })
 export class PersonService {
+  private apiPersonUrl: string = environment.apiBaseUrl + environment.apiPersonUrl;
+
   constructor(private http: HttpClient) {
   }
 
   public add(person: Person): Observable<string> {
-    return this.http.post<string>(environment.apiBaseUrl + environment.apiPersonsUrl, person);
+    return this.http.post<string>(this.apiPersonUrl, person);
   }
 
   public delete(id: string): Observable<void> {
-    return this.http.delete<void>(environment.apiBaseUrl + environment.apiPersonsUrl + `/${id}?permanent=false`);
+    return this.http.delete<void>(this.apiPersonUrl + `/${id}?permanent=false`);
   }
 
   public deletePermanent(id: string): Observable<void> {
-    return this.http.delete<void>(environment.apiBaseUrl + environment.apiPersonsUrl + `/${id}?permanent=true`);
+    return this.http.delete<void>(this.apiPersonUrl + `/${id}?permanent=true`);
   }
 
   public get(): Observable<Person[]> {
-    return this.http.get<Person[]>(environment.apiBaseUrl + environment.apiPersonsUrl + "?deleted=false");
+    return this.http.get<Person[]>(this.apiPersonUrl + "?deleted=false");
   }
 
   public getById(id: string): Observable<Person> {
-    return this.http.get<Person>(environment.apiBaseUrl + environment.apiPersonsUrl + `/${id}`);
+    return this.http.get<Person>(this.apiPersonUrl + `/${id}`);
   }
 
   public getDeleted(): Observable<Person[]> {
-    return this.http.get<Person[]>(environment.apiBaseUrl + environment.apiPersonsUrl + "?deleted=true");
+    return this.http.get<Person[]>(this.apiPersonUrl + "?deleted=true");
   }
 
   public update(person: Person): Observable<void> {
-    return this.http.put<void>(environment.apiBaseUrl + environment.apiPersonsUrl + `/${person.id}`, person);
+    return this.http.put<void>(this.apiPersonUrl + `/${person.id}`, person);
   }
 
 }

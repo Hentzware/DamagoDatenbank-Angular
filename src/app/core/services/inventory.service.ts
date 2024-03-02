@@ -8,37 +8,37 @@ import {Inventory} from "../entities/Inventory";
   providedIn: 'root'
 })
 export class InventoryService {
-  private apiInventoriesUrl: string = environment.apiBaseUrl + environment.apiInventoriesUrl;
+  private apiInventoryUrl: string = environment.apiBaseUrl + environment.apiInventoriesUrl;
 
   constructor(private http: HttpClient) {
   }
 
   public add(inventory: Inventory): Observable<string> {
-    return this.http.post<string>(this.apiInventoriesUrl, inventory);
+    return this.http.post<string>(this.apiInventoryUrl, inventory);
   }
 
   public delete(id: string): Observable<void> {
-    return this.http.delete<void>(this.apiInventoriesUrl + `/${id}?permanent=false`);
+    return this.http.delete<void>(this.apiInventoryUrl + `/${id}?permanent=false`);
   }
 
   public deletePermanent(id: string): Observable<void> {
-    return this.http.delete<void>(this.apiInventoriesUrl + `/${id}?permanent=true`);
+    return this.http.delete<void>(this.apiInventoryUrl + `/${id}?permanent=true`);
   }
 
   public get(): Observable<Inventory[]> {
-    return this.http.get<Inventory[]>(this.apiInventoriesUrl + "?deleted=false");
+    return this.http.get<Inventory[]>(this.apiInventoryUrl + "?deleted=false");
   }
 
   public getById(id: string): Observable<Inventory> {
-    return this.http.get<Inventory>(this.apiInventoriesUrl + `/${id}`);
+    return this.http.get<Inventory>(this.apiInventoryUrl + `/${id}`);
   }
 
   public getDeleted(): Observable<Inventory[]> {
-    return this.http.get<Inventory[]>(this.apiInventoriesUrl + "?deleted=true");
+    return this.http.get<Inventory[]>(this.apiInventoryUrl + "?deleted=true");
   }
 
   public update(inventory: Inventory): Observable<void> {
-    return this.http.put<void>(this.apiInventoriesUrl + `/${inventory.id}`, inventory);
+    return this.http.put<void>(this.apiInventoryUrl + `/${inventory.id}`, inventory);
   }
 
 }

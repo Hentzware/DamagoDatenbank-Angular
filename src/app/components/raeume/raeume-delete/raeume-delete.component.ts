@@ -3,8 +3,8 @@ import {FlexModule} from "@angular/flex-layout";
 import {MatButton} from "@angular/material/button";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {Raum} from "../../../core/entities/Raum";
-import {RaumService} from "../../../core/services/raum.service";
+import {Room} from "../../../core/entities/Room";
+import {RoomService} from "../../../core/services/room.service";
 import {FormsModule} from "@angular/forms";
 import {MatInput} from "@angular/material/input";
 
@@ -24,11 +24,11 @@ import {MatInput} from "@angular/material/input";
 })
 export class RaeumeDeleteComponent {
 
-  public raum: Raum = {id:"",name:"",nr:""}
+  public raum: Room = {id:"",name:"",nr:""}
 
   constructor(private dialogRef: MatDialogRef<RaeumeDeleteComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private raumService: RaumService) {
+              private raumService: RoomService) {
     this.raum = data.raum;
 
   }

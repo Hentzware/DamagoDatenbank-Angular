@@ -7,8 +7,8 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {NgClass} from "@angular/common";
-import {Modul} from "../../core/entities/Modul";
-import {ModulService} from "../../core/services/modul.service";
+import {Module} from "../../core/entities/Module";
+import {ModuleService} from "../../core/services/module.service";
 import {ModuleNewComponent} from "./module-new/module-new.component";
 import {ModuleEditComponent} from "./module-edit/module-edit.component";
 import {ModuleDeleteComponent} from "./module-delete/module-delete.component";
@@ -32,11 +32,11 @@ import {ModuleDeleteComponent} from "./module-delete/module-delete.component";
 })
 export class ModuleComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort | any;
-  public module: MatTableDataSource<Modul> = new MatTableDataSource<Modul>();
+  public module: MatTableDataSource<Module> = new MatTableDataSource<Module>();
   public selectedRowIndex: string = "-1";
   public displayedColumns: string[] = ["id", "name", "beschreibung"];
 
-  constructor(private modulService: ModulService,
+  constructor(private modulService: ModuleService,
               private dialog: MatDialog,
               private _liveAnnouncer: LiveAnnouncer) {
   }

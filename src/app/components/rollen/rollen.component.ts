@@ -42,14 +42,14 @@ export class RollenComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.getRolls();
+    this.getRoles();
   }
 
   public highlightRow(row: any): void {
     this.selectedRowIndex = row.id;
   }
 
-  public getRolls(): void {
+  public getRoles(): void {
     this.rolleService.get().subscribe(result => {
       this.rollen = new MatTableDataSource(result);
       this.rollen.sort = this.sort;
@@ -65,7 +65,7 @@ export class RollenComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      this.getRolls();
+      this.getRoles();
     });
   }
 
@@ -76,7 +76,7 @@ export class RollenComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      this.getRolls();
+      this.getRoles();
     });
   }
 
@@ -87,7 +87,7 @@ export class RollenComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      this.getRolls();
+      this.getRoles();
     });
   }
 

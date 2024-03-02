@@ -8,37 +8,37 @@ import {Address} from "../entities/Address";
   providedIn: 'root'
 })
 export class AddressService {
-  private apiAddressesUrl: string = environment.apiBaseUrl + environment.apiAddressesUrl;
+  private apiAddressUrl: string = environment.apiBaseUrl + environment.apiAddressesUrl;
 
   constructor(private http: HttpClient) {
   }
 
   public add(adresse: Address): Observable<string> {
-    return this.http.post<string>(this.apiAddressesUrl, adresse);
+    return this.http.post<string>(this.apiAddressUrl, adresse);
   }
 
   public delete(id: string): Observable<void> {
-    return this.http.delete<void>(this.apiAddressesUrl + `/${id}?permanent=false`);
+    return this.http.delete<void>(this.apiAddressUrl + `/${id}?permanent=false`);
   }
 
   public deletePermanent(id: string): Observable<void> {
-    return this.http.delete<void>(this.apiAddressesUrl + `/${id}?permanent=true`);
+    return this.http.delete<void>(this.apiAddressUrl + `/${id}?permanent=true`);
   }
 
   public get(): Observable<Address[]> {
-    return this.http.get<Address[]>(this.apiAddressesUrl + "?deleted=false");
+    return this.http.get<Address[]>(this.apiAddressUrl + "?deleted=false");
   }
 
   public getById(id: string): Observable<Address> {
-    return this.http.get<Address>(this.apiAddressesUrl + `/${id}`);
+    return this.http.get<Address>(this.apiAddressUrl + `/${id}`);
   }
 
   public getDeleted(): Observable<Address[]> {
-    return this.http.get<Address[]>(this.apiAddressesUrl + "?deleted=true");
+    return this.http.get<Address[]>(this.apiAddressUrl + "?deleted=true");
   }
 
   public update(adresse: Address): Observable<void> {
-    return this.http.put<void>(this.apiAddressesUrl + `/${adresse.id}`, adresse);
+    return this.http.put<void>(this.apiAddressUrl + `/${adresse.id}`, adresse);
   }
 
 
