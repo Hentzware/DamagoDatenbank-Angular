@@ -17,9 +17,7 @@ import {forkJoin} from "rxjs";
 import {PersonEditComponent} from "./person-edit/person-edit.component";
 import {PersonDeleteComponent} from "./person-delete/person-delete.component";
 import {AutoComplete} from "../../core/entities/AutoComplete";
-import {PersonRole} from "../../core/entities/PersonRole";
 import {PersonRoleService} from "../../core/services/person-role.service";
-import {PersonSchoolClass} from "../../core/entities/PersonSchoolClass";
 import {PersonSchoolClassService} from "../../core/services/person-school-class.service";
 import {RoleService} from "../../core/services/role.service";
 import {LocationService} from "../../core/services/location.service";
@@ -27,12 +25,6 @@ import {LocationPersonService} from "../../core/services/location-person.service
 import {SchoolClassService} from "../../core/services/school-class.service";
 import {AddressService} from "../../core/services/address.service";
 import {PersonAddressService} from "../../core/services/person-address.service";
-import {Address} from "../../core/entities/Address";
-import {Role} from "../../core/entities/Role";
-import {SchoolClass} from "../../core/entities/SchoolClass";
-import {LocationPerson} from "../../core/entities/LocationPerson";
-import {PersonAddress} from "../../core/entities/PersonAddress";
-import {Location} from "../../core/entities/Location";
 import {LinkService} from "../../core/services/link.service";
 
 @Component({
