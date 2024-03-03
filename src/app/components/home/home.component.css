@@ -37,8 +37,3 @@
 .example-spacer {
   flex: 1 1 auto;
 }
-
-.center-items {
-  display: flex;
-  align-items: center;
-}

@@ -6,6 +6,7 @@ import {Router, RouterOutlet} from "@angular/router";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatTabLink} from "@angular/material/tabs";
 import {MatDivider} from "@angular/material/divider";
+import {NgOptimizedImage} from "@angular/common";
 
 @Component({
   selector: 'app-home',
@@ -17,7 +18,8 @@ import {MatDivider} from "@angular/material/divider";
     MatButton,
     RouterOutlet,
     MatTabLink,
-    MatDivider
+    MatDivider,
+    NgOptimizedImage
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
