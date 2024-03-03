@@ -2,12 +2,12 @@
   <mat-label class="mat-label">Neuer Room</mat-label>
   <mat-form-field appearance="fill">
     <mat-label>Name</mat-label>
-    <input matInput [(ngModel)]="raum.name">
+    <input matInput [(ngModel)]="room.name">
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Nr</mat-label>
-    <input matInput [(ngModel)]="raum.nr">
+    <input matInput [(ngModel)]="room.nr">
   </mat-form-field>
-  <button class="mat-raised-button" mat-raised-button color="primary" (click)="createNewRoom()">Speichern</button>
+  <button class="mat-raised-button" mat-raised-button color="primary" (click)="save()">Speichern</button>
 </div>
 

@@ -11,30 +11,20 @@ import {MatInput} from "@angular/material/input";
 @Component({
   selector: 'app-raeume-delete',
   standalone: true,
-  imports: [
-    FlexModule,
-    FormsModule,
-    MatButton,
-    MatFormField,
-    MatInput,
-    MatLabel
-  ],
+  imports: [FlexModule, FormsModule, MatButton, MatFormField, MatInput, MatLabel],
   templateUrl: './raeume-delete.component.html',
   styleUrl: './raeume-delete.component.css'
 })
 export class RaeumeDeleteComponent {
 
-  public raum: Room = {id:"",name:"",nr:""}
+  public room: Room = {id: "", name: "", nr: ""}
 
-  constructor(private dialogRef: MatDialogRef<RaeumeDeleteComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any,
-              private raumService: RoomService) {
-    this.raum = data.raum;
-
+  constructor(private dialogRef: MatDialogRef<RaeumeDeleteComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private roomService: RoomService) {
+    this.room = data.room;
   }
 
-  public deleteRoom(): void {
-    this.raumService.delete(this.data.raum.id).subscribe(() => {
+  public save(): void {
+    this.roomService.delete(this.room.id).subscribe(() => {
       this.dialogRef.close();
     })
   }

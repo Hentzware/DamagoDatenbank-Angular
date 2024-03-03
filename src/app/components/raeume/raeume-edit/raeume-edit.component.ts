@@ -12,30 +12,19 @@ import {RoomService} from "../../../core/services/room.service";
 @Component({
   selector: 'app-raeume-edit',
   standalone: true,
-  imports: [
-    FlexModule,
-    MatButton,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    ReactiveFormsModule,
-    FormsModule
-  ],
+  imports: [FlexModule, MatButton, MatFormField, MatInput, MatLabel, ReactiveFormsModule, FormsModule],
   templateUrl: './raeume-edit.component.html',
   styleUrl: './raeume-edit.component.css'
 })
 export class RaeumeEditComponent {
-  public raum: Room = {id:"",name:"",nr:""}
+  public room: Room = {id: "", name: "", nr: ""}
 
-  constructor(private dialogRef: MatDialogRef<RaeumeEditComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any,
-              private raumService: RoomService) {
-    this.raum = data.raum;
+  constructor(private dialogRef: MatDialogRef<RaeumeEditComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private roomService: RoomService) {
+    this.room = data.room;
   }
 
-  public editRoom(): void {
-
-    this.raumService.update(this.data.raum).subscribe(() => {
+  public save(): void {
+    this.roomService.update(this.room).subscribe(() => {
       this.dialogRef.close();
     });
   }
