@@ -2,11 +2,11 @@
   <mat-label style="text-align: center;font-size: 24px;margin-bottom: 20px;margin-top: 10px">Module bearbeiten</mat-label>
   <mat-form-field appearance="fill">
     <mat-label>Name</mat-label>
-    <input matInput [(ngModel)]="data['modul']['name']">
+    <input matInput [(ngModel)]="module.name">
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Beschreibung</mat-label>
-    <input matInput [(ngModel)]="data['modul']['beschreibung']">
+    <input matInput [(ngModel)]="module.description">
   </mat-form-field>
   <button mat-raised-button color="primary" (click)="editModule()">Speichern</button>
 </div>

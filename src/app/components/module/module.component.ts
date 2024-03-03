@@ -5,7 +5,6 @@ import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {MatSort, MatSortHeader, MatSortModule} from "@angular/material/sort";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
-import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {NgClass} from "@angular/common";
 import {Module} from "../../core/entities/Module";
 import {ModuleService} from "../../core/services/module.service";
@@ -16,37 +15,17 @@ import {ModuleDeleteComponent} from "./module-delete/module-delete.component";
 @Component({
   selector: 'app-module',
   standalone: true,
-  imports: [
-    FlexLayoutModule,
-    MatToolbarModule,
-    MatButton,
-    MatTableModule,
-    MatDialogModule,
-    NgClass,
-    MatSortHeader,
-    MatSort,
-    MatSortModule
-  ],
+  imports: [FlexLayoutModule, MatToolbarModule, MatButton, MatTableModule, MatDialogModule, NgClass, MatSortHeader, MatSort, MatSortModule],
   templateUrl: './module.component.html',
   styleUrl: './module.component.css'
 })
 export class ModuleComponent implements OnInit {
-  @ViewChild(MatSort) sort: MatSort | any;
+  public displayedColumns: string[] = ["name", "beschreibung"];
   public module: MatTableDataSource<Module> = new MatTableDataSource<Module>();
   public selectedRowIndex: string = "-1";
-  public displayedColumns: string[] = ["id", "name", "beschreibung"];
+  @ViewChild(MatSort) sort: MatSort | any;
 
-  constructor(private modulService: ModuleService,
-              private dialog: MatDialog,
-              private _liveAnnouncer: LiveAnnouncer) {
-  }
-
-  public ngOnInit(): void {
-    this.getModules();
-  }
-
-  public highlightRow(row: any): void {
-    this.selectedRowIndex = row.id;
+  constructor(private modulService: ModuleService, private dialog: MatDialog) {
   }
 
   public getModules(): void {
@@ -59,31 +38,37 @@ export class ModuleComponent implements OnInit {
     });
   }
 
-  public openNewModuleDialog(): void {
+  public highlightRow(row: any): void {
+    this.selectedRowIndex = row.id;
+  }
+
+  public ngOnInit(): void {
+    this.getModules();
+  }
+
+  public openDeleteDialog(): void {
+    const dialogRef: MatDialogRef<ModuleDeleteComponent> = this.dialog.open(ModuleDeleteComponent, {
+      width: "500px", data: {module: this.getSelectedModule()}
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.getModules();
+    });
+  }
+
+  public openEditDialog(): void {
+    const dialogRef: MatDialogRef<ModuleEditComponent> = this.dialog.open(ModuleEditComponent, {
+      width: "500px", data: {module: this.getSelectedModule()}
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.getModules();
+    });
+  }
+
+  public openNewDialog(): void {
     const dialogRef: MatDialogRef<ModuleNewComponent> = this.dialog.open(ModuleNewComponent, {
       width: "500px"
-    });
-
-    dialogRef.afterClosed().subscribe(() => {
-      this.getModules();
-    });
-  }
-
-  public openEditModuleDialog(): void {
-    const dialogRef: MatDialogRef<ModuleEditComponent> = this.dialog.open(ModuleEditComponent, {
-      width: "500px",
-      data: {modul: this.getSelectedModule()}
-    });
-
-    dialogRef.afterClosed().subscribe(() => {
-      this.getModules();
-    });
-  }
-
-  public openDeleteModuleDialog(): void {
-    const dialogRef: MatDialogRef<ModuleDeleteComponent> = this.dialog.open(ModuleDeleteComponent, {
-      width: "500px",
-      data: {modul: this.getSelectedModule()}
     });
 
     dialogRef.afterClosed().subscribe(() => {

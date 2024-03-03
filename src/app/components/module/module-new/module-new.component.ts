@@ -24,14 +24,14 @@ import {Module} from "../../../core/entities/Module";
   styleUrl: './module-new.component.css'
 })
 export class ModuleNewComponent {
-  public modul: Module = {id:"",name:"",description:""}
+  public module: Module = {id:"",name:"",description:""}
 
-  constructor(private modulService: ModuleService,
+  constructor(private moduleService: ModuleService,
               private dialogRef: MatDialogRef<ModuleNewComponent>) {
   }
 
   public createNewModule(): void {
-    this.modulService.add(this.modul.name, this.modul.description).subscribe(() => {
+    this.moduleService.add(this.module.name, this.module.description).subscribe(() => {
       this.dialogRef.close();
     });
   }

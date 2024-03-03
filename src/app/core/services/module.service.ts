@@ -14,7 +14,7 @@ export class ModuleService {
   }
 
   public add(name: string, description: string): Observable<void> {
-    return this.httpClient.post<void>(this.apiModuleUrl + "/module", {
+    return this.httpClient.post<void>(this.apiModuleUrl, {
       name: name, description: description
     });
   }

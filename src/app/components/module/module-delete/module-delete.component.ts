@@ -18,16 +18,16 @@ import {ModuleService} from "../../../core/services/module.service";
   styleUrl: './module-delete.component.css'
 })
 export class ModuleDeleteComponent {
-  public modul: Module = {id:"",name:"",description:""}
+  public module: Module = {id:"",name:"",description:""}
 
   constructor(private dialogRef: MatDialogRef<ModuleDeleteComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private modulService: ModuleService) {
-    this.modul = data.modul;
+              private moduleService: ModuleService) {
+    this.module = data.module;
   }
 
   public deleteModule(): void {
-    this.modulService.delete(this.data.modul.id).subscribe(() => {
+    this.moduleService.delete(this.data.module.id).subscribe(() => {
       this.dialogRef.close();
     });
   }

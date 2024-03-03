@@ -24,16 +24,16 @@ import {ModuleService} from "../../../core/services/module.service";
   styleUrl: './module-edit.component.css'
 })
 export class ModuleEditComponent {
-  public modul: Module = {id:"",name:"",description:""}
+  public module: Module = {id:"",name:"",description:""}
 
   constructor(private dialogRef: MatDialogRef<ModuleEditComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private modulService: ModuleService) {
-    this.modul = data.modul;
+    this.module = data.module;
   }
 
   public editModule(): void {
-    this.modulService.update(this.data.modul).subscribe(() => {
+    this.modulService.update(this.module).subscribe(() => {
       this.dialogRef.close();
     });
   }
