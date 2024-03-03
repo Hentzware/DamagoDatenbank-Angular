@@ -1,27 +1,27 @@
 import {Routes} from '@angular/router';
 import {HomeComponent} from "./components/home/home.component";
-import {KlassenComponent} from "./components/klassen/klassen.component";
-import {StandorteComponent} from "./components/standorte/standorte.component";
-import {InventarComponent} from "./components/inventar/inventar.component";
-import {UnterrichtComponent} from "./components/unterricht/unterricht.component";
-import {RollenComponent} from "./components/rollen/rollen.component";
+import {SchoolClassComponent} from "./components/school-class/school-class.component";
+import {LocationComponent} from "./components/location/location.component";
+import {InventoryComponent} from "./components/inventory/inventory.component";
+import {LessonComponent} from "./components/lesson/lesson.component";
+import {RoleComponent} from "./components/role/role.component";
 import {ModuleComponent} from "./components/module/module.component";
-import {PersonenComponent} from "./components/personen/personen.component";
-import {RaeumeComponent} from "./components/raeume/raeume.component";
-import {SucheComponent} from "./components/suche/suche.component";
+import {PersonComponent} from "./components/person/person.component";
+import {RoomComponent} from "./components/room/room.component";
+import {SearchComponent} from "./components/search/search.component";
 import {AddressComponent} from "./components/address/address.component";
 
 export const routes: Routes = [
   {path: "", redirectTo: "standorte", pathMatch: "full"},
   {path: "home", component: HomeComponent},
-  {path: "klassen", component: KlassenComponent},
-  {path: "standorte", component: StandorteComponent},
-  {path: "inventar", component: InventarComponent},
-  {path: "unterricht", component: UnterrichtComponent},
-  {path: "rollen", component: RollenComponent},
+  {path: "klassen", component: SchoolClassComponent},
+  {path: "standorte", component: LocationComponent},
+  {path: "inventar", component: InventoryComponent},
+  {path: "unterricht", component: LessonComponent},
+  {path: "rollen", component: RoleComponent},
   {path: "module", component: ModuleComponent},
-  {path: "personen", component: PersonenComponent},
-  {path: "raeume", component: RaeumeComponent},
+  {path: "personen", component: PersonComponent},
+  {path: "raeume", component: RoomComponent},
   {path: "adresse", component: AddressComponent},
-  {path: "suche", component: SucheComponent}
+  {path: "suche", component: SearchComponent}
 ];
