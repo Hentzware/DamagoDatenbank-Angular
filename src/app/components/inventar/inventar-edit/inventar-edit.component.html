@@ -2,11 +2,11 @@
   <mat-label style="text-align: center;font-size: 24px;margin-bottom: 20px;margin-top: 10px">Inventar bearbeiten</mat-label>
   <mat-form-field appearance="fill">
     <mat-label>Name</mat-label>
-    <input matInput [(ngModel)]="data['inventar']['name']">
+    <input matInput [(ngModel)]="inventory.name">
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Anzahl</mat-label>
-    <input matInput [(ngModel)]="data['inventar']['anzahl']">
+    <input matInput [(ngModel)]="inventory.amount">
   </mat-form-field>
-  <button mat-raised-button color="primary" (click)="editInventory()">Speichern</button>
+  <button mat-raised-button color="primary" (click)="save()">Speichern</button>
 </div>

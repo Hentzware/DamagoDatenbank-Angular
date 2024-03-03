@@ -20,62 +20,58 @@ import {MatInput} from "@angular/material/input";
 @Component({
   selector: 'app-inventar',
   standalone: true,
-  imports: [
-    MatTable,
-    MatColumnDef,
-    MatHeaderCell,
-    MatHeaderCellDef,
-    MatCell,
-    MatCellDef,
-    MatTableModule,
-    DatePipe,
-    NgClass,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatOptionModule,
-    FormsModule,
-    FlexLayoutModule,
-    CommonModule,
-    MatInput,
-    MatButton,
-    MatToolbar,
-    MatToolbarModule,
-    MatDialogModule,
-    MatSort,
-    MatSortHeader
-  ],
+  imports: [MatTable, MatColumnDef, MatHeaderCell, MatHeaderCellDef, MatCell, MatCellDef, MatTableModule, DatePipe, NgClass, MatFormFieldModule, MatSelectModule, MatOptionModule, FormsModule, FlexLayoutModule, CommonModule, MatInput, MatButton, MatToolbar, MatToolbarModule, MatDialogModule, MatSort, MatSortHeader],
   templateUrl: './inventar.component.html',
   styleUrl: './inventar.component.css'
 })
-export class InventarComponent implements OnInit{
-  @ViewChild(MatSort) sort: MatSort | any;
-  public inventar: MatTableDataSource<Inventory> = new MatTableDataSource<Inventory>();
-  public selectedRowIndex: string = "-1";
+export class InventarComponent implements OnInit {
   public displayedColumns: string[] = ["id", "name", "anzahl"];
+  public inventory: MatTableDataSource<Inventory> = new MatTableDataSource<Inventory>();
+  public selectedRowIndex: string = "-1";
+  @ViewChild(MatSort) sort: MatSort | any;
 
-  constructor(private inventarService: InventoryService,
-              private dialog: MatDialog) {
+  constructor(private inventoryService: InventoryService, private dialog: MatDialog) {
   }
 
-  public ngOnInit(): void {
-    this.getInventory();
+  public getInventory(): void {
+    this.inventoryService.get().subscribe(result => {
+      this.inventory = new MatTableDataSource(result);
+      this.inventory.sort = this.sort;
+      this.sort.active = 'name';
+      this.sort.direction = 'asc';
+      this.inventory.sort = this.sort;
+    });
   }
 
   public highlightRow(row: any): void {
     this.selectedRowIndex = row.id;
   }
 
-  public getInventory(): void {
-    this.inventarService.get().subscribe(result => {
-      this.inventar = new MatTableDataSource(result);
-      this.inventar.sort = this.sort;
-      this.sort.active = 'name';
-      this.sort.direction = 'asc';
-      this.inventar.sort = this.sort;
+  public ngOnInit(): void {
+    this.getInventory();
+  }
+
+  public openDeleteDialog(): void {
+    const dialogRef: MatDialogRef<InventarDeleteComponent> = this.dialog.open(InventarDeleteComponent, {
+      width: "500px", data: {inventory: this.getSelectedInventory()}
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.getInventory();
     });
   }
 
-  public openNewInventoryDialog(): void {
+  public openEditDialog(): void {
+    const dialogRef: MatDialogRef<InventarEditComponent> = this.dialog.open(InventarEditComponent, {
+      width: "500px", data: {inventory: this.getSelectedInventory()}
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.getInventory();
+    });
+  }
+
+  public openNewDialog(): void {
     const dialogRef: MatDialogRef<InventarNewComponent> = this.dialog.open(InventarNewComponent, {
       width: "500px"
     });
@@ -85,29 +81,7 @@ export class InventarComponent implements OnInit{
     });
   }
 
-  public openEditInventoryDialog(): void {
-    const dialogRef: MatDialogRef<InventarEditComponent> = this.dialog.open(InventarEditComponent, {
-      width: "500px",
-      data: {inventar: this.getSelectedInventory()}
-    });
-
-    dialogRef.afterClosed().subscribe(() => {
-      this.getInventory();
-    });
-  }
-
-  public openDeleteInventoryDialog(): void {
-    const dialogRef: MatDialogRef<InventarDeleteComponent> = this.dialog.open(InventarDeleteComponent, {
-      width: "500px",
-      data: {inventar: this.getSelectedInventory()}
-    });
-
-    dialogRef.afterClosed().subscribe(() => {
-      this.getInventory();
-    });
-  }
-
   private getSelectedInventory(): any {
-    return {...this.inventar.data.find(x => x.id == this.selectedRowIndex)};
+    return {...this.inventory.data.find(x => x.id == this.selectedRowIndex)};
   }
 }

@@ -11,30 +11,19 @@ import {InventoryService} from "../../../core/services/inventory.service";
 @Component({
   selector: 'app-inventar-edit',
   standalone: true,
-  imports: [
-    FlexModule,
-    MatButton,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    ReactiveFormsModule,
-    FormsModule
-  ],
+  imports: [FlexModule, MatButton, MatFormField, MatInput, MatLabel, ReactiveFormsModule, FormsModule],
   templateUrl: './inventar-edit.component.html',
   styleUrl: './inventar-edit.component.css'
 })
 export class InventarEditComponent {
-  public inventar: Inventory = {id:"",name:"",amount:0}
+  public inventory: Inventory = {id: "", name: "", amount: 0}
 
-  constructor(private dialogRef: MatDialogRef<InventarEditComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any,
-              private inventarService: InventoryService) {
-    this.inventar = data.inventar;
+  constructor(private dialogRef: MatDialogRef<InventarEditComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private inventoryService: InventoryService) {
+    this.inventory = data.inventory;
   }
 
-  public editInventory(): void {
-
-    this.inventarService.update(this.data.inventar).subscribe(() => {
+  public save(): void {
+    this.inventoryService.update(this.inventory).subscribe(() => {
       this.dialogRef.close();
     });
   }
