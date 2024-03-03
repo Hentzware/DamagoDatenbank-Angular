@@ -11,6 +11,11 @@
   padding: 20px;
   box-shadow: 3px 0 7px rgba(0,0,0,0.3);
   background-color: #d9d9d9;
+
+  position: fixed;
+  top: 100px;
+  height: 100%;
+  z-index: 110;
 }
 
 .mat-sidenav-content {
@@ -32,6 +37,10 @@
 .mat-toolbar {
   height: 100px;
   background-color: black;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 100;
 }
 
 .example-spacer {
