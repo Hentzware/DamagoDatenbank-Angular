@@ -9,24 +9,18 @@ import {ModuleService} from "../../../core/services/module.service";
 @Component({
   selector: 'app-module-delete',
   standalone: true,
-  imports: [
-    FlexModule,
-    MatButton,
-    MatLabel
-  ],
+  imports: [FlexModule, MatButton, MatLabel],
   templateUrl: './module-delete.component.html',
   styleUrl: './module-delete.component.css'
 })
 export class ModuleDeleteComponent {
-  public module: Module = {id:"",name:"",description:""}
+  public module: Module = {id: "", name: "", description: ""}
 
-  constructor(private dialogRef: MatDialogRef<ModuleDeleteComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any,
-              private moduleService: ModuleService) {
+  constructor(private dialogRef: MatDialogRef<ModuleDeleteComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private moduleService: ModuleService) {
     this.module = data.module;
   }
 
-  public deleteModule(): void {
+  public save(): void {
     this.moduleService.delete(this.data.module.id).subscribe(() => {
       this.dialogRef.close();
     });

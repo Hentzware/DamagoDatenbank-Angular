@@ -11,34 +11,22 @@ import {ModuleService} from "../../../core/services/module.service";
 @Component({
   selector: 'app-module-edit',
   standalone: true,
-  imports: [
-    FlexModule,
-    MatButton,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    ReactiveFormsModule,
-    FormsModule
-  ],
+  imports: [FlexModule, MatButton, MatFormField, MatInput, MatLabel, ReactiveFormsModule, FormsModule],
   templateUrl: './module-edit.component.html',
   styleUrl: './module-edit.component.css'
 })
 export class ModuleEditComponent {
-  public module: Module = {id:"",name:"",description:""}
+  public module: Module = {id: "", name: "", description: ""}
 
-  constructor(private dialogRef: MatDialogRef<ModuleEditComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any,
-              private modulService: ModuleService) {
+  constructor(private dialogRef: MatDialogRef<ModuleEditComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private moduleService: ModuleService) {
     this.module = data.module;
   }
 
-  public editModule(): void {
-    this.modulService.update(this.module).subscribe(() => {
+  public save(): void {
+    this.moduleService.update(this.module).subscribe(() => {
       this.dialogRef.close();
     });
   }
-
-
 
 
 }

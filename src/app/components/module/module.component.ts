@@ -21,20 +21,21 @@ import {ModuleDeleteComponent} from "./module-delete/module-delete.component";
 })
 export class ModuleComponent implements OnInit {
   public displayedColumns: string[] = ["name", "beschreibung"];
-  public module: MatTableDataSource<Module> = new MatTableDataSource<Module>();
+  public modules: MatTableDataSource<Module> = new MatTableDataSource<Module>();
   public selectedRowIndex: string = "-1";
   @ViewChild(MatSort) sort: MatSort | any;
 
-  constructor(private modulService: ModuleService, private dialog: MatDialog) {
+  constructor(private moduleService: ModuleService, private dialog: MatDialog) {
   }
 
   public getModules(): void {
-    this.modulService.get().subscribe(result => {
-      this.module = new MatTableDataSource(result);
-      this.module.sort = this.sort;
+    this.moduleService.get().subscribe(result => {
+      console.log(result);
+      this.modules = new MatTableDataSource(result);
+      this.modules.sort = this.sort;
       this.sort.active = 'name';
       this.sort.direction = 'asc';
-      this.module.sort = this.sort;
+      this.modules.sort = this.sort;
     });
   }
 
@@ -77,7 +78,7 @@ export class ModuleComponent implements OnInit {
   }
 
   private getSelectedModule(): any {
-    return {...this.module.data.find(x => x.id == this.selectedRowIndex)};
+    return {...this.modules.data.find(x => x.id == this.selectedRowIndex)};
   }
 
 }
