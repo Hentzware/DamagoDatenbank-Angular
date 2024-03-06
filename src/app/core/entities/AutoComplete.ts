@@ -7,4 +7,6 @@ export interface AutoComplete {
   postalCodes: string[];
   locations: string[];
   countries: string[];
+  phones: string[];
+  emails: string[];
 }

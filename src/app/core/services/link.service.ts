@@ -8,6 +8,10 @@ import {LocationPerson} from "../entities/LocationPerson";
 import {SchoolClass} from "../entities/SchoolClass";
 import {PersonSchoolClass} from "../entities/PersonSchoolClass";
 import {Location} from "../entities/Location";
+import {PersonPhone} from "../entities/PersonPhone";
+import {Phone} from "../entities/Phone";
+import {Email} from "../entities/Email";
+import {PersonEmail} from "../entities/PersonEmail";
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +26,18 @@ export class LinkService {
 
       if (personAddressLink) {
         person.address = <Address>addresses.find((address: Address): boolean => address.id == personAddressLink.address_id);
+      }
+
+      return person;
+    });
+  }
+
+  public linkPersonEmail(persons: Person[], emails: Email[], personEmail: PersonEmail[]) {
+    persons.map((person: Person) => {
+      const personEmailLink: PersonEmail | undefined = personEmail.find((link: PersonEmail): boolean => link.person_id == person.id);
+
+      if (personEmailLink) {
+        person.email = <Email>emails.find((email: Email): boolean => email.id == personEmailLink.email_id);
       }
 
       return person;
@@ -58,6 +74,18 @@ export class LinkService {
 
       if (personKlasseLink) {
         person.school_class = <SchoolClass>schoolClasses.find((schoolClass: SchoolClass): boolean => schoolClass.id === personKlasseLink.school_class_id);
+      }
+
+      return person;
+    });
+  }
+
+  public linkPersonPhone(persons: Person[], phones: Phone[], personPhone: PersonPhone[]) {
+    persons.map((person: Person) => {
+      const personPhoneLink: PersonPhone | undefined = personPhone.find((link: PersonPhone): boolean => link.person_id == person.id);
+
+      if (personPhoneLink) {
+        person.phone = <Phone>phones.find((phone: Phone): boolean => phone.id === personPhoneLink.phone_id);
       }
 
       return person;

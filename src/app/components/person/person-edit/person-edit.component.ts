@@ -20,18 +20,22 @@ import {AddressService} from "../../../core/services/address.service";
 })
 export class PersonEditComponent {
   public person: Person = {
-    id: "", address: {
-      country: "", location: "", street: "", house_number: "", postal_code: "", id: ""
-    }, role: {
-      name: "", id: ""
-    }, location: {
-      name: "", id: ""
-    }, school_class: {
-      name: "", id: ""
-    }, first_name: "", last_name: "", birthdate: ""
+    id: "",
+    address: {country: "", location: "", street: "", house_number: "", postal_code: "", id: ""},
+    role: {name: "", id: ""},
+    location: {name: "", id: ""},
+    school_class: {name: "", id: ""},
+    first_name: "",
+    last_name: "",
+    birthdate: "",
+    phone: {phone: "", id: ""},
+    email: {id: "", email: ""}
   };
 
-  constructor(private personService: PersonService, private adresseService: AddressService, private dialogRef: MatDialogRef<PersonEditComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(private personService: PersonService,
+              private adresseService: AddressService,
+              private dialogRef: MatDialogRef<PersonEditComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any) {
     if (data.person) {
       if (data.person.adresse) {
         this.person = data.person;

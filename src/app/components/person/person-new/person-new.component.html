@@ -31,6 +31,8 @@
       <app-auto-complete [numMinChars]="1" [name]="'Nachname'" [optionsList]="data.autoComplete.lastNames" (selected)="onLastNameSelected($event)" [value]="person.last_name"></app-auto-complete>
       <app-auto-complete [numMinChars]="1" [name]="'Vorname'" [optionsList]="data.autoComplete.firstNames" (selected)="onFirstNameSelected($event)" [value]="person.first_name"></app-auto-complete>
       <app-auto-complete [numMinChars]="1" [name]="'Geburtsdatum'" [optionsList]="data.autoComplete.birthdays" (selected)="onBirthdateSelected($event)" [value]="person.birthdate"></app-auto-complete>
+      <app-auto-complete [numMinChars]="1" [name]="'Telefonnummer'" [optionsList]="data.autoComplete.phones" (selected)="onPhoneSelected($event)" [value]="person.phone.phone"></app-auto-complete>
+      <app-auto-complete [numMinChars]="1" [name]="'E-Mail'" [optionsList]="data.autoComplete.emails" (selected)="onEmailSelected($event)" [value]="person.email.email"></app-auto-complete>
     </div>
     <div fxLayout="column" fxFlex style="margin-left: 10px">
       <app-auto-complete [numMinChars]="1" [name]="'Strasse'" [optionsList]="data.autoComplete.streets" (selected)="onStreetSelected($event)" [value]="person.address.street"></app-auto-complete>

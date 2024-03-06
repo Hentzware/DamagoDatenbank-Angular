@@ -14,4 +14,8 @@ export const environment = {
   apiPersonRoleUrl: "/person-role",
   apiPersonSchoolClassUrl: "/person-school-class",
   apiRoleUrl: "/role",
+  apiPersonPhoneUrl: "/person-phone",
+  apiPhoneUrl: "/phone",
+  apiPersonEmailUrl: "/person-email",
+  apiEmailUrl: "/email",
 };

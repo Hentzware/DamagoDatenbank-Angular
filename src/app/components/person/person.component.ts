@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Person} from "../../core/entities/Person";
 import {PersonService} from "../../core/services/person.service";
 import {MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderCellDef, MatTable, MatTableDataSource, MatTableModule} from "@angular/material/table";
@@ -26,21 +26,65 @@ import {SchoolClassService} from "../../core/services/school-class.service";
 import {AddressService} from "../../core/services/address.service";
 import {PersonAddressService} from "../../core/services/person-address.service";
 import {LinkService} from "../../core/services/link.service";
+import {PhoneService} from "../../core/services/phone.service";
+import {PersonPhoneService} from "../../core/services/person-phone.service";
+import {PersonEmailService} from "../../core/services/person-email.service";
+import {EmailService} from "../../core/services/email.service";
+import {MatSort, MatSortHeader, MatSortModule} from "@angular/material/sort";
 
 @Component({
   selector: 'app-personen',
   standalone: true,
-  imports: [MatTable, MatColumnDef, MatHeaderCell, MatHeaderCellDef, MatCell, MatCellDef, MatTableModule, DatePipe, NgClass, MatFormFieldModule, MatSelectModule, MatOptionModule, FormsModule, FlexLayoutModule, CommonModule, MatInput, MatButton, MatToolbar, MatToolbarModule, MatDialogModule],
+  imports: [
+    MatSort,
+    MatSortModule,
+    MatSortHeader,
+    MatTable,
+    MatColumnDef,
+    MatHeaderCell,
+    MatHeaderCellDef,
+    MatCell,
+    MatCellDef,
+    MatTableModule,
+    DatePipe,
+    NgClass,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
+    FormsModule,
+    FlexLayoutModule,
+    CommonModule,
+    MatInput,
+    MatButton,
+    MatToolbar,
+    MatToolbarModule,
+    MatDialogModule
+  ],
   templateUrl: './person.component.html',
   styleUrl: './person.component.css'
 })
 export class PersonComponent implements OnInit {
-  public autoComplete: AutoComplete = {locations: [], countries: [], streets: [], firstNames: [], houseNumbers: [], postalCodes: [], birthdays: [], lastNames: []};
-  public displayedColumns: string[] = ["nachname", "vorname", "geburtsdatum", "strasse", "hausnummer", "postleitzahl", "ort", "land"];
+  @ViewChild(MatSort) sort: MatSort | any;
+  public autoComplete: AutoComplete = {locations: [], countries: [], streets: [], firstNames: [], houseNumbers: [], postalCodes: [], birthdays: [], lastNames: [], phones: [], emails: []};
+  public displayedColumns: string[] = ["last_name", "first_name", "birthdate", "street", "house_number", "postal_code", "location", "country", "phone", "email"];
   public persons: MatTableDataSource<Person> = new MatTableDataSource<Person>();
   public selectedRowIndex: string = "-1";
 
-  constructor(private linkService: LinkService, private roleService: RoleService, private locationService: LocationService, private locationPersonService: LocationPersonService, private personService: PersonService, private schoolClassService: SchoolClassService, private personSchoolClassService: PersonSchoolClassService, private addressService: AddressService, private personRoleService: PersonRoleService, private personAddressService: PersonAddressService, private dialog: MatDialog) {
+  constructor(private linkService: LinkService,
+              private roleService: RoleService,
+              private locationService: LocationService,
+              private locationPersonService: LocationPersonService,
+              private personService: PersonService,
+              private schoolClassService: SchoolClassService,
+              private personSchoolClassService: PersonSchoolClassService,
+              private addressService: AddressService,
+              private personRoleService: PersonRoleService,
+              private personAddressService: PersonAddressService,
+              private phoneService: PhoneService,
+              private personPhoneService: PersonPhoneService,
+              private emailService: EmailService,
+              private personEmailService: PersonEmailService,
+              private dialog: MatDialog) {
   }
 
   public highlightRow(row: any): void {
@@ -99,13 +143,36 @@ export class PersonComponent implements OnInit {
       schoolClasses: this.schoolClassService.get(),
       personSchoolClass: this.personSchoolClassService.get(),
       locations: this.locationService.get(),
-      locationPerson: this.locationPersonService.get()
-    }).subscribe(({persons, addresses, personAddress, roles, personRole, schoolClasses, personSchoolClass, locations, locationPerson}) => {
+      locationPerson: this.locationPersonService.get(),
+      phones: this.phoneService.get(),
+      personPhone: this.personPhoneService.get(),
+      emails: this.emailService.get(),
+      personEmail: this.personEmailService.get()
+    }).subscribe(({
+                    persons,
+                    addresses,
+                    personAddress,
+                    roles,
+                    personRole,
+                    schoolClasses,
+                    personSchoolClass,
+                    locations,
+                    locationPerson,
+                    phones,
+                    personPhone,
+                    emails,
+                    personEmail
+                  }) => {
       this.linkService.linkPersonAddress(persons, addresses, personAddress);
       this.linkService.linkPersonLocation(persons, locations, locationPerson);
       this.linkService.linkPersonRole(persons, roles, personRole);
       this.linkService.linkPersonSchoolClass(persons, schoolClasses, personSchoolClass);
+      this.linkService.linkPersonPhone(persons, phones, personPhone);
+      this.linkService.linkPersonEmail(persons, emails, personEmail);
       this.persons = new MatTableDataSource<Person>(persons);
+      this.sort.active = 'last_name';
+      this.sort.direction = 'asc';
+      this.persons.sort = this.sort;
       this.initializeAutoCompleteData();
     });
   }
@@ -123,5 +190,7 @@ export class PersonComponent implements OnInit {
     this.autoComplete.postalCodes = Array.from(new Set(this.persons.data.map<string>((x: Person) => x.address?.postal_code)));
     this.autoComplete.locations = Array.from(new Set(this.persons.data.map<string>((x: Person) => x.address?.location)));
     this.autoComplete.countries = Array.from(new Set(this.persons.data.map<string>((x: Person) => x.address?.country)));
+    this.autoComplete.phones = Array.from(new Set(this.persons.data.map<string>((x: Person) => x.phone?.phone)));
+    this.autoComplete.emails = Array.from(new Set(this.persons.data.map<string>((x: Person) => x.email?.email)));
   }
 }
