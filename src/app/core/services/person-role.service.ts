@@ -38,7 +38,7 @@ export class PersonRoleService {
     return this.httpClient.get<PersonRole[]>(this.apiPersonRoleUrl + "?deleted=true");
   }
 
-  public search(personId: string, roleId: string): Observable<PersonRole[]> {
+  public search(personId: any, roleId: any): Observable<PersonRole[]> {
     return this.httpClient.get<PersonRole[]>(this.apiPersonRoleUrl + `/search?person_id=${personId}&role_id=${roleId}`);
   }
 

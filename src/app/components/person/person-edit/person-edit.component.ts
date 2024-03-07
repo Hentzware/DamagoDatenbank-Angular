@@ -95,9 +95,17 @@ export class PersonEditComponent {
       concatMap((roles) => {
         this.roles = roles;
         return this.locationPersonService.get();
-      })
-    ).subscribe((locationPerson) => {
-      this.locationPerson = locationPerson;
+      }),
+      concatMap((locationPerson) => {
+        this.locationPerson = locationPerson;
+        return this.personSchoolClassService.get();
+      }),
+      concatMap((personSchoolClass) => {
+        this.personSchoolClass = personSchoolClass;
+        return this.personRoleService.get();
+      }),
+    ).subscribe((personRole) => {
+      this.personRole = personRole;
 
       if (this.person.school_class?.id) {
         this.selectedSchoolClass = this.person.school_class.id;
@@ -111,7 +119,9 @@ export class PersonEditComponent {
         this.selectedRole = this.person.role.id;
       }
 
-      this.linkService.linkPersonLocation(Array.of(this.person), this.locations, this.locationPerson)
+      this.linkService.linkPersonLocation(Array.of(this.person), this.locations, this.locationPerson);
+      this.linkService.linkPersonRole(Array.of(this.person), this.roles, this.personRole);
+      this.linkService.linkPersonSchoolClass(Array.of(this.person), this.schoolClasses, this.personSchoolClass);
     });
   }
 
@@ -173,8 +183,8 @@ export class PersonEditComponent {
       concatMap(() => this.updateLocation()),
       concatMap(() => this.updateEmail()),
       concatMap(() => this.updatePhone()),
-      //concatMap(()) => this.updateSchoolClass()),
-      //concatMap(()) => this.updateRole())
+      concatMap(() => this.updateSchoolClass()),
+      concatMap(() => this.updateRole())
     ).subscribe(() => {
       this.dialogRef.close();
     });
@@ -196,14 +206,6 @@ export class PersonEditComponent {
     return this.emailService.update(this.person.email);
   }
 
-  private updateRole() {
-    return this.roleService.update(this.person.role);
-  }
-
-  private updateSchoolClass() {
-    return this.schoolClassService.update(this.person.school_class);
-  }
-
   private updateLocation() {
     return this.locationPersonService.search(this.person.location.id, this.person.id).pipe(
       switchMap(result => {
@@ -215,6 +217,38 @@ export class PersonEditComponent {
           });
         } else {
           throw new Error("Kein Standort gefunden zum Aktualisieren");
+        }
+      })
+    );
+  }
+
+  private updateRole() {
+    return this.personRoleService.search(this.person.id, this.person.role.id).pipe(
+      switchMap(result => {
+        if(result && result.length > 0){
+          return this.personRoleService.update({
+            id: result[0].id,
+            person_id: this.person.id,
+            role_id: this.selectedRole
+          });
+        } else {
+          throw new Error("Keine Rolle gefunden zum Aktualisieren");
+        }
+      })
+    );
+  }
+
+  private updateSchoolClass() {
+    return this.personSchoolClassService.search(this.person.id, this.person.school_class.id).pipe(
+      switchMap(result => {
+        if(result && result.length > 0){
+          return this.personSchoolClassService.update({
+            id: result[0].id,
+            person_id: this.person.id,
+            school_class_id: this.selectedSchoolClass
+          });
+        } else {
+          throw new Error("Keine Klasse gefunden zum Aktualisieren");
         }
       })
     );

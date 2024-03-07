@@ -38,7 +38,7 @@ export class PersonSchoolClassService {
     return this.httpClient.get<PersonSchoolClass[]>(this.apiPersonSchoolClassUrl + "?deleted=true");
   }
 
-  public search(personId: string, schoolClassId: string): Observable<PersonSchoolClass[]> {
+  public search(personId: any, schoolClassId: any): Observable<PersonSchoolClass[]> {
     return this.httpClient.get<PersonSchoolClass[]>(this.apiPersonSchoolClassUrl + `/search?person_id=${personId}&school_class_id=${schoolClassId}`);
   }
 
