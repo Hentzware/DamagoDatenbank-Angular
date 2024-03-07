@@ -109,7 +109,7 @@ export class PersonComponent implements OnInit {
 
   public openEditDialog(): void {
     const dialogRef: MatDialogRef<PersonEditComponent> = this.dialog.open(PersonEditComponent, {
-      width: "500px", data: {
+      width: "1000px", data: {
         person: this.getSelectedPerson(), autoComplete: this.autoComplete
       }
     });

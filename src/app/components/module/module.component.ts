@@ -30,7 +30,6 @@ export class ModuleComponent implements OnInit {
 
   public getModules(): void {
     this.moduleService.get().subscribe(result => {
-      console.log(result);
       this.modules = new MatTableDataSource(result);
       this.modules.sort = this.sort;
       this.sort.active = 'name';

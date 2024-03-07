@@ -29,7 +29,7 @@ export class LocationPersonService {
     return this.httpClient.get<LocationPerson[]>(this.apiLocationPersonUrl + "?deleted=true");
   }
 
-  public search(location_id: string, person_id: string): Observable<LocationPerson[]> {
+  public search(location_id: any, person_id: any): Observable<LocationPerson[]> {
     return this.httpClient.get<LocationPerson[]>(this.apiLocationPersonUrl + `/search?location_id=${location_id}&person_id=${person_id}`);
   }
 
